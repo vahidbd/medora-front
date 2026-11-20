@@ -5056,6 +5056,51 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/public/brands/{brandId}/programs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The programs a person can start on a brand’s site */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    brandId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            programs: {
+                                condition: string;
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/public/brands/by-host/{host}": {
         parameters: {
             query?: never;
