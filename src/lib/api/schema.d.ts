@@ -244,7 +244,7 @@ export type paths = {
                             memberships: {
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "ledger:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "ledger:read" | "payment_accounts:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "clinician" | "support" | "finance";
                                 /** @enum {string} */
@@ -262,6 +262,278 @@ export type paths = {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/payment-accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's payment accounts */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            paymentAccounts: {
+                                /** Format: date-time */
+                                activatedAt: string | null;
+                                chargesEnabled: boolean;
+                                /** Format: date-time */
+                                closedAt: string | null;
+                                /** Format: uuid */
+                                companyId: string;
+                                /** Format: date-time */
+                                createdAt: string;
+                                isDefault: boolean;
+                                name: string;
+                                /** Format: uuid */
+                                paymentAccountId: string;
+                                /** @enum {string} */
+                                processor: "stripe" | "eway";
+                                processorAccountId: string | null;
+                                /** @enum {string} */
+                                status: "setting_up" | "active" | "closed";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a payment account. It takes payments once onboarding on the processor is finished */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        companyId: string;
+                        name: string;
+                        /** @enum {string} */
+                        processor: "stripe";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: date-time */
+                            activatedAt: string | null;
+                            chargesEnabled: boolean;
+                            /** Format: date-time */
+                            closedAt: string | null;
+                            /** Format: uuid */
+                            companyId: string;
+                            /** Format: date-time */
+                            createdAt: string;
+                            isDefault: boolean;
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** @enum {string} */
+                            processor: "stripe" | "eway";
+                            processorAccountId: string | null;
+                            /** @enum {string} */
+                            status: "setting_up" | "active" | "closed";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/payment-accounts/{paymentAccountId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Rename a payment account, close or reopen it to new subscriptions, or make it the default */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    paymentAccountId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        closed?: boolean;
+                        /** @enum {boolean} */
+                        isDefault?: true;
+                        name?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: date-time */
+                            activatedAt: string | null;
+                            chargesEnabled: boolean;
+                            /** Format: date-time */
+                            closedAt: string | null;
+                            /** Format: uuid */
+                            companyId: string;
+                            /** Format: date-time */
+                            createdAt: string;
+                            isDefault: boolean;
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** @enum {string} */
+                            processor: "stripe" | "eway";
+                            processorAccountId: string | null;
+                            /** @enum {string} */
+                            status: "setting_up" | "active" | "closed";
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/payment-accounts/{paymentAccountId}/onboarding-link": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** A link to finish setting up the account on the processor's own pages */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    paymentAccountId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: date-time */
+                            expiresAt: string;
+                            /** Format: uri */
+                            url: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/payment-accounts/{paymentAccountId}/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Ask the processor how the account stands now, for when staff come back from its pages */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    paymentAccountId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: date-time */
+                            activatedAt: string | null;
+                            chargesEnabled: boolean;
+                            /** Format: date-time */
+                            closedAt: string | null;
+                            /** Format: uuid */
+                            companyId: string;
+                            /** Format: date-time */
+                            createdAt: string;
+                            isDefault: boolean;
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** @enum {string} */
+                            processor: "stripe" | "eway";
+                            processorAccountId: string | null;
+                            /** @enum {string} */
+                            status: "setting_up" | "active" | "closed";
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;

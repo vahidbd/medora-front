@@ -19,4 +19,5 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "staff:read": "See the tenant's staff",
   "staff:manage": "Change staff roles and access",
   "ledger:read": "See the ledger and its balances",
+  "payment_accounts:manage": "Connect and manage payment accounts",
 };
