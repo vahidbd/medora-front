@@ -2332,7 +2332,7 @@ export type paths = {
                 content: {
                     "application/json": {
                         /** Format: uuid */
-                        clinicianUserId: string;
+                        clinicianUserId?: string;
                         /** @enum {string} */
                         mode: "phone" | "video";
                         /** Format: uuid */
@@ -2466,6 +2466,8 @@ export type paths = {
             requestBody: {
                 content: {
                     "application/json": {
+                        /** Format: uuid */
+                        patientId?: string;
                         /** @enum {string} */
                         reason: "patient_request" | "clinician_unavailable" | "booked_in_error" | "other";
                     };
@@ -2657,6 +2659,8 @@ export type paths = {
                         clinicianUserId?: string;
                         /** @enum {string} */
                         mode?: "phone" | "video";
+                        /** Format: uuid */
+                        patientId?: string;
                         /** Format: date-time */
                         startsAt: string;
                     };
@@ -2709,12 +2713,13 @@ export type paths = {
             path?: never;
             cookie?: never;
         };
-        /** A clinician's free slots, in their time zone's hours */
+        /** A clinician's free slots, or with a purpose, every eligible clinician's together */
         get: {
             parameters: {
-                query: {
-                    clinicianUserId: string;
+                query?: {
+                    clinicianUserId?: string;
                     from?: string;
+                    purpose?: "initial" | "review" | "follow_up";
                     to?: string;
                 };
                 header?: never;
@@ -3176,6 +3181,274 @@ export type paths = {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/consults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s consults: what’s coming, then the last 20 */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consults: {
+                                canChange: boolean;
+                                canJoin: boolean;
+                                clinicianName: string | null;
+                                /** Format: uuid */
+                                consultId: string;
+                                /** Format: date-time */
+                                endsAt: string | null;
+                                /** @enum {string} */
+                                mode: "phone" | "video";
+                                /** @enum {string} */
+                                purpose: "initial" | "review" | "follow_up";
+                                /** Format: date-time */
+                                startsAt: string | null;
+                                /** @enum {string} */
+                                status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Book a first consult or a review at one of the offered times */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        mode: "phone" | "video";
+                        /** Format: uuid */
+                        programId?: string;
+                        /** @enum {string} */
+                        purpose: "initial" | "review";
+                        /** Format: date-time */
+                        startsAt: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            canChange: boolean;
+                            canJoin: boolean;
+                            clinicianName: string | null;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string | null;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: date-time */
+                            startsAt: string | null;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/consults/{consultId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel the patient’s consult */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    consultId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            canChange: boolean;
+                            canJoin: boolean;
+                            clinicianName: string | null;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string | null;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: date-time */
+                            startsAt: string | null;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/consults/{consultId}/reschedule": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Move the patient’s consult to another offered time */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    consultId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        mode?: "phone" | "video";
+                        /** Format: date-time */
+                        startsAt: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            canChange: boolean;
+                            canJoin: boolean;
+                            clinicianName: string | null;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string | null;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: date-time */
+                            startsAt: string | null;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/consults/slots": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Times the patient can book, across the clinicians who could take it */
+        get: {
+            parameters: {
+                query: {
+                    from?: string;
+                    purpose: "initial" | "review";
+                    to?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            slots: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** Format: date-time */
+                                startsAt: string;
+                            }[];
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
