@@ -102,6 +102,219 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/break-glass": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Break-glass to review */
+        get: {
+            parameters: {
+                query?: {
+                    unreviewed?: "true" | "false";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            breakGlass: {
+                                /** Format: uuid */
+                                breakGlassId: string;
+                                email: string;
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** Format: date-time */
+                                openedAt: string;
+                                reason: string;
+                                /** Format: date-time */
+                                reviewedAt: string | null;
+                                reviewNote: string | null;
+                                /** Format: uuid */
+                                userId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Open break-glass for 60 minutes, with a reason */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            breakGlassId: string;
+                            email: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** Format: date-time */
+                            openedAt: string;
+                            reason: string;
+                            /** Format: date-time */
+                            reviewedAt: string | null;
+                            reviewNote: string | null;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/break-glass/{breakGlassId}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** End your break-glass early */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    breakGlassId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            breakGlassId: string;
+                            email: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** Format: date-time */
+                            openedAt: string;
+                            reason: string;
+                            /** Format: date-time */
+                            reviewedAt: string | null;
+                            reviewNote: string | null;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/break-glass/{breakGlassId}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark a break-glass reviewed */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    breakGlassId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @default  */
+                        note?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            breakGlassId: string;
+                            email: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** Format: date-time */
+                            openedAt: string;
+                            reason: string;
+                            /** Format: date-time */
+                            reviewedAt: string | null;
+                            reviewNote: string | null;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/clinicians": {
         parameters: {
             query?: never;
@@ -1378,6 +1591,93 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/consent-documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Every published version of the tenant’s consent documents */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            documents: {
+                                body: string;
+                                /** Format: uuid */
+                                documentId: string;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                /** Format: date-time */
+                                publishedAt: string;
+                                title: string;
+                                version: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Publish a new version of a consent document */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                        /** @enum {string} */
+                        kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                        title: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            body: string;
+                            /** Format: uuid */
+                            documentId: string;
+                            /** @enum {string} */
+                            kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                            /** Format: date-time */
+                            publishedAt: string;
+                            title: string;
+                            version: number;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/me": {
         parameters: {
             query?: never;
@@ -1402,19 +1702,33 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            displayName: string | null;
                             email: string;
                             memberships: {
+                                breakGlass: {
+                                    available: boolean;
+                                    /** Format: date-time */
+                                    until: string | null;
+                                };
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                /** Format: date-time */
+                                expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "clinicians:read" | "clinicians:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage")[];
                                 /** @enum {string} */
-                                role: "owner" | "clinician" | "support" | "finance";
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
-                                status: "active" | "suspended";
+                                status: "active" | "suspended" | "invited";
                                 /** Format: uuid */
                                 tenantId: string;
                                 tenantName: string;
                             }[];
+                            secondFactor: boolean;
                             /** Format: uuid */
                             userId: string;
                         };
@@ -1430,6 +1744,863 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/me/sign-ins": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Your own recent sign-ins */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            signIns: {
+                                /** Format: date-time */
+                                at: string;
+                                clientIp: string | null;
+                                device: string | null;
+                                secondFactor: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create the signed-in patient’s account in this tenant */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        dateOfBirth: string;
+                        email?: string;
+                        familyName: string;
+                        givenName: string;
+                        mobile?: string;
+                        preferredName?: string | null;
+                        /** @enum {string} */
+                        sex: "female" | "male" | "intersex" | "not_stated";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/confirm-date-of-birth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm the date of birth on a new sign-in */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        dateOfBirth: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            confirmed: true;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s consents, with the current text of each */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Agree to the current version of a consent document */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        documentId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s own details */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change the signed-in patient’s own details */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        address?: {
+                            line1: string;
+                            line2?: string | null;
+                            postcode: string;
+                            /** @enum {string} */
+                            state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                            suburb: string;
+                        };
+                        dateOfBirth?: string;
+                        familyName?: string;
+                        givenName?: string;
+                        medicare?: {
+                            irn: string | null;
+                            number: string;
+                            validTo: string | null;
+                        } | null;
+                        mobile?: string;
+                        preferredName?: string | null;
+                        /** @enum {string} */
+                        sex?: "female" | "male" | "intersex" | "not_stated";
+                        timeZone?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/patients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's patients, newest first or matching a search */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                    search?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            patients: {
+                                /** Format: date-time */
+                                createdAt: string;
+                                dateOfBirth: string;
+                                displayName: string;
+                                familyName: string;
+                                givenName: string;
+                                /** @enum {string} */
+                                identityStatus: "unverified" | "verified" | "failed";
+                                /** Format: uuid */
+                                patientId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient's identity and contact details */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient’s consents */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Record a consent decision a patient made by phone or in person */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        channel: "phone" | "in_person";
+                        /** @enum {string} */
+                        decision: "given" | "withdrawn";
+                        /** Format: uuid */
+                        documentId: string;
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The starting roles, the tenant’s custom roles, and every permission */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            customRoles: {
+                                /** @enum {string} */
+                                basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                                clinical: boolean;
+                                description: string;
+                                /** Format: uuid */
+                                id: string;
+                                memberCount: number;
+                                name: string;
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage")[];
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                            permissions: {
+                                /** @enum {string} */
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage";
+                                /** @enum {string} */
+                                zone: "clinical" | "operational" | "marketing" | "platform";
+                            }[];
+                            startingRoles: {
+                                clinical: boolean;
+                                /** @enum {string} */
+                                key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                                memberCount: number;
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage")[];
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Make a custom role from a starting role */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                        description?: string;
+                        name: string;
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage")[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                            clinical: boolean;
+                            description: string;
+                            /** Format: uuid */
+                            id: string;
+                            memberCount: number;
+                            name: string;
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage")[];
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/roles/{roleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete a custom role nobody has */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    roleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            roleId: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Change a custom role */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    roleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        description?: string;
+                        name?: string;
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage")[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                            clinical: boolean;
+                            description: string;
+                            /** Format: uuid */
+                            id: string;
+                            memberCount: number;
+                            name: string;
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage")[];
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/v1/staff": {
         parameters: {
             query?: never;
@@ -1437,7 +2608,7 @@ export type paths = {
             path?: never;
             cookie?: never;
         };
-        /** The tenant's staff and their roles */
+        /** The tenant's staff, their roles and invitations */
         get: {
             parameters: {
                 query?: never;
@@ -1455,13 +2626,27 @@ export type paths = {
                     content: {
                         "application/json": {
                             staff: {
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                displayName: string | null;
                                 email: string;
+                                /** Format: date-time */
+                                expiresAt: string | null;
+                                /** Format: date-time */
+                                invitationExpiresAt: string | null;
+                                /** Format: date-time */
+                                invitedAt: string | null;
+                                /** Format: date-time */
+                                lastSignInAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
                                 /** @enum {string} */
-                                role: "owner" | "clinician" | "support" | "finance";
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
-                                status: "active" | "suspended";
+                                status: "active" | "suspended" | "invited";
                                 /** Format: uuid */
                                 userId: string;
                             }[];
@@ -1491,7 +2676,7 @@ export type paths = {
         delete?: never;
         options?: never;
         head?: never;
-        /** Change a staff member's role or access */
+        /** Change a staff member's role, access or end date */
         patch: {
             parameters: {
                 query?: never;
@@ -1504,8 +2689,12 @@ export type paths = {
             requestBody: {
                 content: {
                     "application/json": {
+                        /** Format: uuid */
+                        customRoleId?: string | null;
+                        /** Format: date-time */
+                        expiresAt?: string | null;
                         /** @enum {string} */
-                        role?: "owner" | "clinician" | "support" | "finance";
+                        role?: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                         /** @enum {string} */
                         status?: "active" | "suspended";
                     };
@@ -1519,13 +2708,27 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            customRole: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                            } | null;
+                            displayName: string | null;
                             email: string;
+                            /** Format: date-time */
+                            expiresAt: string | null;
+                            /** Format: date-time */
+                            invitationExpiresAt: string | null;
+                            /** Format: date-time */
+                            invitedAt: string | null;
+                            /** Format: date-time */
+                            lastSignInAt: string | null;
                             /** Format: uuid */
                             membershipId: string;
                             /** @enum {string} */
-                            role: "owner" | "clinician" | "support" | "finance";
+                            role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                             /** @enum {string} */
-                            status: "active" | "suspended";
+                            status: "active" | "suspended" | "invited";
                             /** Format: uuid */
                             userId: string;
                         };
@@ -1533,6 +2736,221 @@ export type paths = {
                 };
             };
         };
+        trace?: never;
+    };
+    "/v1/staff/{membershipId}/invitation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send an invitation again */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    membershipId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            email: "sent" | "failed" | "not_configured";
+                            member: {
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                displayName: string | null;
+                                email: string;
+                                /** Format: date-time */
+                                expiresAt: string | null;
+                                /** Format: date-time */
+                                invitationExpiresAt: string | null;
+                                /** Format: date-time */
+                                invitedAt: string | null;
+                                /** Format: date-time */
+                                lastSignInAt: string | null;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** @enum {string} */
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
+                                /** @enum {string} */
+                                status: "active" | "suspended" | "invited";
+                                /** Format: uuid */
+                                userId: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Withdraw an invitation nobody has accepted */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    membershipId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            membershipId: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/staff/{membershipId}/sign-ins": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A staff member's recent sign-ins */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    membershipId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            signIns: {
+                                /** Format: date-time */
+                                at: string;
+                                clientIp: string | null;
+                                device: string | null;
+                                secondFactor: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/staff/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Invite someone to work here, with a role */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        customRoleId?: string | null;
+                        displayName?: string;
+                        /** Format: email */
+                        email: string;
+                        /** Format: date-time */
+                        expiresAt?: string | null;
+                        /** @enum {string} */
+                        role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            email: "sent" | "failed" | "not_configured";
+                            member: {
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                displayName: string | null;
+                                email: string;
+                                /** Format: date-time */
+                                expiresAt: string | null;
+                                /** Format: date-time */
+                                invitationExpiresAt: string | null;
+                                /** Format: date-time */
+                                invitedAt: string | null;
+                                /** Format: date-time */
+                                lastSignInAt: string | null;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** @enum {string} */
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
+                                /** @enum {string} */
+                                status: "active" | "suspended" | "invited";
+                                /** Format: uuid */
+                                userId: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/v1/webhooks/twilio/{tenantId}/{hook}": {
