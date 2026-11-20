@@ -8,6 +8,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | --- | --- | --- |
 | A business that runs its care on Medora (a clinic, an operator) | **Tenant** | customer, client, org, account |
 | A name and look a tenant sells under; one tenant can have several | **Brand** | site, storefront, white label |
+| A legal entity under a tenant, with its own ABN; every brand belongs to one | **Company** | entity, legal entity, business |
+| A web address a brand's public pages answer on, such as app.brand.com.au | **Domain** | URL, site, web address |
+| What a tenant must have before it takes new patients: a company, a live brand, a medical director and a prescriber | **Onboarding checklist** | setup wizard, go-live list |
+| Medora's own team, who create tenants and verify domains, and see no tenant's data | **Platform staff** | super admin, Medora admin, staff (alone) |
 | A person receiving care | **Patient** | client, customer, user, member |
 | A person working for a tenant | **Staff member** | user, employee, agent |
 | A staff member who prescribes (doctor, nurse practitioner) | **Prescriber** | doctor (unless the role really is "doctor"), provider |
@@ -15,7 +19,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | The clinician who signs off a tenant's protocols | **Medical director** | clinical lead |
 | A pharmacy that dispenses for a tenant | **Partner pharmacy** | pharmacy app, dispensary |
 | A person's link to one tenant, with a role | **Membership** | seat, access |
+| An offer of a membership, sent by email, that becomes the membership when the person signs in | **Invitation** | invite (as a noun), pending user |
 | A named set of permissions | **Role** | group, profile |
+| A role every tenant has, defined in Medora's code and not editable by a tenant | **Starting role** | default role, system role, built-in role |
+| A role a tenant made by copying a starting role and editing it | **Custom role** | tenant role, user-defined role |
 | One thing a role may do, as a key like `staff:manage` | **Permission** | right, scope, claim |
 
 ## Care
@@ -26,6 +33,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A packaged course of care a patient signs up for | **Program** | plan, subscription, package |
 | The clinical rules for a service: eligibility, questions, products, reviews | **Protocol** | pathway, flow, playbook |
 | The questions a patient answers before a consult | **Intake** | questionnaire, survey, form |
+| Something a tenant sells: a medicine, a device or a service, with its price | **Product** | item, SKU, line |
+| Every product a tenant sells | **Catalogue** | inventory, product list, store |
+| Medora's platform-wide rule that stops matching products being prescribed, ordered or charged, which no tenant can lift | **Block rule** | ban list, blacklist |
+| A product a block rule matches, or that its tenant blocked | **Blocked product** | banned product, disabled product |
 | A real-time video or phone appointment with a clinician | **Consult** | appointment (except when booking), session, call |
 | A prescription | **Script** | Rx, prescription (in code), order |
 | Writing a script (in Parchment) | **Prescribe** | order, issue |
@@ -42,7 +53,12 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | One of Medora's own AI agents (intake, support, care coordinator, clinical copilot) | **Agent** | bot, assistant, AI |
 | A permission-checked action an agent can take through the API | **Agent tool** | function, skill |
 | A clinical, operational, marketing or platform schema and what may touch it | **Data zone** | domain, area |
+| Time-limited, logged and reviewed use of clinical permissions by someone whose role is not clinical | **Break-glass** | emergency access, override, god mode |
+| Signing in with a second proof after the first, such as an authenticator code | **Two-step sign-in** | MFA, 2FA |
+| That second proof | **Second factor** | OTP, token |
+| One signed-in session, recorded with when, where from and on what device | **Sign-in** | login, session (on a screen) |
 | A row in `platform.audit_log` | **Audit entry** | log, history |
+| Every audit entry of one tenant, as people with `audit:read` read and export it | **Audit log** | activity log, audit trail, history |
 | A fact written to the outbox for others to react to | **Event** | message, notification, webhook |
 | A setting that switches unfinished work on or off | **Feature flag** | toggle, switch |
 

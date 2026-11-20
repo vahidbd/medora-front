@@ -42,6 +42,8 @@ export function PageHeader({
     href?: string;
     onClick?: () => void;
     icon?: React.ElementType | null;
+    /** While the action runs (a button only). */
+    disabled?: boolean;
   };
   /** Secondary page actions, shown in the "⋯" menu. Destructive ones go last. */
   moreActions?: ActionItem[];
@@ -73,7 +75,7 @@ export function PageHeader({
                   {primaryAction.label}
                 </Link>
               ) : (
-                <Button onClick={primaryAction.onClick}>
+                <Button onClick={primaryAction.onClick} disabled={primaryAction.disabled}>
                   {Icon ? <Icon /> : null}
                   {primaryAction.label}
                 </Button>

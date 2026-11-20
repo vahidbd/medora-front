@@ -14,9 +14,21 @@ npm run test:e2e         # the browser tests, against start:preview (build first
 | Route | Answer |
 | --- | --- |
 | `GET /health`, `GET /health/ready` | ok |
-| `GET /v1/me` | the preview person: owner of Harbour Health (demo), clinician at Coastal Skin (demo) |
-| `GET /v1/staff` | the tenant's made-up staff (needs `x-medora-tenant`) |
-| `PATCH /v1/staff/:membershipId` | changes a role or access, with the API's rules (`own_membership`, `last_owner`) |
+| `GET /v1/me`, `GET /v1/me/sign-ins` | the preview person: owner of Harbour Health (demo), clinician at Coastal Skin (demo) and platform staff, always with a second factor |
+| `GET /v1/staff`, `PATCH /v1/staff/:membershipId` | the tenant's made-up staff; changes with the API's rules (`own_membership`, `last_owner`, `cannot_grant`) |
+| `POST /v1/staff/invitations`, `POST` and `DELETE /v1/staff/:membershipId/invitation`, `GET /v1/staff/:membershipId/sign-ins` | invitations (always "sent") and sign-in history |
+| `GET`, `POST /v1/roles`, `PATCH` and `DELETE /v1/roles/:roleId` | starting roles and custom roles (`role_name_taken`, `own_role`, `role_in_use`) |
+| `POST /v1/break-glass`, `POST /v1/break-glass/close`, `GET /v1/break-glass`, `POST /v1/break-glass/:id/review` | break-glass and its reviews |
+| `GET`, `PATCH /v1/tenant`, `GET /v1/tenant/onboarding` | the tenant's name and time zone, and its onboarding checklist, worked out from the data below (Harbour has no medical director, so it isn't ready) |
+| `GET`, `POST /v1/companies`, `PATCH` and `DELETE /v1/companies/:companyId` | companies, with the ABN check (`abn_invalid`, `abn_taken`, `company_has_brands`) |
+| `GET`, `POST /v1/brands`, `GET`, `PATCH /v1/brands/:brandId`, `POST /v1/brands/:brandId/status` | brands and their status steps (`slug_taken`, `colour_unreadable`, `domain_unverified`, `support_email_required`) |
+| `POST /v1/brands/:brandId/domains`, `DELETE /v1/brands/:brandId/domains/:domainId` | a brand's domains (`host_invalid`, `host_taken`, `last_verified_domain`) |
+| `GET`, `POST /v1/platform/tenants`, `POST /v1/platform/tenants/:tenantId/owner-invitation` | platform staff's tenant list, a new tenant with an invited owner, and resending that invitation |
+| `GET /v1/platform/domains`, `POST /v1/platform/domains/:domainId/verify` | domains waiting for platform staff, and marking one verified |
+| `GET`, `POST /v1/products`, `GET`, `PATCH /v1/products/:productId`, `POST /v1/products/:productId/status`, `POST` and `DELETE /v1/products/:productId/block` | made-up products, archived and blocked, with the API's checks (`medicine_identity_required`, `not_a_medicine`, `artg_invalid`) |
+| `GET /v1/block-rules`, `POST /v1/platform/block-rules` | Medora's block rules (two preview rules: compounded and Schedule 8 medicines), and adding one (`rule_exists`, `rule_value_invalid`) |
+
+The data is in `mock-api/people.mjs`, `mock-api/tenant-setup.mjs`, `mock-api/catalogue.mjs` and `mock-api/audit.mjs`, and the routes in one file per area (`mock-api/staff.mjs`, `mock-api/tenant-setup.mjs`, `mock-api/catalogue.mjs`, `mock-api/audit.mjs`). Platform routes answer only while `ME.platformStaff` is true; set it to false in `people.mjs` to see the console as tenant staff only. One deliberate difference: no clinical permission exists yet, so the real API offers break-glass to nobody, but the mock offers it to Harbour's owner so its screens can be seen and tested.
 
 The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it here in the API's shape (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
 

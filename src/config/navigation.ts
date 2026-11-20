@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { House, Settings, UsersRound } from "lucide-react";
+import { Ban, Building2, Globe, House, Landmark, Package, ScrollText, Settings, ShieldAlert, ShieldCheck, Store, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -8,6 +8,8 @@ export type NavItem = {
   icon: LucideIcon;
   /** Shown only to a staff member whose role holds this permission in the current tenant. */
   permission?: Permission;
+  /** Shown only to platform staff, who may have no tenant (docs/decisions/admin.md ADM15). */
+  platform?: boolean;
   /** The topbar crumb, when it should differ from the sidebar title. */
   crumb?: string;
   /** Other words that find it in ⌘K. */
@@ -41,10 +43,42 @@ export const navigation: NavGroup[] = [
     items: [{ title: "Home", href: "/home", icon: House }],
   },
   {
+    label: "Catalogue",
+    icon: Package,
+    gapBefore: true,
+    items: [
+      { title: "Products", href: "/products", icon: Package, permission: "catalogue:read", keywords: ["Medicines", "Prices", "Blocked"] },
+    ],
+  },
+  {
     label: "Workspace",
     icon: Settings,
     gapBefore: true,
-    items: [{ title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Roles", "Members", "Team"] }],
+    items: [
+      { title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Members", "Team", "Invite"] },
+      { title: "Roles", href: "/roles", icon: ShieldCheck, permission: "staff:read", keywords: ["Permissions"] },
+      { title: "Break-glass", href: "/break-glass", icon: ShieldAlert, permission: "break_glass:review", keywords: ["Reviews"] },
+      { title: "Brands", href: "/brands", icon: Store, keywords: ["Domains", "Go live", "Pause"] },
+      { title: "Companies", href: "/companies", icon: Landmark, keywords: ["ABN", "Legal entity"] },
+      { title: "Settings", href: "/settings", icon: Settings, keywords: ["Time zone", "Onboarding", "Tenant name"] },
+      { title: "Audit log", href: "/audit", icon: ScrollText, permission: "audit:read", keywords: ["Who did what", "Changes", "Export"] },
+    ],
+  },
+  {
+    label: "Platform",
+    icon: Building2,
+    gapBefore: true,
+    items: [
+      { title: "Tenants", href: "/platform/tenants", icon: Building2, platform: true, keywords: ["New tenant", "Owner invitation"] },
+      { title: "Domains", href: "/platform/domains", icon: Globe, platform: true, crumb: "Domains to verify", keywords: ["Verify", "DNS"] },
+      {
+        title: "Block rules",
+        href: "/platform/block-rules",
+        icon: Ban,
+        platform: true,
+        keywords: ["Blocked products", "Schedule", "ARTG"],
+      },
+    ],
   },
 ];
 

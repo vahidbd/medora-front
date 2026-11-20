@@ -102,6 +102,993 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/audit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's audit log, newest first */
+        get: {
+            parameters: {
+                query?: {
+                    action?: string;
+                    actorId?: string;
+                    before?: string;
+                    from?: string;
+                    limit?: number;
+                    recordId?: string;
+                    recordTable?: string;
+                    to?: string;
+                    zone?: "clinical" | "operational" | "marketing" | "platform";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            entries: {
+                                action: string;
+                                /** Format: uuid */
+                                actorId: string | null;
+                                actorName: string | null;
+                                /** @enum {string} */
+                                actorType: "person" | "agent" | "system";
+                                /** Format: date-time */
+                                at: string;
+                                details: {
+                                    [key: string]: (string | number | boolean) | null;
+                                };
+                                entryId: string;
+                                recordId: string;
+                                recordTable: string;
+                                requestId: string | null;
+                                /** @enum {string} */
+                                zone: "clinical" | "operational" | "marketing" | "platform";
+                            }[];
+                            nextBefore: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/audit/exports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Every entry a filter matches, up to 5,000, recorded as an export */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        action?: string;
+                        /** Format: uuid */
+                        actorId?: string;
+                        /** Format: date-time */
+                        from?: string;
+                        recordId?: string;
+                        recordTable?: string;
+                        /** Format: date-time */
+                        to?: string;
+                        /** @enum {string} */
+                        zone?: "clinical" | "operational" | "marketing" | "platform";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            entries: {
+                                action: string;
+                                /** Format: uuid */
+                                actorId: string | null;
+                                actorName: string | null;
+                                /** @enum {string} */
+                                actorType: "person" | "agent" | "system";
+                                /** Format: date-time */
+                                at: string;
+                                details: {
+                                    [key: string]: (string | number | boolean) | null;
+                                };
+                                entryId: string;
+                                recordId: string;
+                                recordTable: string;
+                                requestId: string | null;
+                                /** @enum {string} */
+                                zone: "clinical" | "operational" | "marketing" | "platform";
+                            }[];
+                            truncated: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/block-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Medora's block rules, in force or announced, the same for every tenant */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            rules: {
+                                /** Format: date-time */
+                                addedAt: string;
+                                /** Format: date-time */
+                                effectiveFrom: string;
+                                /** @enum {string} */
+                                match: "schedule" | "artg_number" | "compounded";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string;
+                                sourceUrl: string | null;
+                                value: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/brands": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's brands and their domains */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            brands: {
+                                /** Format: uuid */
+                                brandId: string;
+                                /** Format: uuid */
+                                companyId: string;
+                                domains: {
+                                    /** Format: uuid */
+                                    domainId: string;
+                                    host: string;
+                                    /** Format: date-time */
+                                    verifiedAt: string | null;
+                                }[];
+                                logoUrl: string | null;
+                                name: string;
+                                primaryColour: string | null;
+                                slug: string;
+                                /** @enum {string} */
+                                status: "draft" | "live" | "paused";
+                                supportEmail: string | null;
+                                supportPhone: string | null;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a brand, as a draft */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        companyId: string;
+                        /** Format: uri */
+                        logoUrl?: string | null;
+                        name: string;
+                        primaryColour?: string | null;
+                        slug: string;
+                        /** Format: email */
+                        supportEmail?: string | null;
+                        supportPhone?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            /** Format: uuid */
+                            companyId: string;
+                            domains: {
+                                /** Format: uuid */
+                                domainId: string;
+                                host: string;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                            }[];
+                            logoUrl: string | null;
+                            name: string;
+                            primaryColour: string | null;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused";
+                            supportEmail: string | null;
+                            supportPhone: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/brands/{brandId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One brand */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    brandId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            /** Format: uuid */
+                            companyId: string;
+                            domains: {
+                                /** Format: uuid */
+                                domainId: string;
+                                host: string;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                            }[];
+                            logoUrl: string | null;
+                            name: string;
+                            primaryColour: string | null;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused";
+                            supportEmail: string | null;
+                            supportPhone: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change a brand */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    brandId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        companyId?: string;
+                        /** Format: uri */
+                        logoUrl?: string | null;
+                        name?: string;
+                        primaryColour?: string | null;
+                        /** Format: email */
+                        supportEmail?: string | null;
+                        supportPhone?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            /** Format: uuid */
+                            companyId: string;
+                            domains: {
+                                /** Format: uuid */
+                                domainId: string;
+                                host: string;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                            }[];
+                            logoUrl: string | null;
+                            name: string;
+                            primaryColour: string | null;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused";
+                            supportEmail: string | null;
+                            supportPhone: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/brands/{brandId}/domains": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a domain, for Medora to verify */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    brandId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        host: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            /** Format: uuid */
+                            companyId: string;
+                            domains: {
+                                /** Format: uuid */
+                                domainId: string;
+                                host: string;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                            }[];
+                            logoUrl: string | null;
+                            name: string;
+                            primaryColour: string | null;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused";
+                            supportEmail: string | null;
+                            supportPhone: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/brands/{brandId}/domains/{domainId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove a domain */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    brandId: string;
+                    domainId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            domainId: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/brands/{brandId}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Go live, pause new sign-ups, or resume */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    brandId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "live" | "paused";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            /** Format: uuid */
+                            companyId: string;
+                            domains: {
+                                /** Format: uuid */
+                                domainId: string;
+                                host: string;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                            }[];
+                            logoUrl: string | null;
+                            name: string;
+                            primaryColour: string | null;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused";
+                            supportEmail: string | null;
+                            supportPhone: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/break-glass": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Break-glass to review */
+        get: {
+            parameters: {
+                query?: {
+                    unreviewed?: "true" | "false";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            breakGlass: {
+                                /** Format: uuid */
+                                breakGlassId: string;
+                                email: string;
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** Format: date-time */
+                                openedAt: string;
+                                reason: string;
+                                /** Format: date-time */
+                                reviewedAt: string | null;
+                                reviewNote: string | null;
+                                /** Format: uuid */
+                                userId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Open break-glass for 60 minutes, with a reason */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            breakGlassId: string;
+                            email: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** Format: date-time */
+                            openedAt: string;
+                            reason: string;
+                            /** Format: date-time */
+                            reviewedAt: string | null;
+                            reviewNote: string | null;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/break-glass/{breakGlassId}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark a break-glass reviewed */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    breakGlassId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @default  */
+                        note?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            breakGlassId: string;
+                            email: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** Format: date-time */
+                            openedAt: string;
+                            reason: string;
+                            /** Format: date-time */
+                            reviewedAt: string | null;
+                            reviewNote: string | null;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/break-glass/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** End your break-glass early */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            breakGlass: {
+                                /** Format: uuid */
+                                breakGlassId: string;
+                                email: string;
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** Format: date-time */
+                                openedAt: string;
+                                reason: string;
+                                /** Format: date-time */
+                                reviewedAt: string | null;
+                                reviewNote: string | null;
+                                /** Format: uuid */
+                                userId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/companies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's companies */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            companies: {
+                                abn: string;
+                                brandCount: number;
+                                /** Format: uuid */
+                                companyId: string;
+                                legalName: string;
+                                /** @enum {string} */
+                                state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                                tradingName: string | null;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a company, with its ABN */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        abn: string;
+                        legalName: string;
+                        /** @enum {string} */
+                        state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                        tradingName?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            abn: string;
+                            brandCount: number;
+                            /** Format: uuid */
+                            companyId: string;
+                            legalName: string;
+                            /** @enum {string} */
+                            state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                            tradingName: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/companies/{companyId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete a company with no brands */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    companyId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            companyId: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Change a company */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    companyId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        abn?: string;
+                        legalName?: string;
+                        /** @enum {string} */
+                        state?: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                        tradingName?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            abn: string;
+                            brandCount: number;
+                            /** Format: uuid */
+                            companyId: string;
+                            legalName: string;
+                            /** @enum {string} */
+                            state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                            tradingName: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/v1/me": {
         parameters: {
             query?: never;
@@ -126,19 +1113,34 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            displayName: string | null;
                             email: string;
                             memberships: {
+                                breakGlass: {
+                                    available: boolean;
+                                    /** Format: date-time */
+                                    until: string | null;
+                                };
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                /** Format: date-time */
+                                expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                                 /** @enum {string} */
-                                role: "owner" | "clinician" | "support" | "finance";
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
-                                status: "active" | "suspended";
+                                status: "active" | "suspended" | "invited";
                                 /** Format: uuid */
                                 tenantId: string;
                                 tenantName: string;
                             }[];
+                            platformStaff: boolean;
+                            secondFactor: boolean;
                             /** Format: uuid */
                             userId: string;
                         };
@@ -154,6 +1156,1048 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/me/sign-ins": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Your own recent sign-ins */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            signIns: {
+                                /** Format: date-time */
+                                at: string;
+                                clientIp: string | null;
+                                device: string | null;
+                                secondFactor: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/platform/block-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a block rule for every tenant */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: date-time */
+                        effectiveFrom?: string;
+                        /** @enum {string} */
+                        match: "schedule" | "artg_number" | "compounded";
+                        reason: string;
+                        /** Format: uri */
+                        sourceUrl?: string | null;
+                        value?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: date-time */
+                            addedAt: string;
+                            /** Format: date-time */
+                            effectiveFrom: string;
+                            /** @enum {string} */
+                            match: "schedule" | "artg_number" | "compounded";
+                            reason: string;
+                            /** Format: uuid */
+                            ruleId: string;
+                            sourceUrl: string | null;
+                            value: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/platform/domains": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Brands' domains: those waiting for a check, or all */
+        get: {
+            parameters: {
+                query?: {
+                    waiting?: "true" | "false";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            domains: {
+                                /** Format: uuid */
+                                brandId: string;
+                                brandName: string;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                domainId: string;
+                                host: string;
+                                /** Format: uuid */
+                                tenantId: string;
+                                tenantName: string;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/platform/domains/{domainId}/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark a domain verified once its DNS points at Medora */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    domainId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            domainId: string;
+                            host: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/platform/tenants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Every tenant, by name, and how far it has got */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            tenants: {
+                                brands: number;
+                                /** Format: date-time */
+                                createdAt: string;
+                                liveBrands: number;
+                                name: string;
+                                ownerJoined: boolean;
+                                /** Format: uuid */
+                                tenantId: string;
+                                /** @enum {string} */
+                                timeZone: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create a tenant and invite its first owner */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        /** Format: email */
+                        ownerEmail: string;
+                        ownerName?: string;
+                        /** @enum {string} */
+                        timeZone: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            email: "sent" | "failed" | "not_configured";
+                            tenant: {
+                                brands: number;
+                                /** Format: date-time */
+                                createdAt: string;
+                                liveBrands: number;
+                                name: string;
+                                ownerJoined: boolean;
+                                /** Format: uuid */
+                                tenantId: string;
+                                /** @enum {string} */
+                                timeZone: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/platform/tenants/{tenantId}/owner-invitation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send the first owner's invitation again, while nobody has accepted it */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    tenantId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            email: "sent" | "failed" | "not_configured";
+                            /** Format: uuid */
+                            tenantId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's products, each with whether it is blocked now */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            products: {
+                                artgNumber: string | null;
+                                blocked: {
+                                    /** @enum {string} */
+                                    code: "platform_rule" | "tenant_block";
+                                    reason: string;
+                                    /** Format: uuid */
+                                    ruleId: string | null;
+                                } | null;
+                                compounded: boolean;
+                                form: string | null;
+                                gstFree: boolean;
+                                /** @enum {string} */
+                                kind: "medicine" | "device" | "service";
+                                name: string;
+                                packSize: string | null;
+                                priceCents: number;
+                                /** Format: uuid */
+                                productId: string;
+                                /** @enum {string|null} */
+                                schedule: "S2" | "S3" | "S4" | "S8" | null;
+                                /** @enum {string} */
+                                status: "active" | "archived";
+                                /** @enum {string} */
+                                storage: "room" | "refrigerated";
+                                strength: string | null;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a product */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        artgNumber?: string | null;
+                        compounded?: boolean;
+                        form?: string | null;
+                        gstFree: boolean;
+                        /** @enum {string} */
+                        kind: "medicine" | "device" | "service";
+                        name: string;
+                        packSize?: string | null;
+                        priceCents: number;
+                        /** @enum {string|null} */
+                        schedule?: "S2" | "S3" | "S4" | "S8" | null;
+                        /** @enum {string} */
+                        storage?: "room" | "refrigerated";
+                        strength?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/products/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One product */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change a product or its price */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        artgNumber?: string | null;
+                        compounded?: boolean;
+                        form?: string | null;
+                        gstFree?: boolean;
+                        /** @enum {string} */
+                        kind?: "medicine" | "device" | "service";
+                        name?: string;
+                        packSize?: string | null;
+                        priceCents?: number;
+                        /** @enum {string|null} */
+                        schedule?: "S2" | "S3" | "S4" | "S8" | null;
+                        /** @enum {string} */
+                        storage?: "room" | "refrigerated";
+                        strength?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/products/{productId}/block": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Block a product in this tenant, with the reason */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        /** Lift this tenant's block. Medora's block rules still apply. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/products/{productId}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Archive a product, or bring it back */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "active" | "archived";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/brands/by-host/{host}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The live or paused brand a verified domain belongs to, for its public pages */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    host: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            logoUrl: string | null;
+                            name: string;
+                            primaryColour: string | null;
+                            /** @enum {string} */
+                            status: "live" | "paused";
+                            supportEmail: string | null;
+                            supportPhone: string | null;
+                            /** Format: uuid */
+                            tenantId: string;
+                            /** @enum {string} */
+                            timeZone: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The starting roles, the tenant’s custom roles, and every permission */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            customRoles: {
+                                /** @enum {string} */
+                                basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                                clinical: boolean;
+                                description: string;
+                                /** Format: uuid */
+                                id: string;
+                                memberCount: number;
+                                name: string;
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                            permissions: {
+                                /** @enum {string} */
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read";
+                                /** @enum {string} */
+                                zone: "clinical" | "operational" | "marketing" | "platform";
+                            }[];
+                            startingRoles: {
+                                clinical: boolean;
+                                /** @enum {string} */
+                                key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                                memberCount: number;
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Make a custom role from a starting role */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                        description?: string;
+                        name: string;
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                            clinical: boolean;
+                            description: string;
+                            /** Format: uuid */
+                            id: string;
+                            memberCount: number;
+                            name: string;
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/roles/{roleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Delete a custom role nobody has */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    roleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            roleId: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Change a custom role */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    roleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        description?: string;
+                        name?: string;
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
+                            clinical: boolean;
+                            description: string;
+                            /** Format: uuid */
+                            id: string;
+                            memberCount: number;
+                            name: string;
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/v1/staff": {
         parameters: {
             query?: never;
@@ -161,7 +2205,7 @@ export type paths = {
             path?: never;
             cookie?: never;
         };
-        /** The tenant's staff and their roles */
+        /** The tenant's staff, their roles and invitations */
         get: {
             parameters: {
                 query?: never;
@@ -179,13 +2223,27 @@ export type paths = {
                     content: {
                         "application/json": {
                             staff: {
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                displayName: string | null;
                                 email: string;
+                                /** Format: date-time */
+                                expiresAt: string | null;
+                                /** Format: date-time */
+                                invitationExpiresAt: string | null;
+                                /** Format: date-time */
+                                invitedAt: string | null;
+                                /** Format: date-time */
+                                lastSignInAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
                                 /** @enum {string} */
-                                role: "owner" | "clinician" | "support" | "finance";
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
-                                status: "active" | "suspended";
+                                status: "active" | "suspended" | "invited";
                                 /** Format: uuid */
                                 userId: string;
                             }[];
@@ -215,7 +2273,7 @@ export type paths = {
         delete?: never;
         options?: never;
         head?: never;
-        /** Change a staff member's role or access */
+        /** Change a staff member's role, access or end date */
         patch: {
             parameters: {
                 query?: never;
@@ -228,8 +2286,12 @@ export type paths = {
             requestBody: {
                 content: {
                     "application/json": {
+                        /** Format: uuid */
+                        customRoleId?: string | null;
+                        /** Format: date-time */
+                        expiresAt?: string | null;
                         /** @enum {string} */
-                        role?: "owner" | "clinician" | "support" | "finance";
+                        role?: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                         /** @enum {string} */
                         status?: "active" | "suspended";
                     };
@@ -243,13 +2305,27 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            customRole: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                            } | null;
+                            displayName: string | null;
                             email: string;
+                            /** Format: date-time */
+                            expiresAt: string | null;
+                            /** Format: date-time */
+                            invitationExpiresAt: string | null;
+                            /** Format: date-time */
+                            invitedAt: string | null;
+                            /** Format: date-time */
+                            lastSignInAt: string | null;
                             /** Format: uuid */
                             membershipId: string;
                             /** @enum {string} */
-                            role: "owner" | "clinician" | "support" | "finance";
+                            role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                             /** @enum {string} */
-                            status: "active" | "suspended";
+                            status: "active" | "suspended" | "invited";
                             /** Format: uuid */
                             userId: string;
                         };
@@ -257,6 +2333,340 @@ export type paths = {
                 };
             };
         };
+        trace?: never;
+    };
+    "/v1/staff/{membershipId}/invitation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send an invitation again */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    membershipId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            email: "sent" | "failed" | "not_configured";
+                            member: {
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                displayName: string | null;
+                                email: string;
+                                /** Format: date-time */
+                                expiresAt: string | null;
+                                /** Format: date-time */
+                                invitationExpiresAt: string | null;
+                                /** Format: date-time */
+                                invitedAt: string | null;
+                                /** Format: date-time */
+                                lastSignInAt: string | null;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** @enum {string} */
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
+                                /** @enum {string} */
+                                status: "active" | "suspended" | "invited";
+                                /** Format: uuid */
+                                userId: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Withdraw an invitation nobody has accepted */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    membershipId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            membershipId: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/staff/{membershipId}/sign-ins": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A staff member's recent sign-ins */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    membershipId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            signIns: {
+                                /** Format: date-time */
+                                at: string;
+                                clientIp: string | null;
+                                device: string | null;
+                                secondFactor: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/staff/invitations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Invite someone to work here, with a role */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        customRoleId?: string | null;
+                        displayName?: string;
+                        /** Format: email */
+                        email: string;
+                        /** Format: date-time */
+                        expiresAt?: string | null;
+                        /** @enum {string} */
+                        role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            email: "sent" | "failed" | "not_configured";
+                            member: {
+                                customRole: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    name: string;
+                                } | null;
+                                displayName: string | null;
+                                email: string;
+                                /** Format: date-time */
+                                expiresAt: string | null;
+                                /** Format: date-time */
+                                invitationExpiresAt: string | null;
+                                /** Format: date-time */
+                                invitedAt: string | null;
+                                /** Format: date-time */
+                                lastSignInAt: string | null;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** @enum {string} */
+                                role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
+                                /** @enum {string} */
+                                status: "active" | "suspended" | "invited";
+                                /** Format: uuid */
+                                userId: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tenant": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's name and time zone */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            name: string;
+                            /** Format: uuid */
+                            tenantId: string;
+                            /** @enum {string} */
+                            timeZone: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change the tenant's name or time zone */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        name?: string;
+                        /** @enum {string} */
+                        timeZone?: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            name: string;
+                            /** Format: uuid */
+                            tenantId: string;
+                            /** @enum {string} */
+                            timeZone: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/tenant/onboarding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** What the tenant still needs before it can take new patients */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            items: {
+                                done: boolean;
+                                /** @enum {string} */
+                                key: "company" | "live_brand" | "medical_director" | "prescriber";
+                            }[];
+                            ready: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
 };
