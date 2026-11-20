@@ -986,6 +986,962 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/help-centre/articles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Published help centre articles; drafts too for support:manage */
+        get: {
+            parameters: {
+                query?: {
+                    brandId?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            articles: {
+                                /** Format: uuid */
+                                articleId: string;
+                                /** Format: uuid */
+                                brandId: string;
+                                draft: {
+                                    title: string;
+                                    updatedAt: string;
+                                    /** Format: uuid */
+                                    versionId: string;
+                                    /** Format: uuid */
+                                    writtenByUserId: string;
+                                } | null;
+                                live: {
+                                    approvedAt: string;
+                                    /** Format: uuid */
+                                    approvedByUserId: string;
+                                    title: string;
+                                    updatedAt: string;
+                                    /** Format: uuid */
+                                    versionId: string;
+                                    /** Format: uuid */
+                                    writtenByUserId: string;
+                                } | null;
+                                position: number;
+                                publishedAt: string | null;
+                                /** Format: uuid */
+                                sectionId: string;
+                                slug: string;
+                                /** @enum {string} */
+                                status: "draft" | "published" | "unpublished";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Write a new article (a draft) */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                        /** Format: uuid */
+                        brandId: string;
+                        position?: number;
+                        /** Format: uuid */
+                        sectionId: string;
+                        slug: string;
+                        summary: string;
+                        title: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            articleId: string;
+                            /** Format: uuid */
+                            brandId: string;
+                            draft: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            history: {
+                                approvedAt: string;
+                                /** Format: uuid */
+                                approvedByUserId: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            }[];
+                            live: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            position: number;
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            sectionId: string;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "published" | "unpublished";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/help-centre/articles/{articleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** An article: its live wording, its draft and every approved version */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    articleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            articleId: string;
+                            /** Format: uuid */
+                            brandId: string;
+                            draft: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            history: {
+                                approvedAt: string;
+                                /** Format: uuid */
+                                approvedByUserId: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            }[];
+                            live: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            position: number;
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            sectionId: string;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "published" | "unpublished";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Move an article, or change its slug before it's first published */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    articleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        position?: number;
+                        /** Format: uuid */
+                        sectionId?: string;
+                        slug?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            articleId: string;
+                            /** Format: uuid */
+                            brandId: string;
+                            draft: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            history: {
+                                approvedAt: string;
+                                /** Format: uuid */
+                                approvedByUserId: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            }[];
+                            live: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            position: number;
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            sectionId: string;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "published" | "unpublished";
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/help-centre/articles/{articleId}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Write the article's draft; the live wording stays up */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    articleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                        summary: string;
+                        title: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            articleId: string;
+                            /** Format: uuid */
+                            brandId: string;
+                            draft: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            history: {
+                                approvedAt: string;
+                                /** Format: uuid */
+                                approvedByUserId: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            }[];
+                            live: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            position: number;
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            sectionId: string;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "published" | "unpublished";
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Discard the draft (and the article, if it was never published) */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    articleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            articleRemoved: boolean;
+                            /** @enum {boolean} */
+                            discarded: true;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/help-centre/articles/{articleId}/draft/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve the draft and publish it in place of the live wording */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    articleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        confirm: "This article describes our service only. It gives no medical advice and names no medicine.";
+                        /** Format: uuid */
+                        versionId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            articleId: string;
+                            /** Format: uuid */
+                            brandId: string;
+                            draft: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            history: {
+                                approvedAt: string;
+                                /** Format: uuid */
+                                approvedByUserId: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            }[];
+                            live: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            position: number;
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            sectionId: string;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "published" | "unpublished";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/help-centre/articles/{articleId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Put the last approved wording back up, after the checks */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    articleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            articleId: string;
+                            /** Format: uuid */
+                            brandId: string;
+                            draft: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            history: {
+                                approvedAt: string;
+                                /** Format: uuid */
+                                approvedByUserId: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            }[];
+                            live: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            position: number;
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            sectionId: string;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "published" | "unpublished";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/help-centre/articles/{articleId}/unpublish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Take an article off the help centre */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    articleId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            articleId: string;
+                            /** Format: uuid */
+                            brandId: string;
+                            draft: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            history: {
+                                approvedAt: string;
+                                /** Format: uuid */
+                                approvedByUserId: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            }[];
+                            live: {
+                                approvedAt: string | null;
+                                /** Format: uuid */
+                                approvedByUserId: string | null;
+                                body: string;
+                                checkedWith: string | null;
+                                confirmation: string | null;
+                                summary: string;
+                                title: string;
+                                updatedAt: string;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: uuid */
+                                writtenByUserId: string;
+                            } | null;
+                            position: number;
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            sectionId: string;
+                            slug: string;
+                            /** @enum {string} */
+                            status: "draft" | "published" | "unpublished";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/help-centre/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search the published help centre articles. Answer only from what this returns, and name the article you used. */
+        get: {
+            parameters: {
+                query: {
+                    brandId?: string;
+                    q: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            articles: {
+                                /** Format: uuid */
+                                articleId: string;
+                                body: string;
+                                /** Format: uuid */
+                                brandId: string;
+                                brandName: string;
+                                slug: string;
+                                summary: string;
+                                title: string;
+                                /** Format: uuid */
+                                versionId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/help-centre/sections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A brand's help centre sections, in order */
+        get: {
+            parameters: {
+                query?: {
+                    brandId?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            sections: {
+                                articles: number;
+                                /** Format: uuid */
+                                brandId: string;
+                                name: string;
+                                position: number;
+                                /** Format: uuid */
+                                sectionId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a section to a brand's help centre */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        brandId: string;
+                        name: string;
+                        position?: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            articles: number;
+                            /** Format: uuid */
+                            brandId: string;
+                            name: string;
+                            position: number;
+                            /** Format: uuid */
+                            sectionId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/help-centre/sections/{sectionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove an empty section */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    sectionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            deleted: true;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Rename or move a section */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    sectionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        name?: string;
+                        position?: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            articles: number;
+                            /** Format: uuid */
+                            brandId: string;
+                            name: string;
+                            position: number;
+                            /** Format: uuid */
+                            sectionId: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
     "/v1/macros": {
         parameters: {
             query?: never;
@@ -1236,7 +2192,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -2430,6 +3386,147 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/public/help-centre/{host}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A brand's help centre: its sections and published articles */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    host: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            brandName: string;
+                            sections: {
+                                articles: {
+                                    slug: string;
+                                    summary: string;
+                                    title: string;
+                                }[];
+                                name: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/help-centre/{host}/articles/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One published help centre article */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    host: string;
+                    slug: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            approvedAt: string;
+                            body: string;
+                            section: string;
+                            slug: string;
+                            summary: string;
+                            title: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/help-centre/{host}/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search a brand's published help centre articles */
+        get: {
+            parameters: {
+                query: {
+                    q: string;
+                };
+                header?: never;
+                path: {
+                    host: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            articles: {
+                                section: string;
+                                slug: string;
+                                summary: string;
+                                title: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/roles": {
         parameters: {
             query?: never;
@@ -2463,13 +3560,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -2478,7 +3575,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage")[];
                             }[];
                         };
                     };
@@ -2501,7 +3598,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage")[];
                     };
                 };
             };
@@ -2521,7 +3618,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -2588,7 +3685,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage")[];
                     };
                 };
             };
@@ -2608,7 +3705,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "help_centre:read" | "messaging:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
