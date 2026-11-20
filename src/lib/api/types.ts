@@ -47,3 +47,30 @@ export type RoleUpdate = RequestBody<"/v1/roles/{roleId}", "patch">;
 
 /** Break-glass (ADR 0036): opened by the person, reviewed by someone else. */
 export type BreakGlassRecord = Reply<"/v1/break-glass", "get">["breakGlass"][number];
+
+/** Agents (ADR 0037): each agent's settings, why it is off, its tools and this month's use (GET /v1/agents). */
+export type AgentsReply = Reply<"/v1/agents", "get">;
+export type AgentSummary = AgentsReply["agents"][number];
+export type AgentKind = AgentSummary["agent"];
+export type AgentChannel = AgentSummary["channels"][number];
+export type AgentToolLine = AgentSummary["tools"][number];
+export type AgentOffReason = NonNullable<AgentSummary["off"]>;
+export type AgentEvals = AgentSummary["evals"];
+export type AgentChange = RequestBody<"/v1/agents/{agent}", "patch">;
+
+/** Runs: metadata, cost and how each ended, never text (GET /v1/agent-runs). */
+export type AgentRun = Reply<"/v1/agent-runs", "get">["runs"][number];
+export type AgentRunStatus = AgentRun["status"];
+export type AgentRunTrigger = AgentRun["trigger"];
+
+/** One conversation as the model saw it, for agents:transcripts (GET /v1/agent-conversations/{id}). */
+export type AgentConversation = Reply<"/v1/agent-conversations/{conversationId}", "get">;
+export type AgentMessage = AgentConversation["messages"][number];
+export type AgentMessageRole = AgentMessage["role"];
+export type AgentBlock = AgentMessage["blocks"][number];
+
+/** Proposals: a change an agent wants made, shown as an approval card (GET /v1/agent-proposals). */
+export type Proposal = Reply<"/v1/agent-proposals/{proposalId}", "get">;
+export type ProposalStatus = Proposal["status"];
+export type ApproveInput = RequestBody<"/v1/agent-proposals/{proposalId}/approve", "post">;
+export type DecisionReason = RequestBody<"/v1/agent-proposals/{proposalId}/reject", "post">["reason"];

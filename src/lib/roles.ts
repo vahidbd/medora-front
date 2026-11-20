@@ -48,6 +48,9 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "staff:manage": "Invite staff and change their roles",
   "roles:manage": "Make and edit custom roles",
   "break_glass:review": "Review break-glass use",
+  "agents:read": "See agents, their runs and what they cost",
+  "agents:manage": "Switch agents on and set their limits",
+  "agents:transcripts": "Read what agents and patients said",
 };
 
 /** The data zone a permission opens (ADR 0036), as a heading in the role editor. */
