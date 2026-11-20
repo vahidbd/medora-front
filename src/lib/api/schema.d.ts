@@ -986,6 +986,215 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/macros": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Approved macros, and drafts for support:manage */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            macros: {
+                                approvedAt: string | null;
+                                body: string;
+                                /** Format: uuid */
+                                macroId: string;
+                                name: string;
+                                /** @enum {string} */
+                                status: "draft" | "approved";
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Write a macro (a draft) */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                        name: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            approvedAt: string | null;
+                            body: string;
+                            /** Format: uuid */
+                            macroId: string;
+                            name: string;
+                            /** @enum {string} */
+                            status: "draft" | "approved";
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/macros/{macroId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Archive a macro */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    macroId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            archived: true;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        /** Change a macro; new wording goes back to draft */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    macroId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body?: string;
+                        name?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            approvedAt: string | null;
+                            body: string;
+                            /** Format: uuid */
+                            macroId: string;
+                            name: string;
+                            /** @enum {string} */
+                            status: "draft" | "approved";
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/macros/{macroId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a macro so it can be used in replies */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    macroId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            approvedAt: string | null;
+                            body: string;
+                            /** Format: uuid */
+                            macroId: string;
+                            name: string;
+                            /** @enum {string} */
+                            status: "draft" | "approved";
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/me": {
         parameters: {
             query?: never;
@@ -1027,7 +1236,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -1488,6 +1697,219 @@ export type paths = {
                 };
             };
         };
+        trace?: never;
+    };
+    "/v1/patient/tickets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Your tickets with the team */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            tickets: {
+                                lastMessage: {
+                                    body: string;
+                                    createdAt: string;
+                                    /** @enum {string} */
+                                    from: "you" | "team" | "automatic";
+                                    /** Format: uuid */
+                                    messageId: string;
+                                } | null;
+                                lastMessageAt: string;
+                                /** @enum {string} */
+                                status: "open" | "answered" | "closed";
+                                /** Format: uuid */
+                                ticketId: string;
+                                /** @enum {string} */
+                                topic: "care_team" | "orders" | "billing" | "account";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Open a ticket with the team */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                        subject?: string | null;
+                        /** @enum {string} */
+                        topic: "care_team" | "orders" | "billing" | "account";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            createdAt: string;
+                            messages: {
+                                body: string;
+                                createdAt: string;
+                                /** @enum {string} */
+                                from: "you" | "team" | "automatic";
+                                /** Format: uuid */
+                                messageId: string;
+                            }[];
+                            /** @enum {string} */
+                            status: "open" | "answered" | "closed";
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/tickets/{ticketId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One ticket */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            createdAt: string;
+                            messages: {
+                                body: string;
+                                createdAt: string;
+                                /** @enum {string} */
+                                from: "you" | "team" | "automatic";
+                                /** Format: uuid */
+                                messageId: string;
+                            }[];
+                            /** @enum {string} */
+                            status: "open" | "answered" | "closed";
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/tickets/{ticketId}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Write on a ticket */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            createdAt: string;
+                            messages: {
+                                body: string;
+                                createdAt: string;
+                                /** @enum {string} */
+                                from: "you" | "team" | "automatic";
+                                /** Format: uuid */
+                                messageId: string;
+                            }[];
+                            /** @enum {string} */
+                            status: "open" | "answered" | "closed";
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/v1/patients": {
@@ -2041,13 +2463,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -2056,7 +2478,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
                             }[];
                         };
                     };
@@ -2079,7 +2501,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
                     };
                 };
             };
@@ -2099,7 +2521,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -2166,7 +2588,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
                     };
                 };
             };
@@ -2186,7 +2608,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "support:manage" | "messaging:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -3540,6 +3962,8 @@ export type paths = {
                 content: {
                     "application/json": {
                         body: string;
+                        /** Format: uuid */
+                        macroId?: string;
                         /** @enum {string} */
                         status?: "waiting" | "solved";
                     };
