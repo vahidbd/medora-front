@@ -44,6 +44,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | --- | --- | --- |
 | One of Medora's own AI agents (intake, support, care coordinator, clinical copilot) | **Agent** | bot, assistant, AI |
 | A permission-checked action an agent can take through the API | **Agent tool** | function, skill |
+| One go of an agent at a conversation, from a message or job to a reply or a handoff | **Run** | execution, invocation |
+| A change an agent wants made, waiting for a person who could make it to approve, edit or reject it; shown as an approval card in the approvals inbox | **Proposal** | suggestion, approval request, draft |
+| Passing a conversation from an agent to a person, with a reason | **Handoff** (to hand off) | escalation |
+| The test conversations an agent's version must pass before it can run | **Eval set** | test suite, benchmark |
 | A clinical, operational, marketing or platform schema and what may touch it | **Data zone** | domain, area |
 | Time-limited, logged and reviewed use of clinical permissions by someone whose role is not clinical | **Break-glass** | emergency access, override, god mode |
 | Signing in with a second proof after the first, such as an authenticator code | **Two-step sign-in** | MFA, 2FA |

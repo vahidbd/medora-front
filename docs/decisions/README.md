@@ -31,5 +31,6 @@ Prefixes are unique across both repos, so this table lists both.
 | ADM | `admin.md` | both | Admin, staff access, roles, invitations, two-step sign-in, tenant onboarding |
 | CAT | `catalogue.md` | both | Product catalogue and blocked items |
 | GOV | `governance.md` | both | Clinical governance: incidents, complaints, deadlines, retention, masking |
+| AGT | `agents.md` | both | AI agents: runtime, tools, approval cards, limits, safety screen, evals, launch agents, voice |
 
 Add a row in both repos when you add a file. A prefix is two to four capital letters and is never reused.
