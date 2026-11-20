@@ -102,6 +102,167 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/invoices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Issued invoices, newest first, for a patient or a subscription */
+        get: {
+            parameters: {
+                query?: {
+                    patientId?: string;
+                    subscriptionId?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            invoices: {
+                                /** Format: uuid */
+                                companyId: string;
+                                gstCents: number;
+                                /** Format: uuid */
+                                invoiceId: string;
+                                /** Format: date-time */
+                                issuedAt: string;
+                                /** @enum {string} */
+                                kind: "consult" | "period";
+                                lines: {
+                                    amountCents: number;
+                                    /** @enum {string} */
+                                    feeKind: "consult" | "program" | "medicine" | "shipping";
+                                    gstCents: number;
+                                    /** @enum {string} */
+                                    gstTreatment: "taxable" | "gst_free";
+                                    pharmacyShareCents: number | null;
+                                    /** Format: uuid */
+                                    productId: string | null;
+                                }[];
+                                number: string;
+                                /** Format: uuid */
+                                orderId: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                /** Format: uuid */
+                                paymentAccountId: string;
+                                period: {
+                                    /** Format: date */
+                                    endsOn: string;
+                                    /** Format: date */
+                                    startsOn: string;
+                                } | null;
+                                /** Format: uuid */
+                                priceId: string;
+                                /** @enum {string} */
+                                status: "open";
+                                /** Format: uuid */
+                                subscriptionId: string;
+                                totalCents: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/invoices/{invoiceId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One invoice and its lines */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    invoiceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            companyId: string;
+                            gstCents: number;
+                            /** Format: uuid */
+                            invoiceId: string;
+                            /** Format: date-time */
+                            issuedAt: string;
+                            /** @enum {string} */
+                            kind: "consult" | "period";
+                            lines: {
+                                amountCents: number;
+                                /** @enum {string} */
+                                feeKind: "consult" | "program" | "medicine" | "shipping";
+                                gstCents: number;
+                                /** @enum {string} */
+                                gstTreatment: "taxable" | "gst_free";
+                                pharmacyShareCents: number | null;
+                                /** Format: uuid */
+                                productId: string | null;
+                            }[];
+                            number: string;
+                            /** Format: uuid */
+                            orderId: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            period: {
+                                /** Format: date */
+                                endsOn: string;
+                                /** Format: date */
+                                startsOn: string;
+                            } | null;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** @enum {string} */
+                            status: "open";
+                            /** Format: uuid */
+                            subscriptionId: string;
+                            totalCents: number;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/ledger/accounts": {
         parameters: {
             query?: never;
@@ -244,7 +405,7 @@ export type paths = {
                             memberships: {
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "ledger:read" | "payment_accounts:manage" | "prices:manage" | "subscriptions:read" | "subscriptions:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "ledger:read" | "payment_accounts:manage" | "prices:manage" | "subscriptions:read" | "subscriptions:manage" | "invoices:read")[];
                                 /** @enum {string} */
                                 role: "owner" | "clinician" | "support" | "finance";
                                 /** @enum {string} */
@@ -1267,6 +1428,12 @@ export type paths = {
                                 priceId: string;
                                 /** Format: uuid */
                                 programId: string;
+                                renewalHeld: {
+                                    /** Format: date-time */
+                                    checkedAt: string;
+                                    /** @enum {string} */
+                                    reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                } | null;
                                 /** @enum {string} */
                                 status: "pending" | "active" | "paused" | "cancelled";
                                 /** Format: uuid */
@@ -1340,6 +1507,12 @@ export type paths = {
                             priceId: string;
                             /** Format: uuid */
                             programId: string;
+                            renewalHeld: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                /** @enum {string} */
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                            } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
                             /** Format: uuid */
@@ -1423,6 +1596,12 @@ export type paths = {
                             priceId: string;
                             /** Format: uuid */
                             programId: string;
+                            renewalHeld: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                /** @enum {string} */
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                            } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
                             /** Format: uuid */
@@ -1502,6 +1681,12 @@ export type paths = {
                             priceId: string;
                             /** Format: uuid */
                             programId: string;
+                            renewalHeld: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                /** @enum {string} */
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                            } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
                             /** Format: uuid */
@@ -1574,6 +1759,12 @@ export type paths = {
                             priceId: string;
                             /** Format: uuid */
                             programId: string;
+                            renewalHeld: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                /** @enum {string} */
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                            } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
                             /** Format: uuid */
@@ -1646,6 +1837,12 @@ export type paths = {
                             priceId: string;
                             /** Format: uuid */
                             programId: string;
+                            renewalHeld: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                /** @enum {string} */
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                            } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
                             /** Format: uuid */
@@ -1718,6 +1915,12 @@ export type paths = {
                             priceId: string;
                             /** Format: uuid */
                             programId: string;
+                            renewalHeld: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                /** @enum {string} */
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                            } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
                             /** Format: uuid */
