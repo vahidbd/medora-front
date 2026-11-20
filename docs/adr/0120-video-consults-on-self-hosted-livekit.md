@@ -1,4 +1,4 @@
-# 0040. Video consults run on a self-hosted LiveKit server in Sydney, and its signed webhooks are the only video evidence
+# 0120. Video consults run on a self-hosted LiveKit server in Sydney, and its signed webhooks are the only video evidence
 
 - Status: Proposed
 - Date: 20 Nov 2026
