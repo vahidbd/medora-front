@@ -20,4 +20,5 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "staff:manage": "Change staff roles and access",
   "ledger:read": "See the ledger and its balances",
   "payment_accounts:manage": "Connect and manage payment accounts",
+  "prices:manage": "Set and publish prices",
 };

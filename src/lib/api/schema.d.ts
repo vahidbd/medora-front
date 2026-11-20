@@ -244,7 +244,7 @@ export type paths = {
                             memberships: {
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "ledger:read" | "payment_accounts:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "ledger:read" | "payment_accounts:manage" | "prices:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "clinician" | "support" | "finance";
                                 /** @enum {string} */
@@ -529,6 +529,572 @@ export type paths = {
                             processorAccountId: string | null;
                             /** @enum {string} */
                             status: "setting_up" | "active" | "closed";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/prices": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's prices, every version, with their fees */
+        get: {
+            parameters: {
+                query?: {
+                    programId?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            prices: {
+                                /** @enum {string} */
+                                billingModel: "bundled" | "pharmacy_billed";
+                                /** Format: date-time */
+                                createdAt: string;
+                                fees: {
+                                    amountCents: number;
+                                    /** Format: uuid */
+                                    feeId: string;
+                                    /** @enum {string} */
+                                    feeKind: "consult" | "program" | "medicine" | "shipping";
+                                    gstCents: number;
+                                    /** @enum {string} */
+                                    gstTreatment: "taxable" | "gst_free";
+                                    pharmacyShareCents: number | null;
+                                    /** Format: uuid */
+                                    productId: string | null;
+                                }[];
+                                interval: {
+                                    count: number;
+                                    /** @enum {string} */
+                                    unit: "week" | "month";
+                                };
+                                name: string;
+                                /** Format: uuid */
+                                paymentAccountId: string | null;
+                                /** Format: uuid */
+                                priceId: string;
+                                /** Format: uuid */
+                                programId: string;
+                                /** Format: date-time */
+                                publishedAt: string | null;
+                                /** Format: uuid */
+                                replacesPriceId: string | null;
+                                /** Format: date-time */
+                                retiredAt: string | null;
+                                /** @enum {string} */
+                                status: "draft" | "live" | "retired";
+                                version: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a draft price for a program */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        billingModel: "bundled" | "pharmacy_billed";
+                        fees: {
+                            amountCents: number;
+                            /** @enum {string} */
+                            feeKind: "consult" | "program" | "medicine" | "shipping";
+                            /** @enum {string} */
+                            gstTreatment?: "taxable" | "gst_free";
+                            pharmacyShareCents?: number;
+                            /** Format: uuid */
+                            productId?: string;
+                        }[];
+                        interval: {
+                            count: number;
+                            /** @enum {string} */
+                            unit: "week" | "month";
+                        };
+                        name: string;
+                        /** Format: uuid */
+                        paymentAccountId?: string | null;
+                        /** Format: uuid */
+                        programId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            billingModel: "bundled" | "pharmacy_billed";
+                            /** Format: date-time */
+                            createdAt: string;
+                            fees: {
+                                amountCents: number;
+                                /** Format: uuid */
+                                feeId: string;
+                                /** @enum {string} */
+                                feeKind: "consult" | "program" | "medicine" | "shipping";
+                                gstCents: number;
+                                /** @enum {string} */
+                                gstTreatment: "taxable" | "gst_free";
+                                pharmacyShareCents: number | null;
+                                /** Format: uuid */
+                                productId: string | null;
+                            }[];
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string | null;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: date-time */
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            replacesPriceId: string | null;
+                            /** Format: date-time */
+                            retiredAt: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired";
+                            version: number;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/prices/{priceId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One price and its fees */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    priceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            billingModel: "bundled" | "pharmacy_billed";
+                            /** Format: date-time */
+                            createdAt: string;
+                            fees: {
+                                amountCents: number;
+                                /** Format: uuid */
+                                feeId: string;
+                                /** @enum {string} */
+                                feeKind: "consult" | "program" | "medicine" | "shipping";
+                                gstCents: number;
+                                /** @enum {string} */
+                                gstTreatment: "taxable" | "gst_free";
+                                pharmacyShareCents: number | null;
+                                /** Format: uuid */
+                                productId: string | null;
+                            }[];
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string | null;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: date-time */
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            replacesPriceId: string | null;
+                            /** Format: date-time */
+                            retiredAt: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired";
+                            version: number;
+                        };
+                    };
+                };
+            };
+        };
+        /** Replace a draft price's details and fees */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    priceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        billingModel: "bundled" | "pharmacy_billed";
+                        fees: {
+                            amountCents: number;
+                            /** @enum {string} */
+                            feeKind: "consult" | "program" | "medicine" | "shipping";
+                            /** @enum {string} */
+                            gstTreatment?: "taxable" | "gst_free";
+                            pharmacyShareCents?: number;
+                            /** Format: uuid */
+                            productId?: string;
+                        }[];
+                        interval: {
+                            count: number;
+                            /** @enum {string} */
+                            unit: "week" | "month";
+                        };
+                        name: string;
+                        /** Format: uuid */
+                        paymentAccountId?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            billingModel: "bundled" | "pharmacy_billed";
+                            /** Format: date-time */
+                            createdAt: string;
+                            fees: {
+                                amountCents: number;
+                                /** Format: uuid */
+                                feeId: string;
+                                /** @enum {string} */
+                                feeKind: "consult" | "program" | "medicine" | "shipping";
+                                gstCents: number;
+                                /** @enum {string} */
+                                gstTreatment: "taxable" | "gst_free";
+                                pharmacyShareCents: number | null;
+                                /** Format: uuid */
+                                productId: string | null;
+                            }[];
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string | null;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: date-time */
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            replacesPriceId: string | null;
+                            /** Format: date-time */
+                            retiredAt: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired";
+                            version: number;
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/prices/{priceId}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Make a draft price live, retiring the version it replaces */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    priceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {boolean} */
+                        gstTreatmentsConfirmed: true;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            billingModel: "bundled" | "pharmacy_billed";
+                            /** Format: date-time */
+                            createdAt: string;
+                            fees: {
+                                amountCents: number;
+                                /** Format: uuid */
+                                feeId: string;
+                                /** @enum {string} */
+                                feeKind: "consult" | "program" | "medicine" | "shipping";
+                                gstCents: number;
+                                /** @enum {string} */
+                                gstTreatment: "taxable" | "gst_free";
+                                pharmacyShareCents: number | null;
+                                /** Format: uuid */
+                                productId: string | null;
+                            }[];
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string | null;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: date-time */
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            replacesPriceId: string | null;
+                            /** Format: date-time */
+                            retiredAt: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired";
+                            version: number;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/prices/{priceId}/retire": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Stop offering a live price to new patients. Its subscriptions keep it */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    priceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            billingModel: "bundled" | "pharmacy_billed";
+                            /** Format: date-time */
+                            createdAt: string;
+                            fees: {
+                                amountCents: number;
+                                /** Format: uuid */
+                                feeId: string;
+                                /** @enum {string} */
+                                feeKind: "consult" | "program" | "medicine" | "shipping";
+                                gstCents: number;
+                                /** @enum {string} */
+                                gstTreatment: "taxable" | "gst_free";
+                                pharmacyShareCents: number | null;
+                                /** Format: uuid */
+                                productId: string | null;
+                            }[];
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string | null;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: date-time */
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            replacesPriceId: string | null;
+                            /** Format: date-time */
+                            retiredAt: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired";
+                            version: number;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/prices/{priceId}/revisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start a new version of a live price, as a draft */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    priceId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            billingModel: "bundled" | "pharmacy_billed";
+                            /** Format: date-time */
+                            createdAt: string;
+                            fees: {
+                                amountCents: number;
+                                /** Format: uuid */
+                                feeId: string;
+                                /** @enum {string} */
+                                feeKind: "consult" | "program" | "medicine" | "shipping";
+                                gstCents: number;
+                                /** @enum {string} */
+                                gstTreatment: "taxable" | "gst_free";
+                                pharmacyShareCents: number | null;
+                                /** Format: uuid */
+                                productId: string | null;
+                            }[];
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            name: string;
+                            /** Format: uuid */
+                            paymentAccountId: string | null;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: date-time */
+                            publishedAt: string | null;
+                            /** Format: uuid */
+                            replacesPriceId: string | null;
+                            /** Format: date-time */
+                            retiredAt: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired";
+                            version: number;
                         };
                     };
                 };
