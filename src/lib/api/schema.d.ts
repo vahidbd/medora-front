@@ -5561,6 +5561,49 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/webhooks/twilio/{tenantId}/{hook}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Twilio's calls about SMS and phone calls */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    hook: "sms-inbound" | "sms-status" | "voice-status";
+                    tenantId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": string;
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": string;
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 };
 export type webhooks = Record<string, never>;
 export type components = {

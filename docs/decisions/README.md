@@ -34,5 +34,7 @@ Prefixes are unique across both repos, so this table lists both.
 | ENC | `field-encryption.md` | `medora-backend` | Sealing sensitive fields with each tenant's own key |
 | IDN | `patients.md` | both | Patients, patient sign-in, identity and consent |
 | INT | `intake.md` | both | Protocols, sign-off, programs and intakes |
+| WHK | `webhooks.md` | `medora-backend` | The one webhook inbox: storing, processing once, retries |
+| TEL | `telephony.md` | `medora-backend` | Phone and SMS through Twilio's Australian region |
 
 Add a row in both repos when you add a file. A prefix is two to four capital letters and is never reused.
