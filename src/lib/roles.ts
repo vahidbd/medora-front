@@ -18,4 +18,6 @@ export const MEMBERSHIP_STATUS: Record<MembershipStatus, { label: string; tone: 
 export const PERMISSION_LABELS: Record<Permission, string> = {
   "staff:read": "See the tenant's staff",
   "staff:manage": "Change staff roles and access",
+  "clinicians:read": "See clinicians, whether they can consult, and their hours",
+  "clinicians:manage": "Add clinicians, check their credentials and suspend them",
 };

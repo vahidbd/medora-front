@@ -89,11 +89,22 @@ picker, search, filters in a drawer, display options, the main action at
 the end; a pager at the foot), built once and used by every list, with its
 rules added here in the same pull request.
 
-**Record pages** arrive with the first record (a patient, an order). They
-follow the kit's editor shape: header with back link, title, status badge,
-one line of facts and actions; a numbered section rail; sections that are
-for reading, each with an Edit button that opens a drawer. Their rules land
-here with them.
+**Record pages** (a clinician today; patients and orders next) follow the
+kit's editor shape, built once in `src/components/shared/record/`:
+
+- `RecordPage`: the person's avatar, the title, one status badge, a meta
+  line, and the header actions (at most one primary, then outline). The
+  topbar's last crumb names the record. A numbered rail ("On this page")
+  follows the section in view and folds away when the page is narrow.
+- `RecordSection`: a numbered card per rail entry, with one line under the
+  title. Sections are for reading: a facts table (`dl.facts`, "Not set" or a
+  quiet phrase when empty) or a flush table. Small outline buttons in the
+  head (Edit, Add) open an `EditDrawer`; a row's own actions sit in a "⋯"
+  menu at its end.
+- `EditDrawer`: the fields, Save off until the required ones are filled,
+  and the API's refusal shown in the drawer in its own words.
+- A pick from a fixed list is a `ChoiceSelect`, whose options give every
+  API value its words.
 
 **Public pages** a patient sees (sign-in, brand sites, the patient app) are
 built to their own rules: no tracking scripts and no third-party scripts

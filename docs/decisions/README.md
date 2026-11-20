@@ -30,5 +30,6 @@ Prefixes are unique across both repos, so this table lists both.
 | CON | `console.md` | `medora-front` | The staff console: sign-in gate, tenant switch, shell, page security, preview mode |
 | WHK | `webhooks.md` | `medora-backend` | The one webhook inbox: storing, processing once, retries |
 | TEL | `telephony.md` | `medora-backend` | Phone and SMS through Twilio's Australian region |
+| WRK | `workforce.md` | `medora-backend` | Clinicians, their credentials and standing, working hours and time off |
 
 Add a row in both repos when you add a file. A prefix is two to four capital letters and is never reused.

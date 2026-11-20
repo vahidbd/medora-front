@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { House, Settings, UsersRound } from "lucide-react";
+import { House, Settings, Stethoscope, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -44,7 +44,16 @@ export const navigation: NavGroup[] = [
     label: "Workspace",
     icon: Settings,
     gapBefore: true,
-    items: [{ title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Roles", "Members", "Team"] }],
+    items: [
+      { title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Roles", "Members", "Team"] },
+      {
+        title: "Clinicians",
+        href: "/clinicians",
+        icon: Stethoscope,
+        permission: "clinicians:read",
+        keywords: ["Credentials", "Registration", "Indemnity", "Working hours", "Time off"],
+      },
+    ],
   },
 ];
 

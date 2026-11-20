@@ -12,6 +12,7 @@
  * Env: MOCK_API_PORT (default 4010).
  */
 import { createServer } from "node:http";
+import { clinicianRoutes } from "./clinicians.mjs";
 
 const PORT = Number(process.env.MOCK_API_PORT || 4010);
 const TENANT_HEADER = "x-medora-tenant";
@@ -20,9 +21,9 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const ROLES = ["owner", "clinician", "support", "finance"];
 const STATUSES = ["active", "suspended"];
 const ROLE_PERMISSIONS = {
-  owner: ["staff:read", "staff:manage"],
-  clinician: ["staff:read"],
-  support: ["staff:read"],
+  owner: ["staff:read", "staff:manage", "clinicians:read", "clinicians:manage"],
+  clinician: ["staff:read", "clinicians:read"],
+  support: ["staff:read", "clinicians:read"],
   finance: ["staff:read"],
 };
 
@@ -171,6 +172,8 @@ const routes = [
     },
   ],
 ];
+// Each area's routes live in their own file, so screens built side by side don't edit the same lines.
+routes.push(...clinicianRoutes({ send, fail, readJson, tenantOf, requirePermission, memberships, ME, ROLE_PERMISSIONS }));
 
 const server = createServer(async (req, res) => {
   const { pathname } = new URL(req.url ?? "/", "http://mock");

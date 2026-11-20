@@ -26,3 +26,19 @@ export type Permission = Membership["permissions"][number];
 /** A tenant's staff (GET /v1/staff). */
 export type StaffMember = Reply<"/v1/staff", "get">["staff"][number];
 export type MembershipChange = RequestBody<"/v1/staff/{membershipId}", "patch">;
+
+/** Clinicians and their standing (GET /v1/clinicians, GET /v1/clinicians/:clinicianId). */
+export type ClinicianSummary = Reply<"/v1/clinicians", "get">["clinicians"][number];
+export type ClinicianDetail = Reply<"/v1/clinicians/{clinicianId}", "get">;
+export type Standing = ClinicianSummary["standing"];
+export type StandingReason = Standing["reasons"][number];
+export type StandingWarning = Standing["warnings"][number];
+export type Profession = ClinicianSummary["profession"];
+export type Credential = NonNullable<ClinicianDetail["credentials"]>[number];
+export type HoursBlock = ClinicianDetail["hours"][number];
+export type TimeOff = ClinicianDetail["timeOff"][number];
+export type NewClinician = RequestBody<"/v1/clinicians", "post">;
+export type NewCredential = RequestBody<"/v1/clinicians/{clinicianId}/credentials", "post">;
+export type NewTimeOff = RequestBody<"/v1/clinicians/{clinicianId}/time-off", "post">;
+export type SuspensionReason = RequestBody<"/v1/clinicians/{clinicianId}/suspend", "post">["reason"];
+export type TimeOffReason = TimeOff["reason"];

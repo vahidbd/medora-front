@@ -17,8 +17,9 @@ npm run test:e2e         # the browser tests, against start:preview (build first
 | `GET /v1/me` | the preview person: owner of Harbour Health (demo), clinician at Coastal Skin (demo) |
 | `GET /v1/staff` | the tenant's made-up staff (needs `x-medora-tenant`) |
 | `PATCH /v1/staff/:membershipId` | changes a role or access, with the API's rules (`own_membership`, `last_owner`) |
+| `/v1/clinicians` and below (`mock-api/clinicians.mjs`) | made-up clinicians with their standing, credentials, hours and time off; the preview person is a clinician at Coastal Skin, so their own record shows the "someone else checks it" rule (`own_record`) |
 
-The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it here in the API's shape (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
+The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it in the API's shape, in its own file for a new area (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
 
 To run the console against a real local API instead, keep Clerk stubbed and pass a token from the API's `npm run dev:token`:
 
