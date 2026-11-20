@@ -28,7 +28,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const DAY = 24 * 60 * 60 * 1000;
 
 const past = (iso) => iso !== null && Date.parse(iso) <= Date.now();
-const usable = (m) => m.status === "active" && !past(m.expiresAt);
+export const usable = (m) => m.status === "active" && !past(m.expiresAt);
 const customRoleOf = (m) => customRoles.find((r) => r.id === m.customRoleId) ?? null;
 const permissionsOf = (m) => (m.role === "custom" ? (customRoleOf(m)?.permissions ?? []) : ROLE_PERMISSIONS[m.role]);
 const openBreakGlass = (m) => breakGlass.find((b) => b.membershipId === m.membershipId && Date.parse(b.endsAt) > Date.now());
@@ -51,7 +51,7 @@ function staffMember(m) {
 }
 
 /** The caller's usable membership in the tenant the header names, or null with a reply already sent. */
-function tenantOf(req, res, permission) {
+export function tenantOf(req, res, permission) {
   const tenantId = req.headers[TENANT_HEADER];
   if (typeof tenantId !== "string" || !UUID.test(tenantId)) {
     fail(res, 400, "tenant_required", `Choose a tenant first (${TENANT_HEADER})`);
@@ -96,6 +96,7 @@ function me(req, res) {
     email: ME.email,
     displayName: ME.displayName,
     secondFactor: true,
+    platformStaff: ME.platformStaff,
     memberships: memberships
       .filter((m) => m.userId === ME.userId)
       .map((m) => {

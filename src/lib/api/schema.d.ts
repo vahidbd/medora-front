@@ -986,6 +986,90 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/intakes/{intakeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A finished intake summarised for the prescriber: answers, red flags and earlier hard stops */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            dateOfBirthDiffers: boolean;
+                            derived: {
+                                key: string;
+                                label: string;
+                                unit: string | null;
+                                value: number | null;
+                            }[];
+                            earlierIneligible: {
+                                /** Format: uuid */
+                                intakeId: string;
+                                rule: string;
+                                /** Format: date-time */
+                                submittedAt: string;
+                            }[];
+                            /** Format: uuid */
+                            intakeId: string;
+                            items: {
+                                answer: string;
+                                question: string;
+                                questionKey: string;
+                                redFlag: boolean;
+                            }[];
+                            /** @enum {string} */
+                            outcome: "clear" | "red_flags" | "ineligible";
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            protocolName: string;
+                            protocolVersion: number;
+                            redFlags: {
+                                message: string;
+                                rule: string;
+                            }[];
+                            stale: boolean;
+                            /** @enum {string} */
+                            status: "completed" | "ineligible";
+                            stop: {
+                                message: string;
+                                rule: string;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string;
+                            versionWithdrawn: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/me": {
         parameters: {
             query?: never;
@@ -1631,6 +1715,426 @@ export type paths = {
                                 /** @enum {string} */
                                 method: "document" | "manual";
                             } | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s intakes */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            intakes: {
+                                /** Format: date-time */
+                                endedAt: string | null;
+                                /** @enum {string|null} */
+                                endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                                /** Format: uuid */
+                                intakeId: string;
+                                /** Format: uuid */
+                                programId: string;
+                                programName: string;
+                                /** Format: date-time */
+                                startedAt: string;
+                                /** @enum {string} */
+                                status: "in_progress" | "completed" | "ineligible" | "ended";
+                                /** Format: date-time */
+                                submittedAt: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Start an intake, or pick up the one in progress for that program */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        programId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/{intakeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One of the signed-in patient’s intakes, with its answers */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/{intakeId}/steps/{stepKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Answer one step of an intake */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                    stepKey: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        answers: {
+                            [key: string]: unknown;
+                        };
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/{intakeId}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send a finished intake to the prescriber */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Make the intakes started in this browser the patient’s own */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        tokens: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            claimed: string[];
                         };
                     };
                 };
@@ -2588,6 +3092,62 @@ export type paths = {
                 };
             };
         };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/intakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient’s intakes and where each stands, without answers */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            intakes: {
+                                /** Format: date-time */
+                                endedAt: string | null;
+                                /** @enum {string|null} */
+                                endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                                /** Format: uuid */
+                                intakeId: string;
+                                /** Format: uuid */
+                                programId: string;
+                                programName: string;
+                                /** Format: date-time */
+                                startedAt: string;
+                                /** @enum {string} */
+                                status: "in_progress" | "completed" | "ineligible" | "ended";
+                                /** Format: date-time */
+                                submittedAt: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -3672,6 +4232,317 @@ export type paths = {
                             tenantId: string;
                             /** @enum {string} */
                             timeZone: "Australia/Sydney" | "Australia/Melbourne" | "Australia/Brisbane" | "Australia/Adelaide" | "Australia/Darwin" | "Australia/Perth" | "Australia/Hobart" | "Australia/Lord_Howe" | "Australia/Eucla" | "Australia/Broken_Hill" | "Indian/Christmas" | "Indian/Cocos" | "Antarctica/Macquarie";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/intakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start an intake before signing up. The resume token comes back once, in the x-medora-intake-token header, never in the body */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {boolean} */
+                        adult: true;
+                        dateOfBirth: string;
+                        /** Format: uuid */
+                        privacyDocumentId: string;
+                        /** Format: uuid */
+                        programId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/intakes/{intakeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** An intake started before signing up, with its answers */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/intakes/{intakeId}/steps/{stepKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Answer one step of an intake started before signing up */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                    stepKey: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        answers: {
+                            [key: string]: unknown;
+                        };
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/programs/{programId}/intake-start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** What the first screen of an intake shows: the program and the privacy notice */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    programId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            privacyNotice: {
+                                body: string;
+                                /** Format: uuid */
+                                documentId: string;
+                                title: string;
+                                version: number;
+                            };
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
                         };
                     };
                 };

@@ -21,7 +21,7 @@ There you start signed out. Sign in as `jamie@example.test` (a made-up patient o
 | Route | Answer |
 | --- | --- |
 | `GET /health`, `GET /health/ready` | ok |
-| `GET /v1/me`, `GET /v1/me/sign-ins` | the preview person: owner of Harbour Health (demo), clinician at Coastal Skin (demo), always with a second factor |
+| `GET /v1/me`, `GET /v1/me/sign-ins` | the preview person: owner of Harbour Health (demo), clinician at Coastal Skin (demo) and platform staff, always with a second factor |
 | `GET /v1/staff`, `PATCH /v1/staff/:membershipId` | the tenant's made-up staff; changes with the API's rules (`own_membership`, `last_owner`, `cannot_grant`) |
 | `POST /v1/staff/invitations`, `POST` and `DELETE /v1/staff/:membershipId/invitation`, `GET /v1/staff/:membershipId/sign-ins` | invitations (always "sent") and sign-in history |
 | `GET`, `POST /v1/roles`, `PATCH` and `DELETE /v1/roles/:roleId` | starting roles and custom roles (`role_name_taken`, `own_role`, `role_in_use`) |
@@ -31,8 +31,14 @@ There you start signed out. Sign in as `jamie@example.test` (a made-up patient o
 | `POST /v1/patient/confirm-date-of-birth` | the check each new patient session makes once (`date_of_birth_mismatch`, five tries) |
 | `GET`, `PUT /v1/patient/notification-preferences` | texts and reminders on until changed, per sign-in |
 | `GET`, `POST /v1/patient/measurements`, `/v1/patient/side-effects` and `/v1/patient/check-ins` | Jamie's made-up history at Kestrel (four weekly weights, two waists, a check-in a week ago), with the API's checks; each sign-in starts from it afresh (`mock-api/tracking.mjs`) |
+| `GET`, `PATCH /v1/tenant`, `GET /v1/tenant/onboarding` | the tenant's name and time zone, and its onboarding checklist, worked out from the data below (Harbour has no medical director, so it isn't ready) |
+| `GET`, `POST /v1/companies`, `PATCH` and `DELETE /v1/companies/:companyId` | companies, with the ABN check (`abn_invalid`, `abn_taken`, `company_has_brands`) |
+| `GET`, `POST /v1/brands`, `GET`, `PATCH /v1/brands/:brandId`, `POST /v1/brands/:brandId/status` | brands and their status steps (`slug_taken`, `colour_unreadable`, `domain_unverified`, `support_email_required`) |
+| `POST /v1/brands/:brandId/domains`, `DELETE /v1/brands/:brandId/domains/:domainId` | a brand's domains (`host_invalid`, `host_taken`, `last_verified_domain`) |
+| `GET`, `POST /v1/platform/tenants`, `POST /v1/platform/tenants/:tenantId/owner-invitation` | platform staff's tenant list, a new tenant with an invited owner, and resending that invitation |
+| `GET /v1/platform/domains`, `POST /v1/platform/domains/:domainId/verify` | domains waiting for platform staff, and marking one verified |
 
-The data is in `mock-api/people.mjs` and the routes in one file per area (`mock-api/staff.mjs`). One deliberate difference: no clinical permission exists yet, so the real API offers break-glass to nobody, but the mock offers it to Harbour's owner so its screens can be seen and tested.
+The data is in `mock-api/people.mjs` and `mock-api/tenant-setup.mjs`, and the routes in one file per area (`mock-api/staff.mjs`, `mock-api/tenant-setup.mjs`). Platform routes answer only while `ME.platformStaff` is true; set it to false in `people.mjs` to see the console as tenant staff only. One deliberate difference: no clinical permission exists yet, so the real API offers break-glass to nobody, but the mock offers it to Harbour's owner so its screens can be seen and tested.
 
 The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it here in the API's shape (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
 

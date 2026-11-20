@@ -80,13 +80,13 @@ Files, tables, checks.
 | [0032](0032-one-word-per-thing-from-database-to-screen.md) | One word per thing, from the database to the screen | Proposed |
 | [0033](0033-before-the-first-patient.md) | What must be true before the first patient | Proposed |
 | [0034](0034-the-core-before-breadth.md) | The core before breadth; each feature ships whole | Proposed |
-| [0036](0036-permissions-name-their-zone-and-staff-sign-in-with-two-steps.md) | Permissions name their data zone, clinical ones need a clinical role or break-glass, and every staff session has two steps | Proposed |
 | [0100](0100-patients-sign-in-on-their-own-instance.md) | Patients sign in on their own sign-in instance, and hold one record per tenant | Proposed |
 | [0180](0180-each-host-serves-one-surface.md) | Each host serves one surface: the console on its own hosts, a brand's patient app on the brand's | Proposed |
+| [0220](0220-permissions-name-their-zone-and-staff-sign-in-with-two-steps.md) | Permissions name their data zone, clinical ones need a clinical role or break-glass, and every staff session has two steps | Proposed |
 
 ## Timeline
 
 - **20 Nov 2026**: 0001 to 0034, the founding set, written with the first commit of each repo. 0001, 0002, 0004, 0005, 0011, 0013 and 0019 to 0023 were settled by the product owner's answers that day; the rest are Proposed until the foundation pull requests are approved.
-- **20 Nov 2026**: 0036, staff access: custom roles, break-glass and two steps for every staff session, from the admin build.
 - **20 Nov 2026**: 0100, patient sign-in, with the intake and identity work.
 - **20 Nov 2026**: 0180, the console and the patient app told apart by host, with the patient app.
+- **20 Nov 2026**: 0220, staff access: custom roles, break-glass and two steps for every staff session, from the admin build.

@@ -19,13 +19,13 @@ export const STARTING_ROLES = [
   "compliance",
 ];
 export const CLINICAL_ROLES = new Set(["prescriber", "clinician", "medical_director"]);
-export const PERMISSIONS = ["staff:read", "staff:manage", "roles:manage", "break_glass:review"];
+export const PERMISSIONS = ["staff:read", "staff:manage", "roles:manage", "break_glass:review", "tenant:manage", "brands:manage"];
 export const PERMISSION_ZONES = Object.fromEntries(PERMISSIONS.map((key) => [key, "platform"]));
 
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
 export const ROLE_PERMISSIONS = {
   owner: [...PERMISSIONS],
-  admin: ["staff:read", "staff:manage", "roles:manage"],
+  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage"],
   medical_director: ["staff:read", "break_glass:review"],
   prescriber: ["staff:read"],
   clinician: ["staff:read"],
@@ -37,11 +37,27 @@ export const ROLE_PERMISSIONS = {
 };
 
 // The preview person. The mock Clerk session (dev/mock-clerk) is the same person.
-export const ME = { userId: "00000000-0000-4000-8000-000000000001", email: "owner@example.test", displayName: "Alex Morgan" };
+// Also platform staff, so preview shows the platform screens (docs/decisions/admin.md ADM15).
+export const ME = {
+  userId: "00000000-0000-4000-8000-000000000001",
+  email: "owner@example.test",
+  displayName: "Alex Morgan",
+  platformStaff: true,
+};
 
 export const TENANTS = [
-  { tenantId: "10000000-0000-4000-8000-000000000001", tenantName: "Harbour Health (demo)" },
-  { tenantId: "10000000-0000-4000-8000-000000000002", tenantName: "Coastal Skin (demo)" },
+  {
+    tenantId: "10000000-0000-4000-8000-000000000001",
+    tenantName: "Harbour Health (demo)",
+    timeZone: "Australia/Sydney",
+    createdAt: "2026-10-01T00:00:00.000Z",
+  },
+  {
+    tenantId: "10000000-0000-4000-8000-000000000002",
+    tenantName: "Coastal Skin (demo)",
+    timeZone: "Australia/Brisbane",
+    createdAt: "2026-10-15T00:00:00.000Z",
+  },
 ];
 const [harbour, coastal] = TENANTS.map((t) => t.tenantId);
 
