@@ -1,0 +1,187 @@
+/* =========================================================
+   Medora on Grid: no browser chrome anywhere, and the kit's motion.
+
+   The browser's own tooltips, validation bubbles, scrollbars, spinners,
+   search clear buttons, autofill wash and file control are replaced by kit
+   pieces (src/components/shell/title-tooltips.tsx, form-validation.tsx,
+   ui/file-drop.tsx, ui/number-field.tsx), and every transition uses the
+   kit's durations, opacity and transform only. Built only from
+   grid-tokens.css. Motion sits inside prefers-reduced-motion:
+   no-preference, so reduced motion turns all of it off.
+   ========================================================= */
+
+/* ============== Tooltips from title ============== */
+/* One .tip-surface for every title (TitleTooltips), placed by script. */
+.title-tip { position: fixed; left: 0; top: 0; z-index: var(--z-tooltip); pointer-events: none; white-space: pre-line; overflow-wrap: break-word; opacity: 0; visibility: hidden; }
+.title-tip[data-open] { opacity: 1; visibility: visible; }
+
+/* ============== Inline errors ============== */
+/* The kit's .err, also outside a .field; .field-error is the line the
+   validation handler (or a screen) puts under a control. */
+.err, .field-error { font-size: var(--fs-caption); line-height: var(--lh-body); color: var(--destructive); }
+.field-error { margin: var(--field-gap) 0 0; }
+.field > .field-error, .field-stack > .field-error { margin-top: 0; }
+:root { --halo-danger: 0 0 0 3px color-mix(in srgb, var(--destructive) 16%, transparent); }
+.input[aria-invalid="true"],
+.input[aria-invalid="true"]:hover:not(:disabled):not(:focus),
+textarea[aria-invalid="true"],
+.input-with-prefix:has(> input[aria-invalid="true"]),
+.check-box[aria-invalid="true"], .radio-dot[aria-invalid="true"],
+.file-drop-zone[data-invalid] { border-color: var(--destructive); }
+.input[aria-invalid="true"]:focus, .input[aria-invalid="true"]:focus-visible,
+textarea[aria-invalid="true"]:focus,
+.input-with-prefix:has(> input[aria-invalid="true"]):focus-within { border-color: var(--destructive); box-shadow: var(--halo-danger); }
+
+/* ============== Scrollbars ============== */
+/* Thin (8px), a transparent track, a rounded token thumb that darkens on
+   hover. Chromium and Safari take the ::-webkit rules (exact size and
+   hover), which they ignore once scrollbar-width or scrollbar-color is set,
+   so those go back to auto there (globals.css sets them in its base layer);
+   Firefox, which has no such pseudo-elements, takes the standard ones. */
+@supports selector(::-webkit-scrollbar) {
+  * { scrollbar-width: auto; scrollbar-color: auto; }
+}
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: var(--scrollbar) transparent; }
+}
+::-webkit-scrollbar { width: var(--space-8); height: var(--space-8); background: transparent; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar); background-clip: padding-box; border: 1px solid transparent; border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active { background-color: var(--scrollbar-hover); }
+::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+
+/* ============== Native controls ============== */
+:root { accent-color: var(--primary); }
+::selection { background: color-mix(in srgb, var(--status-info-dot) 28%, transparent); color: inherit; }
+
+/* No spinners on any number input still around (NumberField is a text input). */
+input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; appearance: none; margin: 0; }
+
+/* No browser clear, reveal or search buttons inside inputs. */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { -webkit-appearance: none; appearance: none; }
+input::-ms-reveal, input::-ms-clear { display: none; }
+
+/* Autofill keeps the field's own ground and ink (an inset shadow covers the wash). */
+input:-webkit-autofill, input:-webkit-autofill:hover,
+textarea:-webkit-autofill, select:-webkit-autofill {
+  -webkit-text-fill-color: var(--foreground);
+  caret-color: var(--foreground);
+  -webkit-box-shadow: inset 0 0 0 100vmax var(--background), var(--shadow-input);
+  box-shadow: inset 0 0 0 100vmax var(--background), var(--shadow-input);
+}
+input:-webkit-autofill:focus, textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: inset 0 0 0 100vmax var(--background), var(--halo);
+  box-shadow: inset 0 0 0 100vmax var(--background), var(--halo);
+}
+.input-with-prefix input:-webkit-autofill { -webkit-box-shadow: inset 0 0 0 100vmax var(--background); box-shadow: inset 0 0 0 100vmax var(--background); }
+input:autofill { filter: none; }
+
+/* ============== Segmented pill ============== */
+/* SegPill draws the raised pill once and slides it between tabs. It is
+   out of flow, so the track still hugs its tabs; until it has measured, the
+   active tab keeps its own pill. */
+.tabs-seg { position: relative; isolation: isolate; }
+.tabs-seg > .seg-pill { display: none; position: absolute; left: 0; top: 0; z-index: -1; margin: 0; border-radius: var(--radius-9); background: var(--raised); box-shadow: var(--shadow-pill); pointer-events: none; transform-origin: 0 0; }
+.tabs-seg[data-pill] > .seg-pill { display: block; }
+.tabs-seg[data-pill] .tab-u:is(.active, [aria-selected="true"], [data-active]) { background: transparent; box-shadow: none; }
+/* Focus rings appear at once (the kit eases box-shadow, which would fade
+   the ring in); they still ease out on blur. */
+:is(.btn, .btn-icon, .tab-u, .sb-item, .input):focus-visible { transition-property: background-color, border-color, color, opacity; }
+/* …and a keyboard focus on the active tab still shows the kit's ring. */
+.tabs-seg[data-pill] .tab-u:is(.active, [aria-selected="true"], [data-active]):focus-visible { box-shadow: var(--halo-strong); }
+
+/* ============== File drop ============== */
+.file-drop { display: flex; flex-direction: column; gap: var(--space-10); min-width: 0; }
+.file-drop-zone {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-4);
+  width: 100%; padding: var(--space-24) var(--space-20);
+  border: 1px dashed var(--control-border); border-radius: var(--radius); background: var(--subtle);
+  color: var(--muted-foreground); font: inherit; text-align: center; cursor: pointer;
+  transition: border-color var(--dur-quick) var(--ease-out), background-color var(--dur-quick) var(--ease-out), box-shadow var(--dur-quick) var(--ease-out);
+}
+.file-drop-zone:hover:not(:disabled) { border-color: var(--control-border-hover); }
+.file-drop-zone:focus-visible { outline: none; border-color: var(--input-focus); box-shadow: var(--halo-strong); }
+.file-drop-zone[data-dragging] { border-style: solid; border-color: var(--primary); background: var(--background); box-shadow: var(--halo); }
+.file-drop-zone:disabled { opacity: 0.5; cursor: not-allowed; }
+.file-drop-icon { display: grid; place-items: center; width: var(--h-control); height: var(--h-control); margin-bottom: var(--space-6); border-radius: var(--radius-md); background: var(--background); color: var(--icon-color); box-shadow: inset 0 0 0 1px var(--border), var(--shadow-xs); }
+.file-drop-icon svg { width: var(--icon); height: var(--icon); }
+.file-drop-title { font-size: var(--fs-ui); font-weight: var(--fw-medium); color: var(--foreground); }
+.file-drop-browse { text-decoration: underline; text-underline-offset: 2px; text-decoration-color: var(--border-hover); }
+.file-drop-zone:hover:not(:disabled) .file-drop-browse { text-decoration-color: currentColor; }
+.file-drop-hint { font-size: var(--fs-caption); color: var(--muted-foreground); }
+.file-list { margin: 0; padding: 0; list-style: none; }
+.file-row .file-row-icon { display: grid; place-items: center; flex: none; width: var(--h-btn-sm); height: var(--h-btn-sm); border-radius: var(--radius-sm); background: var(--muted); color: var(--icon-color); }
+.file-row .file-row-icon svg { width: var(--icon); height: var(--icon); }
+.file-row .rl-sub { font-variant-numeric: tabular-nums; }
+
+/* ============== Number and money fields ============== */
+.number-input { text-align: right; font-variant-numeric: tabular-nums; }
+.money-field { width: 100%; min-width: 0; box-shadow: var(--shadow-input); transition: border-color 0.12s, box-shadow 0.12s; }
+.money-field:hover:not(:focus-within):not([data-disabled]) { border-color: var(--border-strong); }
+.money-field > .money-input { min-width: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.money-field > .money-input::placeholder { color: var(--placeholder); }
+.money-field[data-disabled] { background: var(--subtle); }
+.money-field[data-disabled] > .money-input { color: var(--muted-foreground); cursor: not-allowed; }
+
+/* ============== Motion ============== */
+@media (prefers-reduced-motion: no-preference) {
+  /* Popovers, menus and selects (base-ui) scale from 0.97 and fade from the
+     trigger in --dur-quick, and fade out faster. A select laid over its
+     trigger only fades. */
+  .pop-surface:is([data-open], [data-closed]) {
+    transform-origin: var(--transform-origin, top center);
+    transition: opacity var(--dur-quick) var(--ease-out), transform var(--dur-quick) var(--ease-out);
+  }
+  .pop-surface[data-starting-style] { opacity: 0; transform: scale(0.97); }
+  .pop-surface[data-ending-style] { opacity: 0; transition: opacity var(--dur-micro) ease-in; }
+  .pop-surface[data-side="none"][data-starting-style] { transform: none; }
+
+  /* Tooltips fade only; moving between triggers is instant. */
+  .tip-surface:is([data-open], [data-closed]) { transition: opacity var(--dur-quick) var(--ease-out); }
+  .tip-surface[data-starting-style], .tip-surface[data-ending-style] { opacity: 0; }
+  .tip-surface[data-instant] { transition: none; }
+  .title-tip { transition: opacity var(--dur-quick) var(--ease-out), visibility 0s linear var(--dur-quick); }
+  .title-tip[data-open] { transition: opacity var(--dur-quick) var(--ease-out), visibility 0s; }
+  .title-tip[data-instant] { transition: none; }
+  .tip { animation: native-fade var(--dur-quick) var(--ease-out); }
+
+  /* Page content fades up 4px on route change, on enter only. */
+  .page { animation: native-rise var(--dur-fast) var(--ease-out); }
+
+  /* Record page cards rise in turn on the first load (RecordPage sets the delays). */
+  .record-page[data-entering] .editor-section { animation: native-rise var(--dur-fast) var(--ease-out) both; animation-delay: var(--enter-delay, 0ms); }
+
+  /* List rows arrive as one block after the skeleton. */
+  .table-wrap tbody.dg-rows-in { animation: native-fade var(--dur-fast) var(--ease-out); }
+
+  /* Drawers slide in at --dur-medium and leave a little faster. */
+  .drawer { animation-duration: var(--dur-medium); }
+  .drawer-popup { transition-duration: var(--dur-medium); }
+  .drawer-popup[data-ending-style] { transition-duration: var(--dur-fast); }
+
+  /* Toasts (sonner injects its own unlayered 400ms transitions, hence
+     !important): slide up at --dur-fast, fade out at --dur-quick. Opacity
+     and transform only, so a stack restacks without animating layout. */
+  [data-sonner-toast].save-alert { transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out), box-shadow var(--dur-quick) !important; }
+  [data-sonner-toast].save-alert[data-removed="true"] { transition: transform var(--dur-quick) var(--ease-out), opacity var(--dur-quick) var(--ease-out) !important; }
+}
+
+@keyframes native-fade { from { opacity: 0; } }
+@keyframes native-rise { from { opacity: 0; transform: translateY(4px); } }
+
+/* No browser resize grip on any textarea (the kit's textarea.input asks for
+   resize: vertical); ui/textarea grows with its text instead. */
+textarea.input { resize: none; }
+
+/* On a phone a segmented control stays one row and slides sideways, rather
+   than wrapping three or four long options onto a second line. Its thin
+   scrollbar stays: it is the only cue that more options sit off the edge. */
+@media (max-width: 760px) {
+  .tabs-seg { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; }
+  .tabs-seg > .tab-u { flex: none; white-space: nowrap; }
+}

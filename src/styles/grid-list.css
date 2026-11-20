@@ -1,0 +1,231 @@
+/* List engine additions (DataGrid). Built only from grid-tokens.css.
+   The kit (grid-kit.css) and Medora's list section (grid-app.css) do
+   the work; these are the joins the React list needs. */
+
+/* ---------- Search ---------- */
+/* The browser's own clear button is off; ours sits where the "/" hint was. */
+.search input[type="search"]::-webkit-search-cancel-button,
+.search input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+.search .search-clear { position: absolute; right: var(--space-6); }
+
+/* ---------- Filter pills ---------- */
+/* The pill is the box; its menu button and its x sit inside it. */
+.fpill .fpill-btn { display: inline-flex; align-items: center; gap: inherit; height: 100%; padding: 0; border: 0; background: transparent; font: inherit; color: inherit; white-space: nowrap; cursor: pointer; }
+.fpill .fpill-btn:focus-visible { outline: none; }
+.fpill:has(.fpill-btn:focus-visible), .fpill.add:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.fpill .fpill-x { border: 0; background: transparent; padding: 0; cursor: pointer; }
+.fpill .fpill-x:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+
+/* ---------- Table ---------- */
+.table thead th .th-btn:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.dg-link { color: inherit; text-decoration: none; border-radius: var(--radius-xs); }
+.dg-link:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+
+/* The title cell's Preview button (HubSpot's hover preview): the kit's
+   small icon button with the eye, "Preview" in its tooltip. It sits over the
+   end of the title, showing while the row is hovered or holds focus, so a
+   long name keeps its width the rest of the time. Without hover (touch) it
+   stays in the row, always showing. */
+.table td .cell-main:has(> .dg-preview) { position: relative; }
+@media (hover: hover) {
+  /* Centred by its auto margins, so a press (a transform) never moves it off the pointer. */
+  .table td .dg-preview { position: absolute; inset: 0 0 0 auto; margin: auto 0; opacity: 0; }
+  .table tbody tr:is(:hover, :focus-within, .is-open) .dg-preview { opacity: 1; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .table td .dg-preview { transition: opacity var(--dur-quick) var(--ease-out); }
+}
+
+/* The kit draws ticked boxes; this is the "some on this page" state. */
+.table input[type="checkbox"]:indeterminate { background: var(--primary); border-color: var(--primary); }
+.table input[type="checkbox"]:indeterminate::after { transform: scale(1); width: var(--space-8); height: var(--space-2); border-radius: var(--radius-full); -webkit-mask: none; mask: none; }
+.table input[type="checkbox"]:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Empty list inside the table, under its headers. */
+.table tbody td.dg-empty { height: auto; padding: 0; }
+.table tbody tr.dg-empty-row:hover td { background: transparent; }
+
+/* Skeleton bars, and a quiet dim while the next page loads. */
+.dg-skel { height: var(--space-10); }
+.dg-skel.is-sub { height: var(--space-8); }
+.table td.num .dg-skel { margin-left: auto; }
+.table-wrap tbody { transition: opacity var(--dur-fast) var(--ease-out); }
+.table-wrap.dg-fetching tbody { opacity: 0.6; transition-delay: var(--dur-quick); }
+
+/* ---------- Columns panel ---------- */
+.col-panel .col-list { list-style: none; margin: 0; padding: 0; max-height: min(440px, 60vh); overflow-y: auto; }
+.col-row .col-row-label { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.col-row input:disabled { opacity: 0.45; cursor: not-allowed; }
+.col-row-end { height: var(--space-8); border-radius: var(--radius-sm); }
+.col-row-end.is-over { box-shadow: inset 0 2px 0 var(--foreground); }
+/* With a column pinned, the list splits into Pinned left / Not pinned /
+   Pinned right, headed like the table's own headers. A column drags only
+   among the ones on its side; the others dim while it does. */
+.col-list .col-group { padding: var(--space-8) 9px 4px; font-size: var(--fs-overline); font-weight: 600; text-transform: uppercase; letter-spacing: var(--ls-overline); color: var(--muted-foreground); user-select: none; }
+.col-list .col-group:first-child { padding-top: 4px; }
+.col-row.is-elsewhere { opacity: 0.45; }
+/* The row's pin button: always there once pinned, otherwise on hover and focus. */
+.col-row .col-pin { color: var(--text-faint); }
+.col-row .col-pin.is-on { color: var(--foreground); }
+@media (hover: hover) {
+  .col-row .col-pin:not(.is-on):not([data-popup-open]) { opacity: 0; }
+  .col-row:is(:hover, :focus-within) .col-pin { opacity: 1; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .col-row .col-pin { transition: opacity var(--dur-quick) var(--ease-out), background-color 0.12s, color 0.12s; }
+  .col-row { transition: opacity var(--dur-quick) var(--ease-out); }
+}
+
+/* ---------- Pager ---------- */
+.pager .pager-size { display: inline-flex; align-items: center; gap: var(--space-6); }
+.pager .pager-size .btn { color: var(--foreground); padding: 0 var(--space-8); }
+
+/* ---------- Boards ---------- */
+.board-card-head { display: flex; align-items: center; gap: var(--space-8); min-width: 0; }
+.board-card-head .board-card-title { flex: 1 1 auto; min-width: 0; }
+.board-card-head .btn-icon { width: var(--h-sm); height: var(--h-sm); margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-6)) calc(-1 * var(--space-4)) 0; border-color: transparent; background: transparent; box-shadow: none; border-radius: var(--radius-6); }
+.board-card-head .btn-icon:focus-visible { box-shadow: var(--halo-strong); }
+.board-card-head .btn-icon:hover, .board-card-head .btn-icon[aria-expanded="true"] { background: var(--muted); }
+.board-card-head .btn-icon svg { width: var(--icon-sm); height: var(--icon-sm); }
+.board-card-meta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); font-size: var(--fs-caption); color: var(--muted-foreground); }
+.board-card:focus-within { border-color: var(--border-hover); }
+.board-empty { padding: var(--space-12) var(--space-4); text-align: center; font-size: var(--fs-caption); color: var(--text-faint); }
+
+/* ---------- Narrow widths ----------
+   The kit's grow column takes what the fixed columns leave, which on a phone
+   or a busy list at laptop width can be nothing; it keeps room for a name and
+   the list scrolls sideways instead. */
+.table-wrap > .table th.col-grow, .table-wrap > .table td.col-grow { min-width: 200px; }
+
+/* A primary action that is off but says why stays focusable (aria-disabled)
+   and looks as the kit's disabled button does. */
+.btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+
+/* ---------- Pinned "⋯" column ----------
+   A table wider than its box scrolls sideways. The "⋯" column stays pinned
+   to the right edge so a row's actions are always in reach, and while
+   columns sit under it a hairline and a faint shade mark its left edge.
+   Both are drawn by the pinned cells, so they run the height of the table
+   and stop there: never past the last row, never over the scrollbar.
+
+   The edge follows the scroll position with a scroll-driven animation, no
+   listeners: it fades out over the last 24px before the end, and a table
+   that fits has no scroll range, so it never shows. A browser without
+   scroll-driven animations keeps the pinned column with no edge. */
+@property --pin-line { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --pin-shade { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+/* The pinned cell takes the surface behind the table: the wrap's own
+   background, or the drawer or dialog a bare drawer table sits on. */
+:root { --pin-bg: var(--background); --pin-line-on: var(--border); --pin-shade-on: rgba(31, 30, 28, 0.06); }
+.dark { --pin-shade-on: rgba(0, 0, 0, 0.32); }
+:is(.drawer, .dlg) { --pin-bg: var(--popover); }
+:is(.table-wrap, .list-table-wrap) { --pin-bg: var(--background); }
+
+:is(.table-wrap, .list-table-wrap, .drawer-table-wrap) > .table :is(th, td).col-actions { position: sticky; right: 0; z-index: 1; }
+:is(.table-wrap, .list-table-wrap, .drawer-table-wrap) > .table :is(th, td).col-actions::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 100%;
+  width: var(--space-12);
+  pointer-events: none;
+  background: linear-gradient(to left, var(--pin-shade), transparent);
+  box-shadow: inset -1px 0 0 var(--pin-line);
+}
+/* Content slides under the pinned cell, so it needs a surface. Kept at zero
+   specificity so hover, selected and open rows still colour it with the
+   rest of the row. */
+:where(.table-wrap, .list-table-wrap, .drawer-table-wrap) > :where(.table) > :where(tbody, tfoot) > tr > :where(td.col-actions) { background: var(--pin-bg); }
+.table tbody tr.skeleton-row:hover td.col-actions { background: var(--pin-bg); }
+/* The kit clears header cells in a card; the pinned one needs the card behind it. */
+.card .table thead th.col-actions { background: var(--card); }
+
+/* ---------- Columns the person pins ----------
+   A list's header menu and Display panel pin any column to the left or
+   right edge (DataGrid adds `.is-pin` and the offset, worked out from the
+   widths of the columns pinned before it). The tick boxes stick with the
+   left ones. Each pinned group marks its inner edge exactly as the "⋯"
+   column does: a hairline and a faint shade, drawn by the boundary cells
+   only while columns sit under them. With columns pinned right, their
+   first cell draws the edge and the "⋯" column, now inside the group,
+   draws none. When the pins would leave the scrolling columns too little
+   room (a phone), DataGrid sets data-pins="off" and the offsets to auto:
+   the columns keep their pinned order and scroll with the rest. */
+@property --pin-line-l { syntax: "<color>"; inherits: true; initial-value: transparent; }
+@property --pin-shade-l { syntax: "<color>"; inherits: true; initial-value: transparent; }
+
+.table-wrap > .table :is(th, td).is-pin { position: sticky; z-index: 1; }
+/* Header cells already stick to the top at z-index 1; pinned ones sit over the ones sliding under them. */
+.table-wrap > .table thead th.is-pin { z-index: 2; }
+:where(.table-wrap) > :where(.table) > :where(tbody, tfoot) > tr > :where(td.is-pin) { background: var(--pin-bg); }
+.table tbody tr.skeleton-row:hover td.is-pin { background: var(--pin-bg); }
+.card .table thead th.is-pin { background: var(--card); }
+
+.table-wrap > .table :is(th, td).pin-edge-l::after,
+.table-wrap > .table :is(th, td).pin-edge-r::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--space-12);
+  pointer-events: none;
+}
+.table-wrap > .table :is(th, td).pin-edge-l::after {
+  left: 100%;
+  background: linear-gradient(to right, var(--pin-shade-l), transparent);
+  box-shadow: inset 1px 0 0 var(--pin-line-l);
+}
+.table-wrap > .table :is(th, td).pin-edge-r::before {
+  right: 100%;
+  background: linear-gradient(to left, var(--pin-shade), transparent);
+  box-shadow: inset -1px 0 0 var(--pin-line);
+}
+.table-wrap > .table.has-pin-r:not([data-pins="off"]) :is(th, td).col-actions::before { content: none; }
+.table-wrap > .table[data-pins="off"] :is(th, td).pin-edge-l::after,
+.table-wrap > .table[data-pins="off"] :is(th, td).pin-edge-r::before { content: none; }
+
+@supports (animation-timeline: scroll()) {
+  /* The right edge fades out over the last 24px before the end of the row;
+     the left edge fades in over the first 24px of scrolling. */
+  :is(.table-wrap, .list-table-wrap, .drawer-table-wrap) {
+    scroll-timeline: --table-x x;
+    animation:
+      table-pin-edge auto linear both,
+      table-pin-edge-start auto linear both;
+    animation-timeline: --table-x, --table-x;
+    animation-range: calc(100% - 24px) 100%, 0 24px;
+  }
+}
+@keyframes table-pin-edge {
+  from { --pin-line: var(--pin-line-on); --pin-shade: var(--pin-shade-on); }
+  to { --pin-line: transparent; --pin-shade: transparent; }
+}
+@keyframes table-pin-edge-start {
+  from { --pin-line-l: transparent; --pin-shade-l: transparent; }
+  to { --pin-line-l: var(--pin-line-on); --pin-shade-l: var(--pin-shade-on); }
+}
+
+/* A column just pinned or moved: its content fades in at its new place
+   (opacity only; the cell's surface stays, so nothing shows through). */
+@media (prefers-reduced-motion: no-preference) {
+  .table :is(th, td).dg-col-in > * { animation: dg-col-in var(--dur-quick) var(--ease-out); }
+}
+@keyframes dg-col-in { from { opacity: 0; } }
+
+/* A segmented switch in the toolbar (Table / Board) keeps its options side by
+   side; the kit's wrapping segmented control stacked them when a pinned
+   filter squeezed the row. */
+.list-toolbar .tabs-seg { flex: none; flex-wrap: nowrap; }
+
+/* Views menu: a shared view's mark, the Default mark, and the save dialog's "Who can see it". */
+.view-mark { margin-left: auto; padding-left: var(--space-12); font-size: var(--fs-xs); color: var(--muted-foreground); white-space: nowrap; }
+.view-item-row { display: flex; align-items: center; gap: var(--space-8); min-width: 0; width: 100%; }
+.view-item-row .menu-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.view-item-row svg.view-shared { width: 14px; height: 14px; flex: none; color: var(--muted-foreground); }
+.view-who { display: flex; flex-direction: column; gap: 7px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.view-who > legend { padding: 0; margin-bottom: 7px; font: 500 var(--fs-ui)/1.25 var(--font-sans); color: var(--secondary-foreground); }
+.view-who label.toggle-row { cursor: pointer; }
+.view-who label.toggle-row[aria-disabled] { cursor: not-allowed; }
+.view-who label.toggle-row[aria-disabled] .t { color: var(--muted-foreground); }

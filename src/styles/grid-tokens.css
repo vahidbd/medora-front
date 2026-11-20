@@ -1,0 +1,486 @@
+/* =========================================================
+   Grid UI kit: tokens
+   From Next-Level-Racing/grid v2 @ 801e8d8: colours, shadows, fonts and motion are
+   frontend/src/theme.css as it is; sizes, spacing, type and layout
+   are the values frontend/src/styles.css uses, measured in the running
+   admin. Light on :root; dark on .dark (set by next-themes, which
+   follows the system setting unless the person picks one).
+   Copied from the Grid UI kit's grid-tokens.css; Medora additions are
+   at the end of each block, marked "Medora".
+   ========================================================= */
+:root {
+  color-scheme: light;
+
+  /* Shell */
+  --canvas: #f2f1ee;
+  --canvas-strong: #e9e7e3;
+
+  /* Surfaces */
+  --background: #ffffff;
+  --foreground: #1f1e1c;
+  --card: #ffffff;
+  --card-foreground: #1f1e1c;
+  --heading: #141311;
+  --popover: #ffffff;
+  --popover-foreground: #1f1e1c;
+  --subtle: #faf9f7;
+  --raised: #ffffff;
+
+  /* Brand + interaction */
+  --primary: #1f1e1c;
+  --primary-foreground: #ffffff;
+  --primary-hover: #34322e;
+  --ring: #1f1e1c;
+  --secondary: #f4f3f0;
+  --secondary-foreground: #3d3b37;
+  --muted: #f4f3f0;
+  --muted-foreground: #77746d;
+  --accent: #f4f3f0;
+  --accent-foreground: #1f1e1c;
+  --border: #ebe9e5;
+  --border-strong: #dedbd5;
+  --border-hover: #d2cec7;
+  --input: #e2dfd9;
+  --input-focus: #b8b3ab;
+  --destructive: #d0382b;
+  --destructive-foreground: #ffffff;
+  --destructive-hover: color-mix(in srgb, #d0382b 88%, black);
+
+  /* Text */
+  --text-body: #46443f;
+  --text-subtle: #5f5c56;
+  --icon-color: #6f6c66; /* Medora: the kit names both this colour and the 16px size --icon; the size keeps the name */
+  --text-quiet: #8c8880;
+  --text-faint: #a5a19a;
+  --placeholder: #a19d96;
+  --text-ghost: #b5b1aa;
+
+  /* Controls */
+  --control-border: #cfcbc4;
+  --control-border-hover: #a9a49c;
+  --switch-track: #dcd9d3;
+  --switch-knob: #ffffff;
+  --switch-on: var(--primary);
+  --switch-knob-on: #ffffff;
+  --rule: #d9d6d0;
+  --scrollbar: #d6d2cb;
+  --scrollbar-hover: #bdb8b0;
+  --skeleton: #efede9;
+  --skeleton-shine: #f7f6f3;
+  --code: #1f1e1c;
+  --code-foreground: #f4f3f0;
+
+  /* Sidebar */
+  --sidebar: var(--canvas);
+  --sidebar-foreground: #3d3b37;
+  --sidebar-muted: #8c8880;
+  --sidebar-primary: #1f1e1c;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(31, 30, 28, 0.045);
+  --sidebar-accent-foreground: #1f1e1c;
+  --sidebar-border: #e3e1dc;
+
+  /* Tables */
+  --table-header: var(--background);
+  --table-row: var(--background);
+  --table-row-alt: var(--subtle);
+  --table-row-hover: var(--subtle);
+  --table-separator: var(--border);
+
+  /* Soft status pills */
+  --status-success-bg: #e8f4ec;
+  --status-success-fg: #1d6f43;
+  --status-success-border: #d2eadb;
+  --status-success-dot: #2f9e5f;
+  --status-success-wash: #f1f8f3;
+  --status-warning-bg: #fcf1df;
+  --status-warning-fg: #8f560e;
+  --status-warning-border: #f3e1c1;
+  --status-warning-dot: #e39b2d;
+  --status-warning-wash: #fdf7ec;
+  --status-info-bg: #eaf0fb;
+  --status-info-fg: #2a54b0;
+  --status-info-border: #d7e1f6;
+  --status-info-dot: #4673d6;
+  --status-accent-bg: #f2edfb;
+  --status-accent-fg: #6a3fb5;
+  --status-accent-border: #e3d9f6;
+  --status-accent-dot: #8a5cd6;
+  --status-danger-bg: #fdeceb;
+  --status-danger-fg: #b2261b;
+  --status-danger-border: #f8d6d2;
+  --status-danger-dot: #e0483b;
+  --status-danger-wash: #fdf3f2;
+  --status-neutral-bg: #f1f0ed;
+  --status-neutral-fg: #5f5c56;
+  --status-neutral-border: #e6e4df;
+  --status-neutral-dot: #a5a19a;
+
+  /* AI callouts */
+  --ai-bg: #edf2fc;
+  --ai-border: #d8e2f7;
+  --ai-border-strong: #b9c9ee;
+  --ai-fg: #2a54b0;
+  --rig-from: #3f6fdc;
+  --rig-to: #8a5cd6;
+  --feedback-success: #2f9e5f;
+  --feedback-info: #1f1e1c;
+  --feedback-danger: var(--destructive);
+  --feedback-danger-foreground: var(--destructive-foreground);
+
+  /* Inverse */
+  --inverse: #1f1e1c;
+  --inverse-border: rgba(255, 255, 255, 0.08);
+
+  /* Lines */
+  --hairline: rgba(31, 30, 28, 0.06);
+  --hairline-strong: rgba(31, 30, 28, 0.13);
+  --halo: 0 0 0 3px rgba(31, 30, 28, 0.07);
+  --halo-strong: 0 0 0 3px rgba(31, 30, 28, 0.14);
+  --focus-outline: rgba(31, 30, 28, 0.28);
+  --overlay: rgba(31, 30, 28, 0.22);
+  --overlay-strong: rgba(31, 30, 28, 0.32);
+  --shadow-xs: 0 1px 2px rgba(31, 30, 28, 0.05);
+  --shadow-sm: 0 1px 2px rgba(31, 30, 28, 0.06), 0 1px 3px rgba(31, 30, 28, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(31, 30, 28, 0.08), 0 2px 4px rgba(31, 30, 28, 0.04);
+  --shadow-lg: 0 12px 32px -8px rgba(31, 30, 28, 0.14), 0 4px 8px rgba(31, 30, 28, 0.04);
+  --shadow-xl: 0 24px 64px -12px rgba(31, 30, 28, 0.22), 0 4px 12px rgba(31, 30, 28, 0.06);
+  --shadow-card: 0 1px 2px rgba(31, 30, 28, 0.03);
+  --shadow-raise: 0 1px 2px rgba(31, 30, 28, 0.08);
+  --shadow-pill: 0 1px 2px rgba(31, 30, 28, 0.08), 0 0 0 1px rgba(31, 30, 28, 0.05);
+  --shadow-input: inset 0 1px 1px rgba(31, 30, 28, 0.02);
+  --shadow-knob: 0 1px 2px rgba(31, 30, 28, 0.2);
+  --shadow-primary: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 2px rgba(31, 30, 28, 0.2);
+  --shadow-primary-lg: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 12px -2px rgba(31, 30, 28, 0.3);
+  --shadow-destructive: 0 1px 2px rgba(178, 38, 27, 0.25);
+  --shadow-tip: 0 6px 16px -4px rgba(31, 30, 28, 0.35);
+  --shadow-drawer: 0 18px 48px rgba(31, 30, 28, 0.18);
+  --shadow-float: 0 18px 40px -12px rgba(20, 18, 15, 0.45), 0 4px 12px -2px rgba(20, 18, 15, 0.22), inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Motion */
+  --dur-stagger: 40ms;
+  --dur-micro: 80ms;
+  --dur-quick: 150ms;
+  --dur-fast: 250ms;
+  --dur-medium: 350ms;
+  --dur-slow: 400ms;
+  --dur-very-slow: 500ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-toggle: cubic-bezier(0.34, 1.35, 0.64, 1);
+
+  /* Colours that stay the same in both themes */
+  --feedback-success-foreground: #ffffff;
+  --feedback-info-foreground: #ffffff;
+  --inverse-foreground: #ffffff;
+  --inverse-soft: rgba(255, 255, 255, 0.88);
+  --inverse-muted: rgba(255, 255, 255, 0.78);
+  --inverse-hover: rgba(255, 255, 255, 0.12);
+  --inverse-active: rgba(255, 255, 255, 0.2);
+  --inverse-danger: #ffb4a8;
+  --inverse-warn: #ff9d8f;
+  --inverse-dot: #f5b84a;
+  --inverse-primary: #ffffff;
+  --inverse-primary-foreground: #1f1e1c;
+  --inverse-primary-hover: #efede8;
+  --inverse-kbd: #f2f1ee;
+  --inverse-kbd-foreground: #8a857d;
+  --media-stage: #111111;
+  --media-scrim: rgba(0, 0, 0, 0.62);
+  --on-media: #ffffff;
+  --on-media-soft: rgba(255, 255, 255, 0.85);
+  --on-media-faint: #bbbbbb;
+  --site-button: #000000;
+  --site-button-foreground: #ffffff;
+  --site-theme-dark: #000000;
+  --site-theme-dark-foreground: #ffffff;
+  --site-theme-light: #ffffff;
+  --site-theme-light-foreground: #000000;
+  --site-theme-red: #e10600;
+  --site-theme-red-foreground: #ffffff;
+  --site-theme-grey: #f2f2f2;
+  --site-theme-grey-foreground: #000000;
+  --tick-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='2.5 6.2 5 8.7 9.5 3.5'/%3E%3C/svg%3E");
+
+  /* ---------- Type ---------- */
+  --fs-writer: 40px; /* Writer title: The full-page writer's title */
+  --fs-display: 30px; /* Display: Page title (1.15) and editor title (1.2); stat values at 400 */
+  --fs-display-phone: 24px; /* Display, phone: Page and editor titles at 760px and below */
+  --fs-heading: 20px; /* Heading: Rig's greeting in the side panel */
+  --fs-lg: 17px; /* Large: Sidebar's Grid name; confirm dialog and media picker titles */
+  --fs-input-lg: 16px; /* Large input: ⌘K's search box and Rig's composer */
+  --fs-title: 16px; /* Title: Card, dialog and drawer titles; the second rail's title */
+  --fs-lead: 15px; /* Lead: A page's description under its title */
+  --fs-tab: 14.5px; /* Tab: Underline tabs (500 when active) */
+  --fs-body: 14px; /* Body: Everything by default: rows, inputs, buttons, menus, breadcrumbs */
+  --fs-ui: 13.5px; /* UI: Field labels (500), segmented tabs, filter pills, notices, dialog subtitles, save bar */
+  --fs-sm: 13px; /* Small: Card subtitles, card and dialog footers, small buttons, stat footers, mono codes */
+  --fs-caption: 12.5px; /* Caption: Helper text, a row's second line, badges and tags (500) */
+  --fs-xs: 12px; /* Extra small: Tooltips (500), small badges, ⌘K footer, sidebar counts */
+  --fs-overline: 11.5px; /* Overline: Table headers, stat labels (500, 0.07em), ⌘K group labels; uppercase */
+  --fs-micro: 11px; /* Micro: Editor rail group labels (uppercase), key hints */
+  --fs-tiny: 10.5px; /* Tiny (mono): Section numbers in the editor rail; the logo's letters (700) */
+  --lh-tight: 1.15;
+  --lh-title: 1.2;
+  --lh-snug: 1.35;
+  --lh-body: 1.45;
+  --lh-relaxed: 1.55;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --ls-display: -0.025em;
+  --ls-title: -0.015em;
+  --ls-stat: -0.03em;
+  --ls-overline: 0.06em;
+
+  /* ---------- Spacing: a 2px grid ---------- */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-56: 56px;
+  --page-x: 40px; /* Page side padding. 28px at 1100px and below, 16px on a phone (see Gaps found). */
+  --page-top: 18px; /* Space from the topbar to the page title */
+  --page-bottom: 56px; /* Space after the page's last block */
+  --canvas-inset: 10px; /* Canvas showing around the main panel, Rig's panel and drawers */
+  --card-pad: 24px; /* Inside every card: head, body, foot and a table's first and last column */
+  --box-pad: 16px; /* Inside a bordered box in a card: toggle rows, list tables, price grids */
+  --field-label-h: 20px; /* A field's label row, with or without an action beside the label */
+  --field-gap: 7px; /* Label row to input, and input to helper text */
+  --stack-fields: 16px; /* Between fields, and between side-by-side fields */
+  --stack-sections: 20px; /* Between an editor's section cards */
+  --cell-px: 14px; /* Table cell side padding (24 at a card's edge, 16 in a box) */
+
+  /* ---------- Sizes ---------- */
+  --h-check: 16px; /* Checkbox, radio, switch knob */
+  --h-xs: 20px; /* Small badge, key hint, switch track, a field's label row */
+  --h-sm: 24px; /* Badge, tag, AI Suggest, close button of a notice, small avatar */
+  --h-28: 28px; /* Text-editor buttons, language tabs, ⌘K chips, segmented tabs (small) */
+  --h-btn-sm: 30px; /* Small button, dialog close, logo, sidebar collapse */
+  --h-seg: 32px; /* A tab inside segmented tabs; small thumbnail; drawer close */
+  --h-row: 34px; /* Sidebar row, menu row, editor rail item, icon button, save bar button */
+  --h-control: 36px; /* Button, input, select, search box, filter pill, sidebar search */
+  --h-th: 42px; /* Table header row, ⌘K row, the review line */
+  --h-tab: 44px; /* Underline tab */
+  --h-tr-drawer: 44px; /* Row of a table in a drawer */
+  --h-bar: 48px; /* Save bar (34px buttons in 7px padding) */
+  --h-tr-list: 56px; /* Row of a list table in a box (ListEditor) */
+  --h-cmdk-input: 56px; /* ⌘K's input row; the phone topbar */
+  --h-tr: 60px; /* Table row */
+  --topbar-h: 64px; /* Topbar and Rig panel header */
+  --icon-sm: 14px;
+  --icon: 16px;
+  --icon-nav: 17px;
+  --icon-lg: 18px;
+
+  /* ---------- Radii ---------- */
+  --radius-xs: 5px;
+  --radius-6: 6px;
+  --radius-chip: 7px;
+  --radius-sm: 8px;
+  --radius-9: 9px;
+  --radius-md: 10px;
+  --radius: 12px;
+  --radius-float: 14px;
+  --radius-lg: 16px;
+  --radius-panel: 18px;
+  --radius-full: 999px;
+
+  /* ---------- Layout ---------- */
+  --sidebar-w: 256px; /* Sidebar at full width */
+  --sidebar-narrow-w: 68px; /* Sidebar minimised to icons */
+  --sidebar-rail-w: 232px; /* A group's second rail */
+  --sidebar-open-w: 300px; /* Icons + second rail (68 + 232) */
+  --phone-drawer-w: 288px; /* Sidebar drawer on a phone (at most 100vw - 48px) */
+  --rig-w: 420px; /* Rig's side panel: 420 by default, dragged between 340 and 680, never over 45vw */
+  --topbar-h-phone: 56px; /* Topbar on a phone */
+  --editor-rail-w: 220px; /* An editor's section rail */
+  --editor-gap: 32px; /* Rail to form */
+  --editor-sticky-top: 24px; /* Where the rail sticks, and where a section lands when jumped to */
+  --search-w: 320px; /* A list's search box */
+  --menu-min-w: 200px; /* Menus are at least this wide */
+  --dialog-w: 480px; /* Dialog default (confirm dialogs 420, wide ones 520, 760 and 1120) */
+  --confirm-w: 420px; /* Confirm dialog */
+  --drawer-w: 560px; /* Drawer default (used at 440 to 760) */
+  --cmdk-w: 640px; /* ⌘K command bar */
+  --save-bar-max: 720px; /* Save bar's widest */
+  --save-alert-w: 360px; /* Save notice */
+  --tooltip-max: 280px; /* Tooltip's widest */
+
+  /* ---------- Layers ---------- */
+  --z-sticky: 1;
+  --z-save-bar: 30;
+  --z-scrim: 55;
+  --z-nav-drawer: 56;
+  --z-rig-phone: 57;
+  --z-overlay: 60;
+  --z-cmdk: 1000;
+  --z-popover: 1100;
+  --z-toast: 1200;
+  --z-keyhint: 1250;
+  --z-tooltip: 1300;
+  /* ---------- Medora additions ---------- */
+  /* Chart palette (eight series colours, built from the status dots). */
+  --chart-1: #4673d6;
+  --chart-2: #2f9e5f;
+  --chart-3: #e39b2d;
+  --chart-4: #8a5cd6;
+  --chart-5: #e0483b;
+  --chart-6: #2a9d9a;
+  --chart-7: #a5a19a;
+  --chart-8: #c2588f;
+  --sidebar-ring: var(--ring);
+  /* Medora: the 2px edge a nav row or tab draws on keyboard focus, inside
+     lists that scroll and would clip the 3px halo. grid-tokens-aa.css sets
+     it to the halo's own colour. */
+  --focus-edge: var(--ring);
+
+}
+
+/* Breakpoints (media queries can't read variables): 640px Small phone; 760px Phone; 900px Profile rows stack their label; 1100px page-x 28px; stat strips go two across; 1240px Wide tables scroll inside their box; 1440px With Rig's panel open; 1680px With Rig's panel open. */
+@media (max-width: 1100px) { :root { --page-x: 28px; } }
+@media (max-width: 760px) { :root { --page-x: 16px; --topbar-h: 56px; } }
+
+/* Dark: the same warm greys, turned down. Only colours change.
+   next-themes resolves "system" and sets .dark on <html>, so one scope covers both. */
+.dark {
+  color-scheme: dark;
+  --canvas: #111110;
+  --canvas-strong: #1a1918;
+  --background: #1b1a18;
+  --foreground: #e8e6e1;
+  --card: #1b1a18;
+  --card-foreground: #e8e6e1;
+  --heading: #f7f6f3;
+  --popover: #232220;
+  --popover-foreground: #e8e6e1;
+  --subtle: #201f1d;
+  --raised: #34332f;
+  --primary: #ecebe7;
+  --primary-foreground: #1b1a18;
+  --primary-hover: #ffffff;
+  --ring: #ecebe7;
+  --secondary: #272624;
+  --secondary-foreground: #cac6bf;
+  --muted: #272624;
+  --muted-foreground: #9c988f;
+  --accent: #272624;
+  --accent-foreground: #e8e6e1;
+  --border: #2d2c29;
+  --border-strong: #3a3835;
+  --border-hover: #4a4844;
+  --input: #383633;
+  --input-focus: #6a6762;
+  --destructive: #e5534b;
+  --destructive-foreground: #ffffff;
+  --destructive-hover: color-mix(in srgb, #e5534b 88%, white);
+  --text-body: #c2beb6;
+  --text-subtle: #aaa69e;
+  --icon-color: #9c988f;
+  --text-quiet: #86827b;
+  --text-faint: #75716a;
+  --placeholder: #75716a;
+  --text-ghost: #5f5c57;
+  --control-border: #55524d;
+  --control-border-hover: #77736c;
+  --switch-track: #3d3b38;
+  --switch-knob: #c9c5be;
+  --switch-knob-on: #1b1a18;
+  --rule: #3a3835;
+  --scrollbar: #3d3b38;
+  --scrollbar-hover: #55524d;
+  --skeleton: #252422;
+  --skeleton-shine: #2f2e2b;
+  --code: #0f0f0e;
+  --code-foreground: #e8e6e1;
+  --sidebar-foreground: #cac6bf;
+  --sidebar-muted: #7f7b74;
+  --sidebar-primary: #ecebe7;
+  --sidebar-primary-foreground: #1b1a18;
+  --sidebar-accent: rgba(255, 255, 255, 0.05);
+  --sidebar-accent-foreground: #f2f1ee;
+  --sidebar-border: #2a2927;
+  --status-success-bg: #14291c;
+  --status-success-fg: #6dc794;
+  --status-success-border: #1f3d2a;
+  --status-success-dot: #3fb871;
+  --status-success-wash: #16231b;
+  --status-warning-bg: #2e2313;
+  --status-warning-fg: #ebb15e;
+  --status-warning-border: #4a381c;
+  --status-warning-dot: #e8a23a;
+  --status-warning-wash: #251f16;
+  --status-info-bg: #17223a;
+  --status-info-fg: #94b2f3;
+  --status-info-border: #24365e;
+  --status-info-dot: #5d88e6;
+  --status-accent-bg: #241c37;
+  --status-accent-fg: #bc9df1;
+  --status-accent-border: #382b5c;
+  --status-accent-dot: #9d74e2;
+  --status-danger-bg: #331817;
+  --status-danger-fg: #f2938a;
+  --status-danger-border: #522724;
+  --status-danger-dot: #e8584e;
+  --status-danger-wash: #2a1a19;
+  --status-neutral-bg: #272624;
+  --status-neutral-fg: #b3afa7;
+  --status-neutral-border: #353330;
+  --status-neutral-dot: #7d7972;
+  --ai-bg: #172139;
+  --ai-border: #263961;
+  --ai-border-strong: #3a5390;
+  --ai-fg: #94b2f3;
+  --rig-from: #5d88e6;
+  --rig-to: #a27ce6;
+  --feedback-success: #3fb871;
+  --feedback-info: #34332f;
+  --inverse: #34332f;
+  --inverse-border: rgba(255, 255, 255, 0.1);
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.16);
+  --halo: 0 0 0 3px rgba(236, 235, 231, 0.12);
+  --halo-strong: 0 0 0 3px rgba(236, 235, 231, 0.22);
+  --focus-outline: rgba(236, 235, 231, 0.5);
+  --overlay: rgba(0, 0, 0, 0.5);
+  --overlay-strong: rgba(0, 0, 0, 0.6);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.32), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.45), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-xl: 0 24px 64px -12px rgba(0, 0, 0, 0.7), 0 4px 12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-raise: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-pill: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-input: inset 0 1px 1px rgba(0, 0, 0, 0.12);
+  --shadow-knob: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-primary: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-primary-lg: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 4px 12px -2px rgba(0, 0, 0, 0.55);
+  --shadow-destructive: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-tip: 0 6px 16px -4px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-drawer: 0 18px 48px rgba(0, 0, 0, 0.6);
+  --shadow-float: 0 18px 40px -12px rgba(0, 0, 0, 0.7), 0 4px 12px -2px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  /* ---------- Medora additions ---------- */
+  --chart-1: #5d88e6;
+  --chart-2: #3fb871;
+  --chart-3: #e8a23a;
+  --chart-4: #9d74e2;
+  --chart-5: #e8584e;
+  --chart-6: #3bb3ae;
+  --chart-7: #7d7972;
+  --chart-8: #d872a6;
+
+}
