@@ -19,17 +19,54 @@ export const STARTING_ROLES = [
   "compliance",
 ];
 export const CLINICAL_ROLES = new Set(["prescriber", "clinician", "medical_director"]);
-export const PERMISSIONS = ["staff:read", "staff:manage", "roles:manage", "break_glass:review", "tenant:manage", "brands:manage"];
-export const PERMISSION_ZONES = Object.fromEntries(PERMISSIONS.map((key) => [key, "platform"]));
-
+/** As the API's PERMISSION_ZONES (src/lib/permissions.ts), in the API's order: a clinical one needs a clinical role or break-glass. */
+export const PERMISSION_ZONES = {
+  "staff:read": "platform",
+  "staff:manage": "platform",
+  "roles:manage": "platform",
+  "break_glass:review": "platform",
+  "patients:read": "operational",
+  "patients:manage": "operational",
+  "consents:manage": "platform",
+  "patients:verify_identity": "operational",
+  "protocols:read": "operational",
+  "protocols:manage": "operational",
+  "protocols:sign_off": "clinical",
+  "programs:manage": "operational",
+  "intakes:read": "clinical",
+  "tenant:manage": "platform",
+  "brands:manage": "platform",
+};
+export const PERMISSIONS = Object.keys(PERMISSION_ZONES);
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
 export const ROLE_PERMISSIONS = {
   owner: [...PERMISSIONS],
-  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage"],
-  medical_director: ["staff:read", "break_glass:review"],
-  prescriber: ["staff:read"],
-  clinician: ["staff:read"],
-  support: ["staff:read"],
+  admin: [
+    "staff:read",
+    "staff:manage",
+    "roles:manage",
+    "tenant:manage",
+    "brands:manage",
+    "patients:read",
+    "patients:manage",
+    "consents:manage",
+    "protocols:read",
+    "programs:manage",
+  ],
+  medical_director: [
+    "staff:read",
+    "break_glass:review",
+    "patients:read",
+    "patients:verify_identity",
+    "protocols:read",
+    "protocols:manage",
+    "protocols:sign_off",
+    "programs:manage",
+    "intakes:read",
+  ],
+  prescriber: ["staff:read", "patients:read", "protocols:read", "intakes:read"],
+  clinician: ["staff:read", "patients:read", "protocols:read", "intakes:read"],
+  support: ["staff:read", "patients:read", "patients:manage"],
   finance: ["staff:read"],
   operations: ["staff:read"],
   marketing: ["staff:read"],
@@ -125,13 +162,6 @@ export const memberships = [
   member(coastal, person(7), "morgan.brooks@example.test", "Morgan Brooks", "owner"),
   member(coastal, person(8), "taylor.reid@example.test", "Taylor Reid", "clinician"),
 ];
-
-/**
- * Break-glass. No clinical permission exists yet, so the real API offers
- * break-glass to nobody until a module adds one. Preview pretends the
- * owner's role at Harbour holds one, so its screens can be seen and tested.
- */
-export const PRETEND_BREAK_GLASS = new Set([`${harbour}:owner`]);
 
 export const breakGlass = [
   {
