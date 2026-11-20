@@ -35,6 +35,27 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A patient's ongoing goals, check-ins and reviews | **Care plan** | journey, treatment plan |
 | A clinical record of a consult or review | **Note** | encounter, chart entry |
 
+## Money
+
+| Thing | We call it | Never |
+| --- | --- | --- |
+| A company that moves card payments: Stripe or eWAY | **Processor** | gateway, PSP, provider (in code) |
+| A tenant's connection to one processor | **Payment account** | merchant account, integration |
+| A patient's saved card, held by the processor as a token | **Payment method** | card on file, source |
+| What a program costs and how often it is charged | **Price** | plan, rate, tier |
+| A patient's recurring billing for a program | **Subscription** | plan, membership, recurring order |
+| The time from one renewal of a subscription to the next | **Billing period** | cycle, term |
+| Who charges the patient for the medicine: bundled or pharmacy-billed (ADR 0021) | **Billing model** | payment model |
+| What a fee is for: consult, program, medicine or shipping | **Fee kind** | fee type, category |
+| The part of a bundled medicine price that belongs to the partner pharmacy | **Pharmacy share** | cost, wholesale price |
+| The tax invoice for what a patient owes | **Invoice** | bill, statement |
+| One attempt to take money for an invoice | **Payment** | charge, transaction |
+| Money given back to a patient | **Refund** | reversal, chargeback |
+| An amount held for a patient, used against later invoices | **Credit** | voucher, store credit |
+| The record of every money movement, as entries whose lines sum to zero | **Ledger** | journal, books |
+| One money movement in the ledger | **Ledger entry** | posting, transaction |
+| A ledger entry that undoes another, line by line | **Reversal** | correction, void |
+
 ## Platform
 
 | Thing | We call it | Never |
