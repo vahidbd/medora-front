@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Building2, Globe, House, Landmark, Settings, ShieldAlert, ShieldCheck, Store, UsersRound } from "lucide-react";
+import { Building2, ClipboardList, FileCheck2, Globe, House, Landmark, Layers, Settings, ShieldAlert, ShieldCheck, Store, Users, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -14,6 +14,8 @@ export type NavItem = {
   crumb?: string;
   /** Other words that find it in ⌘K. */
   keywords?: string[];
+  /** Its records are people: the browser tab's title leaves the record's name out, since browsers keep titles in their history. */
+  privateRecords?: boolean;
 };
 
 export type NavGroup = {
@@ -43,6 +45,19 @@ export const navigation: NavGroup[] = [
     items: [{ title: "Home", href: "/home", icon: House }],
   },
   {
+    label: "Patients",
+    icon: Users,
+    items: [{ title: "Patients", href: "/patients", icon: Users, permission: "patients:read", keywords: ["Identity", "Consents", "Intakes", "IHI"], privateRecords: true }],
+  },
+  {
+    label: "Care",
+    icon: ClipboardList,
+    items: [
+      { title: "Protocols", href: "/protocols", icon: ClipboardList, permission: "protocols:read", keywords: ["Questions", "Rules", "Sign-off", "Hard stops", "Red flags"] },
+      { title: "Programs", href: "/programs", icon: Layers, keywords: ["Check-ins", "Measurements", "Go live"] },
+    ],
+  },
+  {
     label: "Workspace",
     icon: Settings,
     gapBefore: true,
@@ -52,6 +67,7 @@ export const navigation: NavGroup[] = [
       { title: "Break-glass", href: "/break-glass", icon: ShieldAlert, permission: "break_glass:review", keywords: ["Reviews"] },
       { title: "Brands", href: "/brands", icon: Store, keywords: ["Domains", "Go live", "Pause"] },
       { title: "Companies", href: "/companies", icon: Landmark, keywords: ["ABN", "Legal entity"] },
+      { title: "Consent documents", href: "/consent-documents", icon: FileCheck2, permission: "patients:read", keywords: ["Privacy", "Terms", "Publish"] },
       { title: "Settings", href: "/settings", icon: Settings, keywords: ["Time zone", "Onboarding", "Tenant name"] },
     ],
   },
