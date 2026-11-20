@@ -44,6 +44,7 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A clinical, operational, marketing or platform schema and what may touch it | **Data zone** | domain, area |
 | A row in `platform.audit_log` | **Audit entry** | log, history |
 | A fact written to the outbox for others to react to | **Event** | message, notification, webhook |
+| An outside service's signed call to Medora saying something happened on its side (a call ended, a script was written) | **Webhook** | callback, hook, notification, event |
 | A setting that switches unfinished work on or off | **Feature flag** | toggle, switch |
 
 ## Who is who in these docs

@@ -28,5 +28,7 @@ Prefixes are unique across both repos, so this table lists both.
 | --- | --- | --- | --- |
 | FND | `foundation.md` | `medora-backend` | The platform foundation: tenancy, sign-in, audit, health checks |
 | CON | `console.md` | `medora-front` | The staff console: sign-in gate, tenant switch, shell, page security, preview mode |
+| WHK | `webhooks.md` | `medora-backend` | The one webhook inbox: storing, processing once, retries |
+| TEL | `telephony.md` | `medora-backend` | Phone and SMS through Twilio's Australian region |
 
 Add a row in both repos when you add a file. A prefix is two to four capital letters and is never reused.
