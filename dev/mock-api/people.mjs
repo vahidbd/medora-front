@@ -19,16 +19,26 @@ export const STARTING_ROLES = [
   "compliance",
 ];
 export const CLINICAL_ROLES = new Set(["prescriber", "clinician", "medical_director"]);
-export const PERMISSIONS = ["staff:read", "staff:manage", "roles:manage", "break_glass:review", "tenant:manage", "brands:manage"];
-export const PERMISSION_ZONES = Object.fromEntries(PERMISSIONS.map((key) => [key, "platform"]));
+export const PERMISSIONS = [
+  "staff:read",
+  "staff:manage",
+  "roles:manage",
+  "break_glass:review",
+  "adherence:read",
+  "adherence:resolve",
+  "tenant:manage",
+  "brands:manage",
+];
+const CLINICAL_PERMISSIONS = new Set(["adherence:read", "adherence:resolve"]);
+export const PERMISSION_ZONES = Object.fromEntries(PERMISSIONS.map((key) => [key, CLINICAL_PERMISSIONS.has(key) ? "clinical" : "platform"]));
 
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
 export const ROLE_PERMISSIONS = {
   owner: [...PERMISSIONS],
   admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage"],
-  medical_director: ["staff:read", "break_glass:review"],
-  prescriber: ["staff:read"],
-  clinician: ["staff:read"],
+  medical_director: ["staff:read", "break_glass:review", "adherence:read", "adherence:resolve"],
+  prescriber: ["staff:read", "adherence:read", "adherence:resolve"],
+  clinician: ["staff:read", "adherence:read", "adherence:resolve"],
   support: ["staff:read"],
   finance: ["staff:read"],
   operations: ["staff:read"],
@@ -127,12 +137,11 @@ export const memberships = [
 ];
 
 /**
- * Break-glass. No clinical permission exists yet, so the real API offers
- * break-glass to nobody until a module adds one. Preview pretends the
- * owner's role at Harbour holds one, so its screens can be seen and tested.
+ * Break-glass (ADR 0220): a role that holds clinical permissions but isn't
+ * clinical, such as the owner, uses them only while break-glass is open.
+ * Harbour's preview owner is one; at Coastal the preview person is a
+ * clinician and needs none.
  */
-export const PRETEND_BREAK_GLASS = new Set([`${harbour}:owner`]);
-
 export const breakGlass = [
   {
     breakGlassId: "40000000-0000-4000-8000-000000000001",

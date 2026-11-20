@@ -102,6 +102,330 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/adherence/flags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant’s adherence flags: open ones urgent first, then oldest; resolved ones newest first */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                    status?: "open" | "resolved";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            adherenceFlags: {
+                                /** Format: uuid */
+                                adherenceFlagId: string;
+                                /** @enum {string} */
+                                kind: "side_effect_reported";
+                                /** Format: uuid */
+                                patientId: string;
+                                patientName: string;
+                                /** Format: date-time */
+                                raisedAt: string;
+                                /** Format: uuid */
+                                reopenedFromId: string | null;
+                                resolution: {
+                                    /** @enum {string} */
+                                    outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                                    /** Format: date-time */
+                                    resolvedAt: string;
+                                    resolvedBy: {
+                                        displayName: string | null;
+                                        /** Format: uuid */
+                                        userId: string;
+                                    };
+                                } | null;
+                                /** Format: uuid */
+                                sideEffectId: string | null;
+                                /** @enum {string} */
+                                status: "open" | "resolved";
+                                /** @enum {string} */
+                                urgency: "urgent" | "soon" | "routine";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/adherence/flags/{adherenceFlagId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** An adherence flag, with its resolution and the one it reopens */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    adherenceFlagId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            adherenceFlagId: string;
+                            /** @enum {string} */
+                            kind: "side_effect_reported";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** Format: date-time */
+                            raisedAt: string;
+                            /** Format: uuid */
+                            reopenedAsId: string | null;
+                            reopenedFrom: {
+                                note: string | null;
+                                /** @enum {string} */
+                                outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                                /** Format: date-time */
+                                resolvedAt: string;
+                                resolvedBy: {
+                                    displayName: string | null;
+                                    /** Format: uuid */
+                                    userId: string;
+                                };
+                            } | null;
+                            /** Format: uuid */
+                            reopenedFromId: string | null;
+                            resolution: {
+                                note: string | null;
+                                /** @enum {string} */
+                                outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                                /** Format: date-time */
+                                resolvedAt: string;
+                                resolvedBy: {
+                                    displayName: string | null;
+                                    /** Format: uuid */
+                                    userId: string;
+                                };
+                            } | null;
+                            /** Format: uuid */
+                            sideEffectId: string | null;
+                            /** @enum {string} */
+                            status: "open" | "resolved";
+                            /** @enum {string} */
+                            urgency: "urgent" | "soon" | "routine";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/adherence/flags/{adherenceFlagId}/reopen": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Undo a mistaken resolution: a new open adherence flag for the same cause, linked to the resolved one */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    adherenceFlagId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            adherenceFlagId: string;
+                            /** @enum {string} */
+                            kind: "side_effect_reported";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** Format: date-time */
+                            raisedAt: string;
+                            /** Format: uuid */
+                            reopenedAsId: string | null;
+                            reopenedFrom: {
+                                note: string | null;
+                                /** @enum {string} */
+                                outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                                /** Format: date-time */
+                                resolvedAt: string;
+                                resolvedBy: {
+                                    displayName: string | null;
+                                    /** Format: uuid */
+                                    userId: string;
+                                };
+                            } | null;
+                            /** Format: uuid */
+                            reopenedFromId: string | null;
+                            resolution: {
+                                note: string | null;
+                                /** @enum {string} */
+                                outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                                /** Format: date-time */
+                                resolvedAt: string;
+                                resolvedBy: {
+                                    displayName: string | null;
+                                    /** Format: uuid */
+                                    userId: string;
+                                };
+                            } | null;
+                            /** Format: uuid */
+                            sideEffectId: string | null;
+                            /** @enum {string} */
+                            status: "open" | "resolved";
+                            /** @enum {string} */
+                            urgency: "urgent" | "soon" | "routine";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/adherence/flags/{adherenceFlagId}/resolve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Resolve an open adherence flag with what was done */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    adherenceFlagId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        note?: string | null;
+                        /** @enum {string} */
+                        outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            adherenceFlagId: string;
+                            /** @enum {string} */
+                            kind: "side_effect_reported";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** Format: date-time */
+                            raisedAt: string;
+                            /** Format: uuid */
+                            reopenedAsId: string | null;
+                            reopenedFrom: {
+                                note: string | null;
+                                /** @enum {string} */
+                                outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                                /** Format: date-time */
+                                resolvedAt: string;
+                                resolvedBy: {
+                                    displayName: string | null;
+                                    /** Format: uuid */
+                                    userId: string;
+                                };
+                            } | null;
+                            /** Format: uuid */
+                            reopenedFromId: string | null;
+                            resolution: {
+                                note: string | null;
+                                /** @enum {string} */
+                                outcome: "contacted_patient" | "booked_review" | "referred_to_prescriber" | "no_action_needed";
+                                /** Format: date-time */
+                                resolvedAt: string;
+                                resolvedBy: {
+                                    displayName: string | null;
+                                    /** Format: uuid */
+                                    userId: string;
+                                };
+                            } | null;
+                            /** Format: uuid */
+                            sideEffectId: string | null;
+                            /** @enum {string} */
+                            status: "open" | "resolved";
+                            /** @enum {string} */
+                            urgency: "urgent" | "soon" | "routine";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/brands": {
         parameters: {
             query?: never;
@@ -1111,7 +1435,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -4629,13 +4953,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -4644,7 +4968,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage")[];
                             }[];
                         };
                     };
@@ -4667,7 +4991,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage")[];
                     };
                 };
             };
@@ -4687,7 +5011,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -4754,7 +5078,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage")[];
                     };
                 };
             };
@@ -4774,7 +5098,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "adherence:read" | "adherence:resolve" | "tenant:manage" | "brands:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -4782,6 +5106,59 @@ export type paths = {
                 };
             };
         };
+        trace?: never;
+    };
+    "/v1/side-effects/{sideEffectId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A side effect report, in the patient’s words */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    sideEffectId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            checkInId: string | null;
+                            description: string;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: date-time */
+                            reportedAt: string;
+                            /** @enum {string} */
+                            reportedBy: "patient" | "care_team";
+                            /** @enum {string} */
+                            severity: "mild" | "moderate" | "severe";
+                            /** Format: uuid */
+                            sideEffectId: string;
+                            startedOn: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/v1/staff": {

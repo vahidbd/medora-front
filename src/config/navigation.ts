@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Building2, Globe, House, Landmark, Settings, ShieldAlert, ShieldCheck, Store, UsersRound } from "lucide-react";
+import { Building2, Flag, Globe, HeartPulse, House, Landmark, Settings, ShieldAlert, ShieldCheck, Store, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -41,6 +41,20 @@ export const navigation: NavGroup[] = [
     icon: House,
     topLevel: true,
     items: [{ title: "Home", href: "/home", icon: House }],
+  },
+  {
+    label: "Care",
+    icon: HeartPulse,
+    gapBefore: true,
+    items: [
+      {
+        title: "Adherence flags",
+        href: "/adherence-flags",
+        icon: Flag,
+        permission: "adherence:read",
+        keywords: ["Side effects", "Urgent", "Care team"],
+      },
+    ],
   },
   {
     label: "Workspace",

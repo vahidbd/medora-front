@@ -5,7 +5,8 @@
  * reset on every start. No dependencies, so it runs anywhere Node does.
  * Each area's routes live in their own file: staff.mjs, tenant-setup.mjs,
  * patient.mjs for the brands and the patient's own routes, tracking.mjs
- * for what patients record, and adherence.mjs for adherence.
+ * for what patients record, and adherence.mjs for the app-opened call and
+ * the care team's adherence flags.
  *
  * It answers the way the API does (contract/openapi.json in the backend):
  * the same shapes, the same error envelope, the tenant in the
@@ -35,7 +36,7 @@ const routes = [
   ...patientRoutes({ send, fail, readJson }),
   ...trackingRoutes({ send, fail, readJson }),
   ...tenantSetupRoutes,
-  ...adherenceRoutes({ send, fail }),
+  ...adherenceRoutes({ send, fail, readJson }),
 ];
 
 const server = createServer(async (req, res) => {

@@ -75,6 +75,16 @@ export type NotificationPreferences = Reply<"/v1/patient/notification-preference
 
 /** The patient's calendar day an app opening counted for (docs/decisions/adherence.md ADH2 in medora-backend). */
 export type AppOpened = Reply<"/v1/patient/activity/app-opened", "post">;
+
+/** The care team's adherence flags, and the report that raised one (docs/decisions/adherence.md ADH9, ADH10 in medora-backend). */
+export type AdherenceFlag = Reply<"/v1/adherence/flags", "get">["adherenceFlags"][number];
+export type AdherenceFlagStatus = AdherenceFlag["status"];
+export type AdherenceFlagUrgency = AdherenceFlag["urgency"];
+export type AdherenceFlagKind = AdherenceFlag["kind"];
+export type AdherenceFlagDetail = Reply<"/v1/adherence/flags/{adherenceFlagId}", "get">;
+export type AdherenceFlagResolution = RequestBody<"/v1/adherence/flags/{adherenceFlagId}/resolve", "post">;
+export type AdherenceFlagOutcome = AdherenceFlagResolution["outcome"];
+export type CareTeamSideEffect = Reply<"/v1/side-effects/{sideEffectId}", "get">;
 /** A tenant's set-up (docs/decisions/admin.md ADM14 to ADM20). */
 export type TenantSettings = Reply<"/v1/tenant", "get">;
 export type TenantSettingsChange = RequestBody<"/v1/tenant", "patch">;
