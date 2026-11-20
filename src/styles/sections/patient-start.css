@@ -40,6 +40,19 @@
 .st-number .input { flex: none; width: 160px; }
 .st-unit { font-size: var(--fs-ui); color: var(--muted-foreground); }
 .st-date { max-width: 220px; }
+.st-mobile { max-width: 220px; }
+.st-name { max-width: 420px; }
+
+/* Checking the answers: each step's answers as a list, with a way to change them. */
+.st-review { display: flex; flex-direction: column; gap: var(--space-8); padding-top: var(--space-16); border-top: 1px solid var(--border); }
+.st-review-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-12); }
+.st-review-title { font-size: var(--fs-body); font-weight: 600; color: var(--heading); }
+.st-review-list { display: flex; flex-direction: column; gap: var(--space-8); margin: 0; }
+.st-review-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-12); font-size: var(--fs-ui); line-height: var(--lh-body); }
+.st-review-row dt { color: var(--muted-foreground); }
+.st-review-row dd { margin: 0; color: var(--foreground); overflow-wrap: anywhere; white-space: pre-line; }
+.st-sent-icon { color: var(--status-success-fg); }
+
 /* Urgent help's numbers are links, and look it on the danger note. */
 .st-message .pt-note a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 
@@ -47,4 +60,5 @@
   /* Continue first, as it is in the page's order, then Back. */
   .st-step-actions { flex-direction: column; align-items: stretch; }
   .st-step-actions .btn { width: 100%; }
+  .st-review-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
 }

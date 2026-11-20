@@ -12,12 +12,15 @@ import { ConfirmDateOfBirth } from "./confirm-date-of-birth";
 import { BrandRow, PatientShell } from "./patient-shell";
 import { usePatientSignOut } from "./sign-out";
 import { usePatientMe } from "./use-patient";
+import { useClaimHeld } from "./start/use-claim";
 import "@/styles/sections/patient.css";
 
 /**
  * What has to be true before a patient sees their care: Clerk has a
  * session, the API knows them as a patient of this brand's tenant, and
- * this sign-in has confirmed their date of birth (ADR 0100).
+ * this sign-in has confirmed their date of birth (ADR 0100). Then what
+ * this browser started before signing in becomes theirs (JOIN12), without
+ * holding up the page.
  *
  * No session goes to sign-in. A session the API has no patient record for
  * is a sign-up that hasn't finished (APP7): it is not sent back to sign
@@ -29,6 +32,7 @@ export function PatientGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { isLoaded, isSignedIn } = useAuth();
   const me = usePatientMe(isLoaded && isSignedIn === true);
+  useClaimHeld(me.isSuccess);
   const signOut = usePatientSignOut();
   const brand = useBrand();
 

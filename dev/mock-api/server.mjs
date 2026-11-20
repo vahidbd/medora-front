@@ -5,7 +5,8 @@
  * reset on every start. No dependencies, so it runs anywhere Node does.
  * Each area's routes live in their own file: staff.mjs, tenant-setup.mjs,
  * patient.mjs for the brands and the patient's own routes, intake.mjs for
- * intakes before an account, and tracking.mjs for what patients record.
+ * intakes before an account, patient-intake.mjs for the account, consents
+ * and the patient's own intakes, and tracking.mjs for what patients record.
  *
  * It answers the way the API does (contract/openapi.json in the backend):
  * the same shapes, the same error envelope, the tenant in the
@@ -18,6 +19,7 @@ import { createServer } from "node:http";
 import { fail, readJson, send } from "./http.mjs";
 import { intakeRoutes } from "./intake.mjs";
 import { patientRoutes } from "./patient.mjs";
+import { patientIntakeRoutes } from "./patient-intake.mjs";
 import { staffRoutes } from "./staff.mjs";
 import { trackingRoutes } from "./tracking.mjs";
 import { tenantSetupRoutes } from "./tenant-setup.mjs";
@@ -34,6 +36,7 @@ const routes = [
   ...staffRoutes,
   ...patientRoutes({ send, fail, readJson }),
   ...intakeRoutes({ send, fail, readJson }),
+  ...patientIntakeRoutes({ send, fail, readJson }),
   ...trackingRoutes({ send, fail, readJson }),
   ...tenantSetupRoutes,
 ];

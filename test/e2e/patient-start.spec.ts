@@ -1,40 +1,14 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { collectErrors, LARKSPUR, onBrandHosts, port, unexpected } from "./patient-support";
+import { answerBody, answerHealth, heldCookie, startWeightCare, WEIGHT } from "./start-support";
 
 /**
  * Starting care before an account (docs/decisions/patient-start.md): the
  * brand's programs, a program's first screen, its steps, and the screens
- * that end it. The mock API's programs are made up (dev/mock-api/intake.mjs):
- * Weight care has four steps with two hard stops; Sleep care has one step.
+ * that end it, on the mock API's made-up programs (start-support.ts).
  */
 
 test.use(onBrandHosts);
-
-const WEIGHT = "50000000-0000-4000-8000-000000000001";
-
-/** The first screen, agreed and with a made-up adult's date of birth, unless another is given. */
-async function startWeightCare(page: Page, dateOfBirth = "14/05/1990") {
-  await page.goto(`/start/${WEIGHT}`);
-  await expect(page.getByRole("heading", { name: "Weight care (demo)", level: 1 })).toBeVisible();
-  await page.getByRole("checkbox", { name: /I've read the privacy notice/ }).click();
-  await page.getByRole("checkbox", { name: "I'm 18 or older." }).click();
-  await page.getByLabel("Date of birth").fill(dateOfBirth);
-  await page.getByRole("button", { name: "Start" }).click();
-}
-
-async function answerBody(page: Page) {
-  await expect(page.getByRole("heading", { name: "Your height and weight", level: 2 })).toBeVisible();
-  await page.getByLabel("How tall are you?").fill("170");
-  await page.getByLabel("How much do you weigh?").fill("82.5");
-  await page.getByRole("button", { name: "Continue" }).click();
-}
-
-async function answerHealth(page: Page) {
-  await expect(page.getByRole("heading", { name: "Your health", level: 2 })).toBeVisible();
-  await page.getByRole("radio", { name: "No", exact: true }).click();
-  await page.getByRole("checkbox", { name: "Sleep apnoea" }).click();
-  await page.getByRole("button", { name: "Continue" }).click();
-}
 
 test("the brand's programs lead to one, and a paused brand or another tenant's program offers nothing", async ({ page, request }) => {
   const errors = collectErrors(page);
@@ -60,7 +34,7 @@ test("the brand's programs lead to one, and a paused brand or another tenant's p
   expect((await request.get(`http://127.0.0.1:${port}/start/not-a-program`, on("kestrel"))).status()).toBe(404);
 });
 
-test("a person agrees, answers each step, comes back to it, and is asked to create an account", async ({ page, context }) => {
+test("a person agrees, answers each step, comes back to it, and is asked to create an account", async ({ page }) => {
   const errors = collectErrors(page);
   const tokenHeaders: string[] = [];
   page.on("response", (response) => {
@@ -96,7 +70,7 @@ test("a person agrees, answers each step, comes back to it, and is asked to crea
 
   // The resume token stays on the server: an httpOnly host-only cookie the page can't read, never a header it sees.
   await expect(page.getByRole("heading", { name: "Your health", level: 2 })).toBeFocused();
-  const held = (await context.cookies()).find((cookie) => cookie.name === "__Host-medora-intake");
+  const held = await heldCookie(page);
   expect(held).toMatchObject({ httpOnly: true, secure: true, sameSite: "Lax", path: "/", domain: "kestrel.localhost" });
   expect(await page.evaluate(() => document.cookie)).not.toContain("medora-intake");
   expect(tokenHeaders).toEqual([]);
