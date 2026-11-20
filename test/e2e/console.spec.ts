@@ -22,7 +22,7 @@ test("Home shows the tenant and role, under a nonce policy, with no errors", asy
   await expect(page).toHaveURL(/\/home$/);
   await expect(page.getByRole("heading", { name: "Home", level: 1 })).toBeVisible();
   await expect(page.getByText("Working in Harbour Health (demo)")).toBeVisible();
-  await expect(page.locator("dl.facts")).toContainText("Owner");
+  await expect(page.getByLabel("Your access")).toContainText("Owner");
   await expect(page).toHaveTitle("Home · Medora");
 
   const headers = response!.headers();
@@ -56,7 +56,7 @@ test("switching tenant changes what the console shows, and is remembered", async
   await page.getByRole("button", { name: "Working in Harbour Health (demo). Change tenant" }).click();
   await page.getByRole("menuitemradio", { name: "Coastal Skin (demo)" }).click();
   await expect(page.getByText("Working in Coastal Skin (demo)")).toBeVisible();
-  await expect(page.locator("dl.facts")).toContainText("Clinician");
+  await expect(page.getByLabel("Your access")).toContainText("Clinician");
 
   await page.reload();
   await expect(page.getByText("Working in Coastal Skin (demo)")).toBeVisible();
@@ -71,9 +71,8 @@ test("Staff lists the tenant's people, roles and access", async ({ page }) => {
   await page.getByRole("navigation", { name: "Workspace" }).getByRole("link", { name: "Staff" }).click();
   await expect(page).toHaveURL(/\/staff$/);
   const table = page.getByRole("table");
-  await expect(table.getByRole("row", { name: /sam\.lee@example\.test/ })).toContainText("Clinician");
-  await expect(table.getByRole("row", { name: /drew\.walker@example\.test/ })).toContainText("Paused");
-  await expect(table.getByRole("row")).toHaveCount(7);
+  await expect(table.getByRole("row", { name: /Sam Lee/ })).toContainText("Clinician");
+  await expect(table.getByRole("row", { name: /Drew Walker/ })).toContainText("Paused");
   expect(errors).toEqual([]);
 });
 

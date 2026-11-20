@@ -28,6 +28,9 @@ Prefixes are unique across both repos, so this table lists both.
 | --- | --- | --- | --- |
 | FND | `foundation.md` | `medora-backend` | The platform foundation: tenancy, sign-in, audit, health checks |
 | CON | `console.md` | `medora-front` | The staff console: sign-in gate, tenant switch, shell, page security, preview mode |
+| ADM | `admin.md` | both | Admin, staff access, roles, invitations, two-step sign-in, tenant onboarding |
+| CAT | `catalogue.md` | both | Product catalogue and blocked items |
+| GOV | `governance.md` | both | Clinical governance: incidents, complaints, deadlines, retention, masking |
 | WHK | `webhooks.md` | `medora-backend` | The one webhook inbox: storing, processing once, retries |
 | TEL | `telephony.md` | `medora-backend` | Phone and SMS through Twilio's Australian region |
 | WRK | `workforce.md` | `medora-backend` | Clinicians, their credentials and standing, working hours and time off |

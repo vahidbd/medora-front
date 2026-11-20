@@ -58,6 +58,8 @@ const CLERK = {
   session: SESSION,
   signOut,
   openSignIn: () => navigate("/home"),
+  // Clerk's account panel (where a second factor is added) has no stand-in; preview sessions always have one.
+  openUserProfile: () => {},
   redirectToSignIn: () => navigate("/home"),
   addListener: () => () => {},
 };
@@ -70,6 +72,15 @@ export const useAuth = () => AUTH;
 export const useUser = () => ({ isLoaded: true, isSignedIn: true, user: PREVIEW_USER });
 export const useClerk = () => CLERK;
 export const useSession = () => ({ isLoaded: true, isSignedIn: true, session: SESSION });
+
+export function SignUp() {
+  return createElement(
+    "div",
+    { style: { padding: "16px", border: "1px dashed currentColor", borderRadius: "8px", lineHeight: 1.5 } },
+    createElement("p", { style: { margin: "0 0 8px" } }, "Preview mode: accepting an invitation is simulated."),
+    createElement("a", { href: "/home", style: { textDecoration: "underline" } }, "Continue to Home"),
+  );
+}
 
 export function SignIn() {
   return createElement(

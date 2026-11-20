@@ -6,26 +6,31 @@ import { useQuery } from "@tanstack/react-query";
 import { useAuth, useClerk, useUser } from "@clerk/nextjs";
 import { ApiError } from "@/lib/api/client";
 import { meApi } from "@/lib/api/staff";
+import { formatDate } from "@/lib/format";
+import { isUsable } from "@/lib/staff-access";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BrandLogo, BrandMark } from "./brand-mark";
 
 /**
- * Three things have to be true to see the console: Clerk has a session,
+ * Four things have to be true to see the console: Clerk has a session,
  * the API knows the person (a Medora account, linked on first sign-in by
- * verified email), and they have an active membership in some tenant.
+ * verified email), they have a usable membership in some tenant (active and
+ * not past its end date), and this session used a second factor.
  *
  * They fail differently. No session is a sign-in problem and redirects.
- * The other two are not: the person has signed in, and sending them back
- * to sign-in would loop. They need an owner to invite them, or to make
- * their membership active again, so the screen says so and offers a way out.
+ * The others are not: the person has signed in, and sending them back to
+ * sign-in would loop. They need an invitation, a fresh one, their
+ * membership made active again, or two-step sign-in set up, so the screen
+ * says which and offers a way out. The API refuses every tenant call
+ * without a second factor whatever this screen shows (ADR 0220).
  */
 export function AuthGate({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
-  const { signOut } = useClerk();
+  const { signOut, openUserProfile } = useClerk();
 
   const me = useQuery({
     queryKey: ["me"],
@@ -72,15 +77,45 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
     );
   }
 
-  if (!me.data.memberships.some((m) => m.status === "active")) {
+  const memberships = me.data.memberships;
+  // Platform staff work on their own screens without a tenant (docs/decisions/admin.md ADM15).
+  if (!memberships.some((m) => isUsable(m)) && !me.data.platformStaff) {
+    // An invitation still open when this session began was accepted by the API, so one still invited has expired.
+    const expiredInvitation = memberships.length > 0 && memberships.every((m) => m.status === "invited");
+    const ended = memberships.filter((m) => m.status === "active" && m.expiresAt);
+    const lastEnd = ended.length === memberships.length ? ended.map((m) => m.expiresAt!).sort().at(-1) : undefined;
     return (
       <Centered>
-        <h1 className="gate-title">Your access is paused</h1>
+        <h1 className="gate-title">
+          {expiredInvitation ? "Your invitation has expired" : lastEnd ? "Your access has ended" : "Your access is paused"}
+        </h1>
         <p className="gate-text">
-          You are signed in as <b>{email}</b>, but your access is paused in every tenant you belong to. Ask an owner to make
-          it active again.
+          You are signed in as <b>{email}</b>
+          {expiredInvitation ? (
+            <>. An invitation works for 14 days. Ask whoever invited you to send it again, then sign in.</>
+          ) : lastEnd ? (
+            <>, but your access ended on {formatDate(lastEnd)}. Ask an owner or tenant admin if you still need it.</>
+          ) : (
+            <>, but your access is paused in every tenant you belong to. Ask an owner to make it active again.</>
+          )}
         </p>
         <div className="gate-actions">{signOutButton}</div>
+      </Centered>
+    );
+  }
+
+  if (!me.data.secondFactor) {
+    return (
+      <Centered>
+        <h1 className="gate-title">Set up two-step sign-in</h1>
+        <p className="gate-text">
+          Every Medora staff account signs in with a second factor, such as a code from an authenticator app. Add one to{" "}
+          <b>{email}</b>, then sign out and sign in again with it.
+        </p>
+        <div className="gate-actions">
+          <Button onClick={() => openUserProfile()}>Set up two-step sign-in</Button>
+          {signOutButton}
+        </div>
       </Centered>
     );
   }
