@@ -1201,6 +1201,8 @@ export type paths = {
             requestBody: {
                 content: {
                     "application/json": {
+                        /** Format: uuid */
+                        brandId: string;
                         dateOfBirth: string;
                         email?: string;
                         familyName: string;
