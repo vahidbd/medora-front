@@ -81,6 +81,8 @@ const PATIENTS = new Map([
 ]);
 
 const confirmed = new Set();
+/** Notification preferences by session, so tests side by side don't share them; no entry means the defaults. */
+const preferences = new Map();
 const tries = new Map();
 
 export function brandByHost(host) {
@@ -161,6 +163,29 @@ export function patientRoutes({ send, fail, readJson }) {
         }
         confirmed.add(patient.session);
         send(res, 200, { confirmed: true });
+      },
+    ],
+    [
+      "GET",
+      /^\/v1\/patient\/notification-preferences$/,
+      (req, res) => {
+        const patient = patientOf(req, res, fail, "patient");
+        if (patient) send(res, 200, preferences.get(patient.session) ?? { sms: true, reminders: true });
+      },
+    ],
+    [
+      "PUT",
+      /^\/v1\/patient\/notification-preferences$/,
+      async (req, res) => {
+        const patient = patientOf(req, res, fail, "patient");
+        if (!patient) return;
+        const body = await readJson(req);
+        const keys = body && typeof body === "object" ? Object.keys(body).sort().join(",") : "";
+        if (keys !== "reminders,sms" || typeof body.sms !== "boolean" || typeof body.reminders !== "boolean") {
+          return fail(res, 400, "bad_request", "Some of what was sent is missing or not in the right form");
+        }
+        preferences.set(patient.session, { sms: body.sms, reminders: body.reminders });
+        send(res, 200, preferences.get(patient.session));
       },
     ],
   ];

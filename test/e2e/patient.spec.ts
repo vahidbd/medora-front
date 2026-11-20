@@ -108,6 +108,20 @@ test("signing in on one brand is not signing in on another", async ({ page }) =>
   await expect(page).toHaveURL(/larkspur\.localhost:\d+\/sign-in/);
 });
 
+test("a patient turns texts off on Account, and it stays off", async ({ page }) => {
+  await signIn(page);
+  await confirmDateOfBirth(page);
+  await page.getByRole("navigation", { name: "Your care" }).getByRole("link", { name: "Account" }).click();
+  await expect(page.getByText("Texts to 0400 000 000 as well as emails.")).toBeVisible();
+  const texts = page.getByRole("switch", { name: "Texts" });
+  await expect(texts).toBeChecked();
+  await texts.click();
+  await expect(page.getByRole("status").filter({ hasText: "Saved." })).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole("switch", { name: "Texts" })).not.toBeChecked();
+  await expect(page.getByRole("switch", { name: "Reminders" })).toBeChecked();
+});
+
 test("an idle sign-out says why", async ({ page }) => {
   await page.goto("/sign-in?why=idle");
   await expect(page.getByText("You were signed out after 30 minutes without activity, to keep your details private.")).toBeVisible();

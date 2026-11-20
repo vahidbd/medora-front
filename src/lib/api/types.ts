@@ -69,3 +69,6 @@ export type SideEffectReport = RequestBody<"/v1/patient/side-effects", "post">;
 export type CheckIn = Reply<"/v1/patient/check-ins", "get">["checkIns"][number];
 export type MissedDoses = CheckIn["missedDoses"];
 export type CheckInSubmission = RequestBody<"/v1/patient/check-ins", "post">;
+
+/** How a patient hears from their care (docs/decisions/notifications.md in medora-backend). */
+export type NotificationPreferences = Reply<"/v1/patient/notification-preferences", "get">;

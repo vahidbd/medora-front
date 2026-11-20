@@ -7,13 +7,15 @@ import { formatCalendarDate } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useBrand } from "@/components/patient/brand-context";
+import { NotificationSettings } from "@/components/patient/notification-settings";
 import { usePatientSignOut } from "@/components/patient/sign-out";
 import { useSignedInPatient } from "@/components/patient/use-patient";
 
 /**
- * Account: who the patient is to this brand, how the app looks, their
- * privacy rights and signing out. A copy of the record and deleting the
- * account go through support until they have their own screens (APP8).
+ * Account: who the patient is to this brand, how they hear from it, how
+ * the app looks, their privacy rights and signing out. A copy of the record
+ * and deleting the account go through support until they have their own
+ * screens (APP8).
  */
 export function PatientAccountPage() {
   const me = useSignedInPatient();
@@ -40,6 +42,8 @@ export function PatientAccountPage() {
         </ul>
         <p className="pt-muted">To change your details, contact {brand.name} so your care team has them right.</p>
       </section>
+
+      <NotificationSettings mobile={me.mobile} />
 
       <Appearance />
 

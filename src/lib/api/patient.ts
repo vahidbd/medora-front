@@ -6,6 +6,7 @@ import type {
   Measurement,
   MeasurementsRecorded,
   MeasurementsRecording,
+  NotificationPreferences,
   PatientMe,
   SideEffect,
   SideEffectReport,
@@ -35,6 +36,10 @@ export const patientApi = {
   /** Newest first, with the readings and side effect each one carried. */
   checkIns: () => request<{ checkIns: CheckIn[] }>("/patient/check-ins"),
   submitCheckIn: (body: CheckInSubmission) => request<CheckIn>("/patient/check-ins", { method: "POST", body }),
+
+  notificationPreferences: () => request<NotificationPreferences>("/patient/notification-preferences"),
+  setNotificationPreferences: (body: NotificationPreferences) =>
+    request<NotificationPreferences>("/patient/notification-preferences", { method: "PUT", body }),
 };
 
 /** Every patient query starts with this, so one brand's answers can never stand in for another's. */

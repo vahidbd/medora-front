@@ -70,3 +70,8 @@ Why: the ranges live in one place, the API, and a reading taken this morning and
 Decision: reporting a side effect, alone or in a check-in, says first that a report reaches no one straight away and to call 000 or go to an emergency department for help now; choosing Severe, and sending a severe report, says it again as a danger notice. A check-in (`/progress/check-in`) asks about missed doses (none, a few, most) and how the patient feels on five named steps from "Very unwell" to "Very good", with optional readings and one optional side effect, sent together. Home shows when the next check-in is due, from the programs' cadence on the patient's calendar (TRK6), and the latest reading of each kind.
 Why: a patient must never think a form is how to get urgent help (TRK4). Named steps read the same to everyone, where a bare 1 to 5 doesn't.
 Decided by: stand-in (Fable 5.2), to confirm with Vahid
+
+### APP13. How the patient is contacted is two switches on Account
+
+Decision: Account says that care always reaches the patient by email, then has two switches, Texts and Reminders, each saved as it changes (`docs/decisions/notifications.md` NTF1 and NTF2 in medora-backend). With no mobile on the record, Texts says a number is needed and how to add one.
+Why: two choices need no form and no Save button, and the line about email answers "will I miss something?" before it is asked.
