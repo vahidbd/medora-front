@@ -72,6 +72,9 @@ export type CheckInSubmission = RequestBody<"/v1/patient/check-ins", "post">;
 
 /** How a patient hears from their care (docs/decisions/notifications.md in medora-backend). */
 export type NotificationPreferences = Reply<"/v1/patient/notification-preferences", "get">;
+
+/** The patient's calendar day an app opening counted for (docs/decisions/adherence.md ADH2 in medora-backend). */
+export type AppOpened = Reply<"/v1/patient/activity/app-opened", "post">;
 /** A tenant's set-up (docs/decisions/admin.md ADM14 to ADM20). */
 export type TenantSettings = Reply<"/v1/tenant", "get">;
 export type TenantSettingsChange = RequestBody<"/v1/tenant", "patch">;
