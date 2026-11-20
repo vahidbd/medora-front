@@ -39,6 +39,8 @@ export const PERMISSION_ZONES = {
   "catalogue:read": "operational",
   "catalogue:manage": "operational",
   "audit:read": "platform",
+  "clinicians:read": "operational",
+  "clinicians:manage": "operational",
 };
 export const PERMISSIONS = Object.keys(PERMISSION_ZONES);
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
@@ -58,6 +60,8 @@ export const ROLE_PERMISSIONS = {
     "consents:manage",
     "protocols:read",
     "programs:manage",
+    "clinicians:read",
+    "clinicians:manage",
   ],
   medical_director: [
     "staff:read",
@@ -71,10 +75,12 @@ export const ROLE_PERMISSIONS = {
     "protocols:sign_off",
     "programs:manage",
     "intakes:read",
+    "clinicians:read",
+    "clinicians:manage",
   ],
-  prescriber: ["staff:read", "catalogue:read", "patients:read", "protocols:read", "intakes:read"],
-  clinician: ["staff:read", "catalogue:read", "patients:read", "protocols:read", "intakes:read"],
-  support: ["staff:read", "catalogue:read", "patients:read", "patients:manage"],
+  prescriber: ["staff:read", "catalogue:read", "patients:read", "protocols:read", "intakes:read", "clinicians:read"],
+  clinician: ["staff:read", "catalogue:read", "patients:read", "protocols:read", "intakes:read", "clinicians:read"],
+  support: ["staff:read", "catalogue:read", "patients:read", "patients:manage", "clinicians:read"],
   finance: ["staff:read", "catalogue:read"],
   operations: ["staff:read", "catalogue:read", "catalogue:manage"],
   marketing: ["staff:read", "catalogue:read"],

@@ -62,6 +62,8 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "catalogue:read": "See the products the tenant sells",
   "catalogue:manage": "Add products, change prices and block products",
   "audit:read": "Read and export the audit log",
+  "clinicians:read": "See clinicians, whether they can consult, and their hours",
+  "clinicians:manage": "Add clinicians, check their credentials and suspend them",
 };
 
 /** The data zone a permission opens (ADR 0220), as a heading in the role editor. */

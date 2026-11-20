@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Ban, Building2, ClipboardList, FileCheck2, Globe, House, Landmark, Layers, Package, ScrollText, Settings, ShieldAlert, ShieldCheck, Store, Users, UsersRound } from "lucide-react";
+import { Ban, Building2, ClipboardList, FileCheck2, Globe, House, Landmark, Layers, Package, ScrollText, Settings, ShieldAlert, ShieldCheck, Stethoscope, Store, Users, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -73,6 +73,13 @@ export const navigation: NavGroup[] = [
       { title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Members", "Team", "Invite"] },
       { title: "Roles", href: "/roles", icon: ShieldCheck, permission: "staff:read", keywords: ["Permissions"] },
       { title: "Break-glass", href: "/break-glass", icon: ShieldAlert, permission: "break_glass:review", keywords: ["Reviews"] },
+      {
+        title: "Clinicians",
+        href: "/clinicians",
+        icon: Stethoscope,
+        permission: "clinicians:read",
+        keywords: ["Credentials", "Registration", "Indemnity", "Working hours", "Time off"],
+      },
       { title: "Brands", href: "/brands", icon: Store, keywords: ["Domains", "Go live", "Pause"] },
       { title: "Companies", href: "/companies", icon: Landmark, keywords: ["ABN", "Legal entity"] },
       { title: "Consent documents", href: "/consent-documents", icon: FileCheck2, permission: "patients:read", keywords: ["Privacy", "Terms", "Publish"] },

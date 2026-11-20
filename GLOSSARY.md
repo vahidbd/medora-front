@@ -16,6 +16,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A person working for a tenant | **Staff member** | user, employee, agent |
 | A staff member who prescribes (doctor, nurse practitioner) | **Prescriber** | doctor (unless the role really is "doctor"), provider |
 | Any staff member who sees patients clinically | **Clinician** | practitioner, provider |
+| A registration, endorsement or indemnity policy a clinician holds | **Credential** | licence, certification, qualification |
+| Whether a clinician may consult and prescribe right now, with the reasons if not | **Standing** | status, active, eligible |
+| The weekly blocks a clinician can be booked in | **Working hours** | availability, roster, shifts |
+| A period a clinician can't be booked | **Time off** | leave block, unavailability |
 | The clinician who signs off a tenant's protocols | **Medical director** | clinical lead |
 | A pharmacy that dispenses for a tenant | **Partner pharmacy** | pharmacy app, dispensary |
 | A person's link to one tenant, with a role | **Membership** | seat, access |

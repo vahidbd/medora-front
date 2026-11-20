@@ -27,10 +27,11 @@ npm run test:e2e         # the browser tests, against start:preview (build first
 | `GET /v1/platform/domains`, `POST /v1/platform/domains/:domainId/verify` | domains waiting for platform staff, and marking one verified |
 | `GET`, `POST /v1/products`, `GET`, `PATCH /v1/products/:productId`, `POST /v1/products/:productId/status`, `POST` and `DELETE /v1/products/:productId/block` | made-up products, archived and blocked, with the API's checks (`medicine_identity_required`, `not_a_medicine`, `artg_invalid`) |
 | `GET /v1/block-rules`, `POST /v1/platform/block-rules` | Medora's block rules (two preview rules: compounded and Schedule 8 medicines), and adding one (`rule_exists`, `rule_value_invalid`) |
+| `/v1/clinicians` and below (`mock-api/clinicians.mjs`) | made-up clinicians with their standing, credentials, hours and time off; the preview person is a clinician at Coastal Skin, so their own record shows the "someone else checks it" rule (`own_record`) |
 
 The data is in `mock-api/people.mjs`, `mock-api/tenant-setup.mjs`, `mock-api/catalogue.mjs` and `mock-api/audit.mjs`, and the routes in one file per area (`mock-api/staff.mjs`, `mock-api/tenant-setup.mjs`, `mock-api/catalogue.mjs`, `mock-api/audit.mjs`). Platform routes answer only while `ME.platformStaff` is true; set it to false in `people.mjs` to see the console as tenant staff only. One deliberate difference: no clinical permission exists yet, so the real API offers break-glass to nobody, but the mock offers it to Harbour's owner so its screens can be seen and tested.
 
-The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it here in the API's shape (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
+The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it in the API's shape, in its own file for a new area (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
 
 To run the console against a real local API instead, keep Clerk stubbed and pass a token from the API's `npm run dev:token`:
 

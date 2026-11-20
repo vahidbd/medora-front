@@ -915,6 +915,1282 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/clinicians": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's clinicians and whether each may consult and prescribe now */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            clinicians: {
+                                /** Format: uuid */
+                                clinicianId: string;
+                                email: string;
+                                /** Format: uuid */
+                                membershipId: string;
+                                /** @enum {string} */
+                                profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                                standing: {
+                                    mayConsult: boolean;
+                                    mayPrescribe: boolean;
+                                    reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                    warnings: ("recheck_due" | "expires_soon")[];
+                                };
+                                suspension: {
+                                    /** Format: date-time */
+                                    at: string;
+                                    /** @enum {string} */
+                                    reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                                } | null;
+                                timeZone: string;
+                                /** Format: uuid */
+                                userId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Make a staff member a clinician */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        membershipId: string;
+                        /** @enum {string} */
+                        profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                        timeZone: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One clinician: standing, hours and time off, and credentials for a manager or the clinician */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change a clinician's profession or time zone */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        profession?: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                        timeZone?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/credentials": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record a registration, endorsement or indemnity policy, to be checked by someone else */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @default null */
+                        conditions?: string | null;
+                        /** Format: date */
+                        expiresOn: string;
+                        /** @enum {string} */
+                        kind: "registration";
+                        reference: string;
+                        /** @enum {string} */
+                        registeringBody: "ahpra" | "dietitians_australia";
+                        /** @enum {string} */
+                        registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled";
+                        /**
+                         * @default null
+                         * @enum {string|null}
+                         */
+                        registrationType?: "general" | "specialist" | "provisional" | "limited" | null;
+                        /**
+                         * Format: date
+                         * @default null
+                         */
+                        startsOn?: string | null;
+                    } | {
+                        /** @enum {string} */
+                        endorsement: "nurse_practitioner";
+                        /**
+                         * Format: date
+                         * @default null
+                         */
+                        expiresOn?: string | null;
+                        /** @enum {string} */
+                        kind: "endorsement";
+                        /** @default null */
+                        reference?: string | null;
+                        /**
+                         * Format: date
+                         * @default null
+                         */
+                        startsOn?: string | null;
+                    } | {
+                        coversTelehealthNewPatients: boolean;
+                        /** Format: date */
+                        expiresOn: string;
+                        insurer: string;
+                        /** @enum {string} */
+                        kind: "indemnity";
+                        /** @default null */
+                        reference?: string | null;
+                        /**
+                         * Format: date
+                         * @default null
+                         */
+                        startsOn?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/credentials/{credentialId}/review-conditions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record that the conditions on a registration were read and allow this work */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                    credentialId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/credentials/{credentialId}/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record that a credential was checked against the register or the policy today */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                    credentialId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/credentials/{credentialId}/withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Withdraw a credential entered in error or no longer held */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                    credentialId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        reason: "entered_in_error" | "no_longer_held";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/hours": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace a clinician's weekly working hours, in their own time zone */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        hours: {
+                            endsAt: string;
+                            /** @default 15 */
+                            slotMinutes?: number;
+                            startsAt: string;
+                            weekday: number;
+                        }[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/resume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Lift a clinician's suspension */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/suspend": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Stop a clinician booking or starting consults now */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            clinicianId: string;
+                            credentials: {
+                                conditions: string | null;
+                                /** Format: date-time */
+                                conditionsReviewedAt: string | null;
+                                counts: boolean;
+                                coversTelehealthNewPatients: boolean | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: uuid */
+                                credentialId: string;
+                                /** @enum {string|null} */
+                                endorsement: "nurse_practitioner" | null;
+                                /** Format: date */
+                                expiresOn: string | null;
+                                insurer: string | null;
+                                /** @enum {string} */
+                                kind: "registration" | "endorsement" | "indemnity";
+                                reference: string | null;
+                                /** @enum {string|null} */
+                                registeringBody: "ahpra" | "dietitians_australia" | null;
+                                /** @enum {string|null} */
+                                registrationStatus: "practising" | "non_practising" | "suspended" | "cancelled" | null;
+                                /** @enum {string|null} */
+                                registrationType: "general" | "specialist" | "provisional" | "limited" | null;
+                                /** Format: date */
+                                startsOn: string | null;
+                                /** Format: date-time */
+                                verifiedAt: string | null;
+                                /** @enum {string|null} */
+                                withdrawalReason: "entered_in_error" | "replaced" | "no_longer_held" | null;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[] | null;
+                            email: string;
+                            hours: {
+                                endsAt: string;
+                                /** @default 15 */
+                                slotMinutes: number;
+                                startsAt: string;
+                                weekday: number;
+                            }[];
+                            /** Format: uuid */
+                            membershipId: string;
+                            /** @enum {string} */
+                            profession: "medical_practitioner" | "nurse_practitioner" | "registered_nurse" | "pharmacist" | "dietitian" | "psychologist" | "health_coach";
+                            standing: {
+                                mayConsult: boolean;
+                                mayPrescribe: boolean;
+                                reasons: ("no_clinician_profile" | "membership_inactive" | "suspended" | "registration_missing" | "registration_unverified" | "registration_expired" | "registration_not_practising" | "registration_conditions_unreviewed" | "indemnity_missing" | "indemnity_unverified" | "indemnity_expired" | "indemnity_excludes_telehealth" | "not_a_prescriber" | "endorsement_missing" | "endorsement_unverified" | "endorsement_expired")[];
+                                warnings: ("recheck_due" | "expires_soon")[];
+                            };
+                            suspension: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                reason: "registration_concern" | "indemnity_concern" | "clinical_governance" | "leave" | "other";
+                            } | null;
+                            timeOff: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                reason: "leave" | "sick" | "training" | "other";
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** Format: uuid */
+                                timeOffId: string;
+                            }[];
+                            timeZone: string;
+                            /** Format: uuid */
+                            userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/time-off": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record time a clinician is away */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: date-time */
+                        endsAt: string;
+                        /** @enum {string} */
+                        reason: "leave" | "sick" | "training" | "other";
+                        /** Format: date-time */
+                        startsAt: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** @enum {string} */
+                            reason: "leave" | "sick" | "training" | "other";
+                            /** Format: date-time */
+                            startsAt: string;
+                            /** Format: uuid */
+                            timeOffId: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/clinicians/{clinicianId}/time-off/{timeOffId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Remove time off, so the clinician can be booked then again */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    clinicianId: string;
+                    timeOffId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            removed: true;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/companies": {
         parameters: {
             query?: never;
@@ -1301,7 +2577,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -4935,13 +6211,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -4950,7 +6226,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             }[];
                         };
                     };
@@ -4973,7 +6249,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                     };
                 };
             };
@@ -4993,7 +6269,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -5060,7 +6336,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                     };
                 };
             };
@@ -5080,7 +6356,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
