@@ -1,6 +1,6 @@
 # Admin and staff access in the console
 
-The console's rulings for staff access (the Staff, Roles and Break-glass screens, accepting an invitation and the two-step gate) and for a tenant's set-up (Settings, Companies, Brands and platform staff's screens). The rules they reflect are the API's (ADR 0220; `medora-backend` `docs/decisions/admin.md` ADM1 to ADM8 and ADM14 to ADM20). Ids continue from the backend's file, so they never collide.
+The console's rulings for staff access (the Staff, Roles and Break-glass screens, accepting an invitation and the two-step gate) for a tenant's set-up (Settings, Companies, Brands and platform staff's screens), and for the Audit log screen. The rules they reflect are the API's (ADR 0220; `medora-backend` `docs/decisions/admin.md` ADM1 to ADM8, ADM14 to ADM20, ADM25 and ADM26). Ids continue from the backend's file, so they never collide.
 
 ### ADM9. The Staff screen says where each membership stands
 
@@ -46,3 +46,8 @@ Why: the rules for going live are the API's (ADM15, ADM16), so the screen offers
 
 Decision: the brand drawer takes a colour as `#rrggbb` beside a swatch of it. The API refuses one that white or near-black text can't be read on at 4.5:1 (`colour_unreadable`), and the drawer shows that message. The Brands table shows each brand's swatch beside its name, and a plain box for a brand with none.
 Why: the API holds the rule (ADM17) and the patient app uses the same 4.5:1 rule before it paints with a brand's colour, so the check belongs where the colour is saved, once, not in each screen.
+
+### ADM27. The Audit log screen: filters in a drawer, a page at a time, and a CSV file made in the browser
+
+Decision: Workspace has an Audit log screen for whoever holds `audit:read`. It lists the API's entries newest first, 50 to a page, with a pager that steps to older and newer pages. Filters (dates, person, action, zone and record id) sit in a drawer and show as pills under the header; each pill removes its own filter. Dates are whole days in your own time zone, as end dates are (ADM11), and include both ends. Export CSV asks the API for every entry the filters match (ADM26) and builds the file in the browser: times in UTC as the API gives them, and a text cell a spreadsheet would run as a formula starts with an apostrophe (`src/lib/csv.ts`). Nothing is stored. Someone who switches to a tenant where their role lacks `audit:read` sees that, not a failed load.
+Why: the log is long and only grows, so it pages rather than loads at once; a file made from the API's reply needs no file store, and the formula guard keeps an export from running what someone typed into a record when it is opened.

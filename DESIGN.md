@@ -53,9 +53,9 @@ from shadcn's Base UI set and fitted to the kit's classes the same way.
 
 - Sidebar 256 wide; 68 minimised; 68 + 232 when a group's rail is open.
   Blocks with a gap between them (the kit has no sidebar label): Home on
-  top, the work areas as they arrive, then Workspace (Staff, Roles,
+  top, the work areas as they arrive (Catalogue: Products), then Workspace (Staff, Roles,
   Break-glass, Brands, Companies, Settings) and, for platform staff only,
-  Platform (Tenants, Domains), each group opening its rail. Search is the search
+  Platform (Tenants, Domains, Block rules), each group opening its rail. Search is the search
   box at the top of the sidebar (⌘K), not a row. A screen the staff member
   has no permission for is not drawn (`config/navigation.ts`, `useCanSee`);
   the API still checks every call.
@@ -102,7 +102,12 @@ button on the right.
 or paging. They get one list engine (a toolbar row under the title: view
 picker, search, filters in a drawer, display options, the main action at
 the end; a pager at the foot), built once and used by every list, with its
-rules added here in the same pull request.
+rules added here in the same pull request. Until then, the Audit log
+uses the engine's pieces as the kit draws them: Filters (an outline button
+with the number set, icon only on a phone) beside the main action, the
+filters set as pills under the header (each with its own remove), the
+drawer holding one field per filter, and the pager at the foot of the
+card (what is showing, then newer and older).
 
 **Record pages** arrive with the first record (a patient, an order). They
 follow the kit's editor shape: header with back link, title, status badge,

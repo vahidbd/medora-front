@@ -28,22 +28,27 @@ export const PERMISSIONS = [
   "adherence:resolve",
   "tenant:manage",
   "brands:manage",
+  "catalogue:read",
+  "catalogue:manage",
+  "audit:read",
 ];
 const CLINICAL_PERMISSIONS = new Set(["adherence:read", "adherence:resolve"]);
-export const PERMISSION_ZONES = Object.fromEntries(PERMISSIONS.map((key) => [key, CLINICAL_PERMISSIONS.has(key) ? "clinical" : "platform"]));
+export const PERMISSION_ZONES = Object.fromEntries(
+  PERMISSIONS.map((key) => [key, CLINICAL_PERMISSIONS.has(key) ? "clinical" : key.startsWith("catalogue:") ? "operational" : "platform"]),
+);
 
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
 export const ROLE_PERMISSIONS = {
   owner: [...PERMISSIONS],
-  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage"],
-  medical_director: ["staff:read", "break_glass:review", "adherence:read", "adherence:resolve"],
-  prescriber: ["staff:read", "adherence:read", "adherence:resolve"],
-  clinician: ["staff:read", "adherence:read", "adherence:resolve"],
-  support: ["staff:read"],
-  finance: ["staff:read"],
-  operations: ["staff:read"],
-  marketing: ["staff:read"],
-  compliance: ["staff:read"],
+  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage", "catalogue:read", "catalogue:manage", "audit:read"],
+  medical_director: ["staff:read", "break_glass:review", "catalogue:read", "audit:read", "adherence:read", "adherence:resolve"],
+  prescriber: ["staff:read", "catalogue:read", "adherence:read", "adherence:resolve"],
+  clinician: ["staff:read", "catalogue:read", "adherence:read", "adherence:resolve"],
+  support: ["staff:read", "catalogue:read"],
+  finance: ["staff:read", "catalogue:read"],
+  operations: ["staff:read", "catalogue:read", "catalogue:manage"],
+  marketing: ["staff:read", "catalogue:read"],
+  compliance: ["staff:read", "catalogue:read", "audit:read"],
 };
 
 // The preview person. The mock Clerk session (dev/mock-clerk) is the same person.
