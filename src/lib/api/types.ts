@@ -94,3 +94,18 @@ export type TenantInput = RequestBody<"/v1/platform/tenants", "post">;
 export type TenantCreated = Created<"/v1/platform/tenants", "post">;
 export type OwnerInvitationReply = Reply<"/v1/platform/tenants/{tenantId}/owner-invitation", "post">;
 export type PlatformDomain = Reply<"/v1/platform/domains", "get">["domains"][number];
+
+/** An intake (docs/decisions/intake.md INT5 to INT17 in medora-backend): the same shape before an account and after. */
+export type IntakeView = Reply<"/v1/public/intakes/{intakeId}", "get">;
+export type IntakeStep = IntakeView["steps"][number];
+export type IntakeQuestion = IntakeStep["questions"][number];
+export type IntakeAnswers = IntakeView["answers"];
+export type IntakeAnswer = IntakeAnswers[string];
+export type IntakeStatus = IntakeView["status"];
+export type IntakeStartScreen = Reply<"/v1/public/programs/{programId}/intake-start", "get">;
+export type AnonymousIntakeStart = RequestBody<"/v1/public/intakes", "post">;
+export type PatientIntakeList = Reply<"/v1/patient/intakes", "get">;
+export type IntakeClaimed = Reply<"/v1/patient/intakes/claim", "post">;
+/** Creating a patient's account (POST /v1/patient/account), which names the brand (IDN20). */
+export type AccountInput = RequestBody<"/v1/patient/account", "post">;
+export type Sex = AccountInput["sex"];

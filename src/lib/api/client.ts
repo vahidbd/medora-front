@@ -34,10 +34,15 @@ async function errorOf(response: Response): Promise<ApiError> {
 }
 
 export async function request<T>(path: string, init: { method?: string; body?: unknown; tenant?: string } = {}): Promise<T> {
+  return requestAt<T>(`/api/backend${path}`, init);
+}
+
+/** The same, to one of this app's own server routes outside the relay (the start flow's, src/lib/server/intake.ts). */
+export async function requestAt<T>(url: string, init: { method?: string; body?: unknown; tenant?: string } = {}): Promise<T> {
   const headers: Record<string, string> = { accept: "application/json" };
   if (init.body !== undefined) headers["content-type"] = "application/json";
   if (init.tenant) headers[TENANT_HEADER] = init.tenant;
-  const response = await fetch(`/api/backend${path}`, {
+  const response = await fetch(url, {
     method: init.method ?? "GET",
     headers,
     body: init.body === undefined ? undefined : JSON.stringify(init.body),
