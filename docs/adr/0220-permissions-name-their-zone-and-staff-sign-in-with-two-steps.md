@@ -1,9 +1,9 @@
-# 0036. Permissions name their data zone, clinical ones need a clinical role or break-glass, and every staff session has two steps
+# 0220. Permissions name their data zone, clinical ones need a clinical role or break-glass, and every staff session has two steps
 
 - Status: Proposed
 - Date: 20 Nov 2026
 - Repos: backend and frontend
-- PRD: ADM-03, ADM-06, ADM-07
+- PRD: ADM-03, ADM-06, ADM-07, TEN-03
 - Regulation: Privacy Act 1988 (APP 11)
 - Sign-off: needed (permissions and patient data)
 
@@ -19,6 +19,7 @@
 - **Only people change access** ([0012](0012-ai-agents-act-through-the-api-as-a-role.md)). Inviting, changing a membership and editing a role have no agent tool, their services refuse any actor that isn't a person, and `AGENT_FORBIDDEN_PERMISSIONS` lists the keys no agent role may hold. Editing a role is granting: the editor must hold both its old and its new permissions, and nobody edits the role they hold.
 - **Every staff session has two steps.** A route that acts in a tenant refuses a token without a verified second factor (`two_step_required`). There is no setting to turn this off, per tenant or per role.
 - **Medora decides access, the sign-in service only proves identity** ([0011](0011-clerk-signs-in-staff-and-patients.md)). An invitation becomes a membership on the person's next sign-in within 14 days, and a membership can carry an end date after which it stops working.
+- **Platform staff are Medora's own team, and hold no tenant.** A flag on the person's account, set only by a reviewed migration or an operator, never by the API. Their routes declare `access: 'platform'` (a second factor, no tenant) and reach across tenants only through reviewed functions that check the flag again, show tenant names, brands and domains and nothing else, and audit each change in the tenant it touches ([0006](0006-tenant-isolation-in-the-database.md)). They create tenants, whose first owner is an ordinary invitation, and verify brands' domains. To see inside a tenant, they need a membership the tenant gives them, usually with an end date.
 
 ## Consequences
 
@@ -30,8 +31,9 @@
 
 ## Where it lives
 
-- `src/lib/permissions.ts` (`PERMISSION_ZONES`, `ROLE_PERMISSIONS`, `CLINICAL_ROLES`, `usablePermissions`, `assertCanGrant`), `src/plugins/auth.ts`, `src/plugins/route-rules.ts` (`access: 'member'`).
+- `src/lib/permissions.ts` (`PERMISSION_ZONES`, `ROLE_PERMISSIONS`, `CLINICAL_ROLES`, `usablePermissions`, `assertCanGrant`), `src/plugins/auth.ts`, `src/plugins/route-rules.ts` (`access: 'member'` and `'platform'`).
 - `platform.roles`, `platform.memberships` (`custom_role_id`, `invited_at`, `expires_at`), `platform.break_glass`, `platform.sign_ins`, and `platform.my_access()` and `platform.accept_invitations()` in `src/db/migrations/0002_staff_access.sql`.
 - `src/modules/staff/` (roles, invitations, break-glass), `test/unit/permissions.test.ts`, `test/integration/staff-access.test.ts`.
+- `platform.users.platform_staff` and the platform functions in `src/db/migrations/0003_tenant_onboarding.sql`, `src/modules/brands/platform.routes.ts`, `test/integration/tenant-setup.test.ts`.
 - Frontend: the staff and roles screens and `can(permission)`, which only reflect what the API decides.
-- Rulings: `docs/decisions/admin.md` ADM1 to ADM8.
+- Rulings: `docs/decisions/admin.md` ADM1 to ADM8, and ADM14 and ADM15 for platform staff.

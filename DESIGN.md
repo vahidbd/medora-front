@@ -47,22 +47,28 @@ from shadcn's Base UI set and fitted to the kit's classes the same way.
 | `Skeleton` | `.skeleton`. |
 | `EmptyState`, `LoadFailedState` | `.list-empty` in a dashed box: nothing here, or it didn't load (with Try again). Never the same thing. |
 | `InitialsAvatar` | `.ava`, a circle in one of the status pastels, the same colour for a person everywhere. |
+| `.choice-row`, `.choice-group-head` | A radio or checkbox with its words beside it, an optional `.choice-sub` line under them; a group of them under a heading set like a table header. |
 
 ## The shell
 
 - Sidebar 256 wide; 68 minimised; 68 + 232 when a group's rail is open.
   Blocks with a gap between them (the kit has no sidebar label): Home on
-  top, the work areas as they arrive, then Workspace (Staff, and later the
-  tenant's settings), each group opening its rail. Search is the search
+  top, the work areas as they arrive, then Workspace (Staff, Roles,
+  Break-glass, Brands, Companies, Settings) and, for platform staff only,
+  Platform (Tenants, Domains), each group opening its rail. Search is the search
   box at the top of the sidebar (⌘K), not a row. A screen the staff member
   has no permission for is not drawn (`config/navigation.ts`, `useCanSee`);
   the API still checks every call.
 - The brand row is the **tenant switch**: "Medora", then the tenant you
   are working in. With more than one tenant it opens "Work in"; switching
   drops everything loaded for the old tenant. With one it is plain text.
+  Platform staff with no tenant of their own see "Platform" there, and
+  only the Platform screens.
 - The main panel is a card 10px in from the window, 18px corners. The
   topbar is 64 tall: crumbs on the left (a record page names itself with
-  `useBreadcrumb(name)`), the date on the right.
+  `useBreadcrumb(name)`), the date on the right, and before it Break-glass
+  for a role that needs it (a small outline button, or a warning badge with
+  its end time while open).
 - ⌘K (Ctrl+K) opens the command bar: go to any screen you can see. Record
   search joins it with the first records.
 - The account menu, at the foot of the sidebar: who you are, your role in
@@ -73,8 +79,10 @@ from shadcn's Base UI set and fitted to the kit's classes the same way.
   back link. The full trail stays in the markup for screen readers, and the
   current page is `aria-current="page"`.
 - The sign-in gate covers the states before the shell: signing in, no
-  Medora account for this sign-in, access paused in every tenant, and the
-  API unavailable (with Try again). Each is one gate card.
+  Medora account for this sign-in, an expired invitation, access ended or
+  paused in every tenant, no second factor on this session, and the API
+  unavailable (with Try again). Each is one gate card. Accepting an
+  invitation (`/sign-up`) is a gate card too.
 
 ## Page types
 
@@ -82,6 +90,13 @@ from shadcn's Base UI set and fitted to the kit's classes the same way.
 line description, then the kit's cards. A table sits in a flush card. The
 main action, when there is one, is on the right of the header, and there is
 one primary button on screen at a time.
+
+A brand's colour shows as a swatch: 14px beside its name in a table, the
+height of a small button beside the colour field, and a plain muted box
+when the brand has none, so names stay in line. A list inside a drawer
+(a brand's domains) is rows split by a hairline (`.domain-row`): the value
+and a muted line under it on the left, the status badge and an icon
+button on the right.
 
 **List pages** arrive with the first list that needs filters, saved views
 or paging. They get one list engine (a toolbar row under the title: view
