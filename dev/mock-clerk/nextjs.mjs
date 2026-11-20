@@ -107,6 +107,18 @@ const STAFF_AUTH = {
 const NOT_LOADED = { isLoaded: false, isSignedIn: undefined, userId: undefined, sessionId: undefined, has: () => false, getToken: async () => null, signOut };
 const SIGNED_OUT = { isLoaded: true, isSignedIn: false, userId: null, sessionId: null, has: () => false, getToken: async () => null, signOut };
 
+const CLERK = {
+  loaded: true,
+  user: PREVIEW_USER,
+  session: SESSION,
+  signOut,
+  openSignIn: () => navigate("/home"),
+  // Clerk's account panel (where a second factor is added) has no stand-in; preview sessions always have one.
+  openUserProfile: () => {},
+  redirectToSignIn: () => navigate("/home"),
+  addListener: () => () => {},
+};
+
 function patientAuth(kind) {
   const user = patientUser(kind);
   return { ...SIGNED_OUT, isSignedIn: true, userId: user.id, sessionId: `sess_preview_${kind}`, has: () => true, getToken: async () => `mock-patient-token-${kind}` };
@@ -139,17 +151,19 @@ export function useSession() {
   return { isLoaded, isSignedIn, session: isSignedIn ? SESSION : null };
 }
 
+const PATIENT_CLERK = {
+  loaded: true,
+  user: null,
+  session: null,
+  signOut,
+  openSignIn: () => navigate("/sign-in"),
+  openUserProfile: () => {},
+  redirectToSignIn: () => navigate("/sign-in"),
+  addListener: () => () => {},
+};
+
 export function useClerk() {
-  const instance = useContext(Instance);
-  return {
-    loaded: true,
-    user: instance === "staff" ? PREVIEW_USER : null,
-    session: instance === "staff" ? SESSION : null,
-    signOut,
-    openSignIn: () => navigate(instance === "staff" ? "/home" : "/sign-in"),
-    redirectToSignIn: () => navigate(instance === "staff" ? "/home" : "/sign-in"),
-    addListener: () => () => {},
-  };
+  return useContext(Instance) === "staff" ? CLERK : PATIENT_CLERK;
 }
 
 // The one-time code flows, in the shapes of Clerk's sign-in and sign-up futures: every call answers { error }.
@@ -213,6 +227,15 @@ const signUp = {
 
 export const useSignIn = () => ({ signIn, errors: {}, fetchStatus: "idle" });
 export const useSignUp = () => ({ signUp, errors: {}, fetchStatus: "idle" });
+
+export function SignUp() {
+  return createElement(
+    "div",
+    { style: { padding: "16px", border: "1px dashed currentColor", borderRadius: "8px", lineHeight: 1.5 } },
+    createElement("p", { style: { margin: "0 0 8px" } }, "Preview mode: accepting an invitation is simulated."),
+    createElement("a", { href: "/home", style: { textDecoration: "underline" } }, "Continue to Home"),
+  );
+}
 
 export function SignIn() {
   return createElement(

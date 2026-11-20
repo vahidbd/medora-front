@@ -3,7 +3,7 @@
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { useTenant } from "@/components/shell/tenant-context";
-import { PERMISSION_LABELS, ROLE_LABELS } from "@/lib/roles";
+import { PERMISSION_LABELS, roleName } from "@/lib/roles";
 
 /** Home: where the staff member is working and what their role lets them do. */
 export function HomePage() {
@@ -20,7 +20,7 @@ export function HomePage() {
             <dt>Tenant</dt>
             <dd>{current.tenantName}</dd>
             <dt>Role</dt>
-            <dd>{ROLE_LABELS[current.role]}</dd>
+            <dd>{roleName(current)}</dd>
             <dt>You can</dt>
             <dd>
               {current.permissions.length > 0 ? (

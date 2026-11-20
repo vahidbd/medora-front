@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { House, Settings, UsersRound } from "lucide-react";
+import { House, Settings, ShieldAlert, ShieldCheck, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -44,7 +44,11 @@ export const navigation: NavGroup[] = [
     label: "Workspace",
     icon: Settings,
     gapBefore: true,
-    items: [{ title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Roles", "Members", "Team"] }],
+    items: [
+      { title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Members", "Team", "Invite"] },
+      { title: "Roles", href: "/roles", icon: ShieldCheck, permission: "staff:read", keywords: ["Permissions"] },
+      { title: "Break-glass", href: "/break-glass", icon: ShieldAlert, permission: "break_glass:review", keywords: ["Reviews"] },
+    ],
   },
 ];
 

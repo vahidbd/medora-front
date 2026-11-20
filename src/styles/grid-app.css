@@ -304,6 +304,14 @@ input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; appe
 .switch-track[data-size="sm"] .switch-knob { width: 12px; height: 12px; }
 .switch-track[data-size="sm"] .switch-knob[data-checked] { transform: translateX(12px); }
 
+/* A radio or checkbox with its words beside it (role and access choices):
+   the control sits on the first line, an explanation can follow under it. */
+.choice-row { display: flex; align-items: flex-start; gap: var(--space-8); font-size: var(--fs-ui); line-height: var(--h-check); color: var(--foreground); cursor: pointer; }
+.choice-row[data-disabled], .choice-row:has([data-disabled]) { cursor: not-allowed; color: var(--muted-foreground); }
+.choice-sub { display: block; font-size: var(--fs-caption); line-height: 1.45; color: var(--muted-foreground); }
+/* A heading over a group of choice rows (a role's permissions by data zone), set like a table header. */
+.choice-group-head { font: 600 var(--fs-overline)/1.4 var(--font-sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-foreground); }
+
 /* Badge variants for plain labels. */
 .badge-outline { background: var(--background); color: var(--foreground); border-color: var(--border-strong); }
 .badge-ghost { background: transparent; color: var(--muted-foreground); }

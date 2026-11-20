@@ -15,7 +15,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | The clinician who signs off a tenant's protocols | **Medical director** | clinical lead |
 | A pharmacy that dispenses for a tenant | **Partner pharmacy** | pharmacy app, dispensary |
 | A person's link to one tenant, with a role | **Membership** | seat, access |
+| An offer of a membership, sent by email, that becomes the membership when the person signs in | **Invitation** | invite (as a noun), pending user |
 | A named set of permissions | **Role** | group, profile |
+| A role every tenant has, defined in Medora's code and not editable by a tenant | **Starting role** | default role, system role, built-in role |
+| A role a tenant made by copying a starting role and editing it | **Custom role** | tenant role, user-defined role |
 | One thing a role may do, as a key like `staff:manage` | **Permission** | right, scope, claim |
 
 ## Care
@@ -42,6 +45,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | One of Medora's own AI agents (intake, support, care coordinator, clinical copilot) | **Agent** | bot, assistant, AI |
 | A permission-checked action an agent can take through the API | **Agent tool** | function, skill |
 | A clinical, operational, marketing or platform schema and what may touch it | **Data zone** | domain, area |
+| Time-limited, logged and reviewed use of clinical permissions by someone whose role is not clinical | **Break-glass** | emergency access, override, god mode |
+| Signing in with a second proof after the first, such as an authenticator code | **Two-step sign-in** | MFA, 2FA |
+| That second proof | **Second factor** | OTP, token |
+| One signed-in session, recorded with when, where from and on what device | **Sign-in** | login, session (on a screen) |
 | A row in `platform.audit_log` | **Audit entry** | log, history |
 | A fact written to the outbox for others to react to | **Event** | message, notification, webhook |
 | A setting that switches unfinished work on or off | **Feature flag** | toggle, switch |

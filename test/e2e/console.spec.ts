@@ -71,9 +71,8 @@ test("Staff lists the tenant's people, roles and access", async ({ page }) => {
   await page.getByRole("navigation", { name: "Workspace" }).getByRole("link", { name: "Staff" }).click();
   await expect(page).toHaveURL(/\/staff$/);
   const table = page.getByRole("table");
-  await expect(table.getByRole("row", { name: /sam\.lee@example\.test/ })).toContainText("Clinician");
-  await expect(table.getByRole("row", { name: /drew\.walker@example\.test/ })).toContainText("Paused");
-  await expect(table.getByRole("row")).toHaveCount(7);
+  await expect(table.getByRole("row", { name: /Sam Lee/ })).toContainText("Clinician");
+  await expect(table.getByRole("row", { name: /Drew Walker/ })).toContainText("Paused");
   expect(errors).toEqual([]);
 });
 

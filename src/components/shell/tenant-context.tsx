@@ -4,12 +4,13 @@ import { createContext, useCallback, useContext, useMemo, useState } from "react
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { meApi } from "@/lib/api/staff";
 import type { Membership, Permission } from "@/lib/api/types";
+import { isUsable } from "@/lib/staff-access";
 
 /**
  * The tenant the console is working in. A staff member can belong to more
  * than one; every call that acts in a tenant names it (the API's FND1), so
  * the choice lives here and is remembered in this browser. Only active
- * memberships can be chosen.
+ * memberships that haven't reached their end date can be chosen.
  */
 type TenantContextValue = {
   /** The person's active memberships, one per tenant. */
@@ -35,7 +36,7 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   // AuthGate has loaded it before this renders.
   const { data: me } = useQuery({ queryKey: ["me"], queryFn: meApi.get, enabled: false });
-  const memberships = useMemo(() => (me?.memberships ?? []).filter((m) => m.status === "active"), [me]);
+  const memberships = useMemo(() => (me?.memberships ?? []).filter((m) => isUsable(m)), [me]);
   const [chosen, setChosen] = useState<string | null>(() => (typeof window === "undefined" ? null : stored()));
 
   const current = memberships.find((m) => m.tenantId === chosen) ?? memberships[0];
