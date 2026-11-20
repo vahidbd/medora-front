@@ -1027,7 +1027,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -2041,13 +2041,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -2056,7 +2056,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
                             }[];
                         };
                     };
@@ -2079,7 +2079,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
                     };
                 };
             };
@@ -2099,7 +2099,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -2166,7 +2166,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
                     };
                 };
             };
@@ -2186,7 +2186,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "messaging:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "tenant:manage" | "brands:manage" | "support:read" | "support:reply" | "support:clinical" | "messaging:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -2796,6 +2796,974 @@ export type paths = {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The inbox: tickets newest first */
+        get: {
+            parameters: {
+                query?: {
+                    assignee?: "me" | "unassigned" | string;
+                    before?: string;
+                    brandId?: string;
+                    limit?: number;
+                    patientId?: string;
+                    queue?: "support" | "clinical";
+                    status?: "open" | "waiting" | "solved" | "active";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            nextBefore: string | null;
+                            tickets: {
+                                /** Format: uuid */
+                                assigneeMembershipId: string | null;
+                                /** Format: uuid */
+                                brandId: string | null;
+                                /** @enum {string} */
+                                channel: "email" | "sms" | "chat" | "voice";
+                                createdAt: string;
+                                firstRespondedAt: string | null;
+                                firstResponseDueAt: string;
+                                flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                                lastMessageAt: string;
+                                overdue: boolean;
+                                patient: {
+                                    displayName: string | null;
+                                    /** Format: uuid */
+                                    patientId: string;
+                                    verified: boolean;
+                                } | null;
+                                preview: {
+                                    at: string;
+                                    automated: boolean;
+                                    /** @enum {string} */
+                                    channel: "email" | "sms" | "chat" | "voice";
+                                    /** @enum {string} */
+                                    direction: "inbound" | "outbound";
+                                    snippet: string;
+                                    subject: string | null;
+                                } | null;
+                                /** @enum {string} */
+                                priority: "normal" | "urgent";
+                                /** @enum {string} */
+                                queue: "support" | "clinical";
+                                /** @enum {string} */
+                                status: "open" | "waiting" | "solved";
+                                textHidden: boolean;
+                                /** Format: uuid */
+                                ticketId: string;
+                                /** @enum {string} */
+                                topic: "care_team" | "orders" | "billing" | "account" | "other";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One ticket, its messages and comments */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            assigneeMembershipId: string | null;
+                            /** Format: uuid */
+                            brandId: string | null;
+                            /** @enum {string} */
+                            channel: "email" | "sms" | "chat" | "voice";
+                            comments: {
+                                /** Format: uuid */
+                                authorUserId: string;
+                                body: string;
+                                /** Format: uuid */
+                                commentId: string;
+                                createdAt: string;
+                            }[] | null;
+                            createdAt: string;
+                            firstRespondedAt: string | null;
+                            firstResponseDueAt: string;
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                            lastMessageAt: string;
+                            messages: {
+                                attachmentCount: number;
+                                authorId: string | null;
+                                /** @enum {string} */
+                                authorType: "person" | "patient" | "agent" | "system";
+                                automated: boolean;
+                                body: string;
+                                /** @enum {string} */
+                                channel: "email" | "sms" | "chat" | "voice";
+                                createdAt: string;
+                                /** @enum {string} */
+                                direction: "inbound" | "outbound";
+                                failureCode: string | null;
+                                from: string | null;
+                                /** Format: uuid */
+                                messageId: string;
+                                sentAt: string | null;
+                                /** @enum {string} */
+                                status: "queued" | "sending" | "sent" | "delivered" | "failed" | "received" | "logged";
+                                subject: string | null;
+                                to: string | null;
+                            }[] | null;
+                            overdue: boolean;
+                            patient: {
+                                displayName: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                verified: boolean;
+                            } | null;
+                            patientPanel: {
+                                dateOfBirth: string;
+                                displayName: string;
+                                email: string | null;
+                                mobile: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                            } | null;
+                            /** @enum {string} */
+                            priority: "normal" | "urgent";
+                            /** @enum {string} */
+                            queue: "support" | "clinical";
+                            reply: {
+                                allowed: boolean;
+                                /** @enum {string|null} */
+                                channel: "email" | "sms" | "chat" | null;
+                                refusal: string | null;
+                            };
+                            /** @enum {string} */
+                            status: "open" | "waiting" | "solved";
+                            textHidden: boolean;
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account" | "other";
+                            verification: {
+                                at: string;
+                                /** Format: uuid */
+                                byUserId: string | null;
+                                /** @enum {string|null} */
+                                method: "date_of_birth" | "call_back" | "patient_app" | null;
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change a ticket's status, queue, priority or assignee */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        assigneeMembershipId?: string | null;
+                        /** @enum {string} */
+                        priority?: "normal" | "urgent";
+                        /** @enum {string} */
+                        queue?: "support" | "clinical";
+                        /** @enum {string} */
+                        status?: "open" | "waiting" | "solved";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            assigneeMembershipId: string | null;
+                            /** Format: uuid */
+                            brandId: string | null;
+                            /** @enum {string} */
+                            channel: "email" | "sms" | "chat" | "voice";
+                            comments: {
+                                /** Format: uuid */
+                                authorUserId: string;
+                                body: string;
+                                /** Format: uuid */
+                                commentId: string;
+                                createdAt: string;
+                            }[] | null;
+                            createdAt: string;
+                            firstRespondedAt: string | null;
+                            firstResponseDueAt: string;
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                            lastMessageAt: string;
+                            messages: {
+                                attachmentCount: number;
+                                authorId: string | null;
+                                /** @enum {string} */
+                                authorType: "person" | "patient" | "agent" | "system";
+                                automated: boolean;
+                                body: string;
+                                /** @enum {string} */
+                                channel: "email" | "sms" | "chat" | "voice";
+                                createdAt: string;
+                                /** @enum {string} */
+                                direction: "inbound" | "outbound";
+                                failureCode: string | null;
+                                from: string | null;
+                                /** Format: uuid */
+                                messageId: string;
+                                sentAt: string | null;
+                                /** @enum {string} */
+                                status: "queued" | "sending" | "sent" | "delivered" | "failed" | "received" | "logged";
+                                subject: string | null;
+                                to: string | null;
+                            }[] | null;
+                            overdue: boolean;
+                            patient: {
+                                displayName: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                verified: boolean;
+                            } | null;
+                            patientPanel: {
+                                dateOfBirth: string;
+                                displayName: string;
+                                email: string | null;
+                                mobile: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                            } | null;
+                            /** @enum {string} */
+                            priority: "normal" | "urgent";
+                            /** @enum {string} */
+                            queue: "support" | "clinical";
+                            reply: {
+                                allowed: boolean;
+                                /** @enum {string|null} */
+                                channel: "email" | "sms" | "chat" | null;
+                                refusal: string | null;
+                            };
+                            /** @enum {string} */
+                            status: "open" | "waiting" | "solved";
+                            textHidden: boolean;
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account" | "other";
+                            verification: {
+                                at: string;
+                                /** Format: uuid */
+                                byUserId: string | null;
+                                /** @enum {string|null} */
+                                method: "date_of_birth" | "call_back" | "patient_app" | null;
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}/calls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Log a phone call on a ticket: a summary, no recording */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        direction: "inbound" | "outbound";
+                        phone?: string | null;
+                        summary: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            assigneeMembershipId: string | null;
+                            /** Format: uuid */
+                            brandId: string | null;
+                            /** @enum {string} */
+                            channel: "email" | "sms" | "chat" | "voice";
+                            comments: {
+                                /** Format: uuid */
+                                authorUserId: string;
+                                body: string;
+                                /** Format: uuid */
+                                commentId: string;
+                                createdAt: string;
+                            }[] | null;
+                            createdAt: string;
+                            firstRespondedAt: string | null;
+                            firstResponseDueAt: string;
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                            lastMessageAt: string;
+                            messages: {
+                                attachmentCount: number;
+                                authorId: string | null;
+                                /** @enum {string} */
+                                authorType: "person" | "patient" | "agent" | "system";
+                                automated: boolean;
+                                body: string;
+                                /** @enum {string} */
+                                channel: "email" | "sms" | "chat" | "voice";
+                                createdAt: string;
+                                /** @enum {string} */
+                                direction: "inbound" | "outbound";
+                                failureCode: string | null;
+                                from: string | null;
+                                /** Format: uuid */
+                                messageId: string;
+                                sentAt: string | null;
+                                /** @enum {string} */
+                                status: "queued" | "sending" | "sent" | "delivered" | "failed" | "received" | "logged";
+                                subject: string | null;
+                                to: string | null;
+                            }[] | null;
+                            overdue: boolean;
+                            patient: {
+                                displayName: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                verified: boolean;
+                            } | null;
+                            patientPanel: {
+                                dateOfBirth: string;
+                                displayName: string;
+                                email: string | null;
+                                mobile: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                            } | null;
+                            /** @enum {string} */
+                            priority: "normal" | "urgent";
+                            /** @enum {string} */
+                            queue: "support" | "clinical";
+                            reply: {
+                                allowed: boolean;
+                                /** @enum {string|null} */
+                                channel: "email" | "sms" | "chat" | null;
+                                refusal: string | null;
+                            };
+                            /** @enum {string} */
+                            status: "open" | "waiting" | "solved";
+                            textHidden: boolean;
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account" | "other";
+                            verification: {
+                                at: string;
+                                /** Format: uuid */
+                                byUserId: string | null;
+                                /** @enum {string|null} */
+                                method: "date_of_birth" | "call_back" | "patient_app" | null;
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a comment only staff see */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            authorUserId: string;
+                            body: string;
+                            /** Format: uuid */
+                            commentId: string;
+                            createdAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}/flags": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Flag a ticket: it only ever escalates */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        flag: "emergency" | "self_harm" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}/flags/{flag}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /** Clear a flag */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    flag: "emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested";
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}/patient": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Link the ticket to a patient, or to nobody */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        patientId: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            assigneeMembershipId: string | null;
+                            /** Format: uuid */
+                            brandId: string | null;
+                            /** @enum {string} */
+                            channel: "email" | "sms" | "chat" | "voice";
+                            comments: {
+                                /** Format: uuid */
+                                authorUserId: string;
+                                body: string;
+                                /** Format: uuid */
+                                commentId: string;
+                                createdAt: string;
+                            }[] | null;
+                            createdAt: string;
+                            firstRespondedAt: string | null;
+                            firstResponseDueAt: string;
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                            lastMessageAt: string;
+                            messages: {
+                                attachmentCount: number;
+                                authorId: string | null;
+                                /** @enum {string} */
+                                authorType: "person" | "patient" | "agent" | "system";
+                                automated: boolean;
+                                body: string;
+                                /** @enum {string} */
+                                channel: "email" | "sms" | "chat" | "voice";
+                                createdAt: string;
+                                /** @enum {string} */
+                                direction: "inbound" | "outbound";
+                                failureCode: string | null;
+                                from: string | null;
+                                /** Format: uuid */
+                                messageId: string;
+                                sentAt: string | null;
+                                /** @enum {string} */
+                                status: "queued" | "sending" | "sent" | "delivered" | "failed" | "received" | "logged";
+                                subject: string | null;
+                                to: string | null;
+                            }[] | null;
+                            overdue: boolean;
+                            patient: {
+                                displayName: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                verified: boolean;
+                            } | null;
+                            patientPanel: {
+                                dateOfBirth: string;
+                                displayName: string;
+                                email: string | null;
+                                mobile: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                            } | null;
+                            /** @enum {string} */
+                            priority: "normal" | "urgent";
+                            /** @enum {string} */
+                            queue: "support" | "clinical";
+                            reply: {
+                                allowed: boolean;
+                                /** @enum {string|null} */
+                                channel: "email" | "sms" | "chat" | null;
+                                refusal: string | null;
+                            };
+                            /** @enum {string} */
+                            status: "open" | "waiting" | "solved";
+                            textHidden: boolean;
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account" | "other";
+                            verification: {
+                                at: string;
+                                /** Format: uuid */
+                                byUserId: string | null;
+                                /** @enum {string|null} */
+                                method: "date_of_birth" | "call_back" | "patient_app" | null;
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}/replies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reply to the person, the way they last wrote in */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                        /** @enum {string} */
+                        status?: "waiting" | "solved";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            assigneeMembershipId: string | null;
+                            /** Format: uuid */
+                            brandId: string | null;
+                            /** @enum {string} */
+                            channel: "email" | "sms" | "chat" | "voice";
+                            comments: {
+                                /** Format: uuid */
+                                authorUserId: string;
+                                body: string;
+                                /** Format: uuid */
+                                commentId: string;
+                                createdAt: string;
+                            }[] | null;
+                            createdAt: string;
+                            firstRespondedAt: string | null;
+                            firstResponseDueAt: string;
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                            lastMessageAt: string;
+                            messages: {
+                                attachmentCount: number;
+                                authorId: string | null;
+                                /** @enum {string} */
+                                authorType: "person" | "patient" | "agent" | "system";
+                                automated: boolean;
+                                body: string;
+                                /** @enum {string} */
+                                channel: "email" | "sms" | "chat" | "voice";
+                                createdAt: string;
+                                /** @enum {string} */
+                                direction: "inbound" | "outbound";
+                                failureCode: string | null;
+                                from: string | null;
+                                /** Format: uuid */
+                                messageId: string;
+                                sentAt: string | null;
+                                /** @enum {string} */
+                                status: "queued" | "sending" | "sent" | "delivered" | "failed" | "received" | "logged";
+                                subject: string | null;
+                                to: string | null;
+                            }[] | null;
+                            overdue: boolean;
+                            patient: {
+                                displayName: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                verified: boolean;
+                            } | null;
+                            patientPanel: {
+                                dateOfBirth: string;
+                                displayName: string;
+                                email: string | null;
+                                mobile: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                            } | null;
+                            /** @enum {string} */
+                            priority: "normal" | "urgent";
+                            /** @enum {string} */
+                            queue: "support" | "clinical";
+                            reply: {
+                                allowed: boolean;
+                                /** @enum {string|null} */
+                                channel: "email" | "sms" | "chat" | null;
+                                refusal: string | null;
+                            };
+                            /** @enum {string} */
+                            status: "open" | "waiting" | "solved";
+                            textHidden: boolean;
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account" | "other";
+                            verification: {
+                                at: string;
+                                /** Format: uuid */
+                                byUserId: string | null;
+                                /** @enum {string|null} */
+                                method: "date_of_birth" | "call_back" | "patient_app" | null;
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/tickets/{ticketId}/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm who you are talking to, and how */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    ticketId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        method: "date_of_birth" | "call_back";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            assigneeMembershipId: string | null;
+                            /** Format: uuid */
+                            brandId: string | null;
+                            /** @enum {string} */
+                            channel: "email" | "sms" | "chat" | "voice";
+                            comments: {
+                                /** Format: uuid */
+                                authorUserId: string;
+                                body: string;
+                                /** Format: uuid */
+                                commentId: string;
+                                createdAt: string;
+                            }[] | null;
+                            createdAt: string;
+                            firstRespondedAt: string | null;
+                            firstResponseDueAt: string;
+                            flags: ("emergency" | "self_harm" | "clinical" | "possible_adverse_event" | "possible_complaint" | "legal" | "person_requested")[];
+                            lastMessageAt: string;
+                            messages: {
+                                attachmentCount: number;
+                                authorId: string | null;
+                                /** @enum {string} */
+                                authorType: "person" | "patient" | "agent" | "system";
+                                automated: boolean;
+                                body: string;
+                                /** @enum {string} */
+                                channel: "email" | "sms" | "chat" | "voice";
+                                createdAt: string;
+                                /** @enum {string} */
+                                direction: "inbound" | "outbound";
+                                failureCode: string | null;
+                                from: string | null;
+                                /** Format: uuid */
+                                messageId: string;
+                                sentAt: string | null;
+                                /** @enum {string} */
+                                status: "queued" | "sending" | "sent" | "delivered" | "failed" | "received" | "logged";
+                                subject: string | null;
+                                to: string | null;
+                            }[] | null;
+                            overdue: boolean;
+                            patient: {
+                                displayName: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                verified: boolean;
+                            } | null;
+                            patientPanel: {
+                                dateOfBirth: string;
+                                displayName: string;
+                                email: string | null;
+                                mobile: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                            } | null;
+                            /** @enum {string} */
+                            priority: "normal" | "urgent";
+                            /** @enum {string} */
+                            queue: "support" | "clinical";
+                            reply: {
+                                allowed: boolean;
+                                /** @enum {string|null} */
+                                channel: "email" | "sms" | "chat" | null;
+                                refusal: string | null;
+                            };
+                            /** @enum {string} */
+                            status: "open" | "waiting" | "solved";
+                            textHidden: boolean;
+                            /** Format: uuid */
+                            ticketId: string;
+                            /** @enum {string} */
+                            topic: "care_team" | "orders" | "billing" | "account" | "other";
+                            verification: {
+                                at: string;
+                                /** Format: uuid */
+                                byUserId: string | null;
+                                /** @enum {string|null} */
+                                method: "date_of_birth" | "call_back" | "patient_app" | null;
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
