@@ -1,0 +1,59 @@
+/*
+ * The one deliberate deviation from the Grid kit's token values: WCAG AA.
+ *
+ * Kit tokens that put text under 4.5:1, or a focus indicator under 3:1,
+ * move to the nearest shade of the same hue that passes, measured against
+ * the darkest surface each one actually sits on. Nothing else changes, and
+ * grid-tokens.css stays the kit's file. Unlayered, like the tokens, and
+ * imported straight after them, so removing the import restores the kit.
+ * Light values are scoped to :root:not(.dark) so they never reach dark.
+ *
+ * Light                                    before → after (worst surface)
+ *   --muted-foreground  #77746d → #6b6862  canvas 4.13 → 4.92, canvas-strong 3.78 → 4.50
+ *   --sidebar-muted     #8c8880 → #696660  canvas-strong 2.86 → 4.63, white 3.53 → 5.72
+ *   --placeholder       #a19d96 → #73706a  white 2.70 → 4.94, subtle → 4.69 (still lighter than values)
+ *   --text-faint        #a5a19a → #73706a  "Not set" on white 2.57 → 4.94
+ *   --input-focus       #b8b3ab → #8f8b84  focused field edge 2.08 → 3.39
+ *   --halo-strong       3px 14% ink → a 1px line of 50% ink and a 4px glow of 6%:
+ *                       the line is the 3:1 edge (white 3.27, canvas 3.15), the glow
+ *                       only softens it (the product owner: no thick grey ring)
+ *   --focus-edge        ink → 50% ink     the halo's colour, as the 1px focus edge of nav
+ *                                          rows and tabs: canvas 3.15, a hovered sidebar row
+ *                                          3.09, white 3.27 (Medora's token, not the kit's)
+ * Dark
+ *   --sidebar-muted     #7f7b74 → #918d86  canvas-strong 4.17 → 5.32
+ *   --placeholder       #75716a → #8a867f  background 3.58 → 4.80
+ *   --text-faint        #75716a → #8a867f  background 3.58 → 4.80
+ *   --destructive       #e5534b → #e86861  red text (errors, danger menu items) on popover 4.29 → 4.98,
+ *                                          on background 5.45
+ *   --destructive-solid (new)   #c94842  the fill behind white text (danger buttons) 3.70 → 4.68;
+ *                                          hover darkens it (6.0). grid-app.css paints those
+ *                                          fills with it, falling back to --destructive in light.
+ *   --halo-strong       3px 22% light → a 1px line of 40% light (3.41) and a 4px glow of 8%
+ *   --focus-edge        light → 40% light the 1px focus edge: canvas 3.39, hovered 3.36,
+ *                                          background 3.41
+ *
+ * Field edges at rest (--input, 1.33:1) stay the kit's: each field also has
+ * a label, a value or placeholder and the focus ring. Raising --input here
+ * to #949089 would give 3:1 if that is ever wanted (WCAG 1.4.11).
+ */
+:root:not(.dark) {
+  --muted-foreground: #6b6862;
+  --sidebar-muted: #696660;
+  --placeholder: #73706a;
+  --text-faint: #73706a;
+  --input-focus: #8f8b84;
+  --halo-strong: 0 0 0 1px rgba(31, 30, 28, 0.5), 0 0 0 4px rgba(31, 30, 28, 0.06);
+  --focus-edge: rgba(31, 30, 28, 0.5);
+}
+
+.dark {
+  --sidebar-muted: #918d86;
+  --placeholder: #8a867f;
+  --text-faint: #8a867f;
+  --destructive: #e86861;
+  --destructive-solid: #c94842;
+  --destructive-hover: color-mix(in srgb, #c94842 88%, black);
+  --halo-strong: 0 0 0 1px rgba(236, 235, 231, 0.4), 0 0 0 4px rgba(236, 235, 231, 0.08);
+  --focus-edge: rgba(236, 235, 231, 0.4);
+}

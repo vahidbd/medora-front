@@ -1,0 +1,167 @@
+/* Record page additions (RecordPage, sections, activity log). Built only from grid-tokens.css. */
+
+/* ============== Record page ============== */
+/* The page is a size container, so the rail folds away when the page (not
+   the window) is narrow: a laptop with a side panel open, a split screen.
+   Below about 980px the sections run full width; the kit already drops the
+   rail on a phone. */
+.record-page { container: record-page / inline-size; min-width: 0; }
+@container record-page (max-width: 980px) {
+  .record-page > .editor-shell { grid-template-columns: minmax(0, 1fr); }
+  .record-page > .editor-shell > .editor-nav { display: none; }
+}
+
+/* Header: an icon tile when the record is not a person, and a meta line
+   that wraps rather than pushing the page sideways. */
+.editor-head .editor-lead .lead-tile { width: var(--h-seg); height: var(--h-seg); flex: none; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--background); color: var(--icon-color); box-shadow: inset 0 0 0 1px var(--border), var(--shadow-xs); }
+.editor-head .editor-lead .lead-tile svg { width: var(--icon); height: var(--icon); }
+.record-page .editor-head .meta { flex-wrap: wrap; white-space: normal; }
+.editor-head .meta .meta-item { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 100%; white-space: nowrap; color: inherit; text-decoration: none; }
+/* A fact longer than the line (a new record's "Not saved yet…" hint on a phone) wraps inside itself; shorter facts still move to the next line whole. */
+.editor-head .meta .meta-item > span { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.editor-head .meta .meta-item svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--icon-color); flex: none; }
+.editor-head .meta a.meta-item:hover { color: var(--foreground); }
+.editor-head .meta .mono { font-family: var(--font-mono); }
+
+/* Rail: long labels are cut, the full label shows on hover. */
+.editor-nav-item .label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* A long record (a patient can have many sections) makes the section rail
+   taller than the panel, and a stuck rail never scrolls with the page, so
+   the last sections were out of reach. The rail scrolls on its own instead,
+   and its rows draw the focus edge inside, so the scrolling rail can't clip
+   it (as the sidebar's rows do). */
+.editor-nav {
+  max-height: calc(100vh - 2 * var(--canvas-inset) - 2px - var(--topbar-h) - 2 * var(--editor-sticky-top));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.editor-nav-item:focus-visible { outline: none; box-shadow: inset 0 0 0 1px var(--focus-edge); }
+
+/* The end of the content, watched so the last section lights up at the bottom. */
+.editor-content > [data-record-end] { height: 0; margin-top: calc(-1 * var(--space-20)); }
+
+/* ============== Avatars ============== */
+/* Initials on a status-family pastel, picked from a stable seed. */
+.ava.ava-info { background: var(--status-info-bg); color: var(--status-info-fg); box-shadow: inset 0 0 0 1px var(--status-info-border); }
+.ava.ava-success { background: var(--status-success-bg); color: var(--status-success-fg); box-shadow: inset 0 0 0 1px var(--status-success-border); }
+.ava.ava-accent { background: var(--status-accent-bg); color: var(--status-accent-fg); box-shadow: inset 0 0 0 1px var(--status-accent-border); }
+.ava.ava-warning { background: var(--status-warning-bg); color: var(--status-warning-fg); box-shadow: inset 0 0 0 1px var(--status-warning-border); }
+.ava.ava-neutral { background: var(--status-neutral-bg); color: var(--status-neutral-fg); box-shadow: inset 0 0 0 1px var(--status-neutral-border); }
+
+/* ============== Section bodies ============== */
+.record-stack { display: flex; flex-direction: column; gap: var(--space-20); min-width: 0; }
+
+/* A flush body (a table edge to edge) still pads what is not a table. */
+.card-body.flush > .record-pad { padding: var(--space-20) var(--card-pad) var(--space-24); }
+.card-body.flush > .section-more { padding: var(--space-10) var(--card-pad); border-top: 1px solid var(--border); }
+/* A table that ends the card keeps 8 under its last row, so that row's
+   text sits 20 or more from the card's bottom edge, as the title sits 20
+   from its top (DESIGN.md, "Spacing"). */
+.card-body.flush > .table-wrap:last-child { padding-bottom: var(--space-8); }
+.section-more .btn svg { width: var(--icon-sm); height: var(--icon-sm); }
+
+/* A row's link sits in its first cell, so the keyboard and new tabs work. */
+.table a.row-link { color: inherit; font-weight: 500; text-decoration: none; border-radius: var(--radius-xs); }
+.table a.row-link:hover { text-decoration: underline; text-decoration-color: var(--border-hover); text-underline-offset: 3px; }
+.table a.row-link:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+
+/* ============== Figures, rings, meters ============== */
+.figure.with-ring .figure-text { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+/* Tailwind has a `ring` utility too (a 1px box-shadow) and it lands on the
+   kit's .ring; a transparent ring colour keeps only the conic fill showing. */
+.ring { --tw-ring-color: transparent; }
+.ring.is-success { --tone: var(--status-success-dot); }
+.ring.is-warning { --tone: var(--status-warning-dot); }
+.ring.is-danger { --tone: var(--status-danger-dot); }
+.ring.is-info { --tone: var(--status-info-dot); }
+.ring.is-accent { --tone: var(--status-accent-dot); }
+.ring.is-neutral { --tone: var(--status-neutral-dot); }
+.meter.is-success > span { background: var(--status-success-dot); }
+.meter.is-warning > span { background: var(--status-warning-dot); }
+.meter.is-danger > span { background: var(--status-danger-dot); }
+.meter.is-info > span { background: var(--status-info-dot); }
+.meter.is-accent > span { background: var(--status-accent-dot); }
+.meter.is-neutral > span { background: var(--status-neutral-dot); }
+
+/* ============== Address, person, row list ============== */
+.address-row + .address-row { margin-top: var(--space-8); }
+.address-row .address-text { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.address-row .address-text.empty { color: var(--text-faint); }
+.address-row .address-label { flex: none; font-size: var(--fs-caption); color: var(--muted-foreground); }
+.address-row .address-actions { flex: none; display: flex; align-items: center; gap: var(--space-8); }
+
+a.person-box { color: inherit; text-decoration: none; }
+a.person-box:hover { background: var(--subtle); border-color: var(--border-hover); }
+.person-box .person-text > * { display: block; }
+.person-box a.person-name { color: inherit; text-decoration: none; }
+.person-box a.person-name:hover { text-decoration: underline; text-decoration-color: var(--border-hover); text-underline-offset: 3px; }
+.person-box .person-actions { flex: none; display: flex; align-items: center; gap: var(--space-8); }
+
+.row-list-item .rl-main > span { display: block; }
+
+/* ============== Activity log ============== */
+.activity-main > span { display: block; }
+.activity-row[aria-expanded="true"] { background: var(--subtle); }
+.activity-row:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.activity-detail .activity-change { display: block; }
+.activity-more { display: flex; align-items: center; gap: var(--space-10); padding-top: var(--space-8); }
+.activity-more-count { font-size: var(--fs-caption); color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
+
+/* ============== Skeletons ============== */
+/* Shaped like what they stand for, so nothing moves when it arrives. */
+.record-skeleton { display: flex; flex-direction: column; gap: var(--space-12); }
+.record-skeleton .skeleton { height: var(--h-xs); }
+.record-skeleton .skeleton:nth-child(3n + 2) { width: 82%; }
+.record-skeleton .skeleton:nth-child(3n) { width: 64%; }
+.record-skeleton .skeleton.is-row { height: var(--h-th); width: 100%; }
+.record-skel-title { width: min(320px, 70%); height: var(--h-control); }
+.record-skel-meta { width: min(420px, 90%); height: var(--h-xs); margin-top: var(--space-8); }
+.record-skel-rail { height: var(--h-row); border-radius: var(--radius-9); }
+.record-skel-head { display: flex; flex-direction: column; gap: var(--space-8); width: min(360px, 80%); }
+.record-skel-h2 { width: 45%; height: var(--h-xs); }
+.record-skel-sub { width: 85%; height: var(--fs-sm); }
+
+/* The meta line wraps, and a separator dot must never hang at the end of a
+   line. Each item after the first draws its dot in the gap before it; the
+   line clips at its left edge, so the dot of an item that starts a new line
+   falls outside and isn't painted. The 4px of padding keeps a focus ring on
+   the first item whole. */
+.record-page .editor-head .meta { --meta-gap: var(--space-24); column-gap: var(--meta-gap); padding-left: 4px; margin-left: -4px; clip-path: inset(-8px -8px -8px 0); }
+.record-page .editor-head .meta > .dot { display: none; }
+.record-page .editor-head .meta > .meta-item { position: relative; }
+.record-page .editor-head .meta > .dot + .meta-item::before { content: ""; position: absolute; top: 50%; left: calc(var(--meta-gap) / -2 - 1.5px); width: 3px; height: 3px; margin-top: -1.5px; border-radius: var(--radius-full); background: var(--muted-foreground); opacity: 0.5; pointer-events: none; }
+
+/* ============== Record preview ============== */
+/* RecordPreviewDrawer: the kit's drawer with a record head (avatar, name,
+   status, the previous and next arrows left of the close button), a row of
+   quick actions under it, and labelled blocks in the body. */
+.rp-head { padding-right: calc(var(--h-seg) + var(--space-18) + var(--space-10)); }
+.rp-head-row { display: flex; align-items: center; gap: var(--space-14); min-width: 0; }
+.rp-titles { flex: 1 1 auto; min-width: 0; }
+.rp-title-line { display: flex; align-items: center; gap: var(--space-10); min-width: 0; }
+.rp-title-line .rp-title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rp-title-line .badge { flex: none; }
+.rp-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rp-sub .mono { font-family: var(--font-mono); }
+.rp-nav { flex: none; display: flex; align-items: center; gap: var(--space-2); align-self: flex-start; margin-top: calc(var(--space-2) * -1); }
+/* The same 40 as the person's avatar beside a name. */
+.rp-tile { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: var(--radius-sm); background: var(--background); color: var(--icon-color); box-shadow: inset 0 0 0 1px var(--border), var(--shadow-xs); }
+.rp-tile svg { width: var(--icon-lg); height: var(--icon-lg); }
+
+.rp-actions { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); padding: var(--space-12) var(--space-24); border-bottom: 1px solid var(--border); }
+
+.rp-body { gap: var(--space-20); }
+.rp-block { display: flex; flex-direction: column; gap: var(--space-10); min-width: 0; }
+.rp-block-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-12); }
+.rp-block-label { margin: 0; font-size: var(--fs-overline); font-weight: 500; text-transform: uppercase; letter-spacing: var(--ls-overline); color: var(--muted-foreground); }
+.rp-block-end { font-size: var(--fs-caption); color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
+.rp-block-end a { color: var(--foreground); text-decoration: underline; text-decoration-color: var(--border-hover); text-underline-offset: 3px; border-radius: var(--radius-xs); }
+.rp-block-end a:hover { text-decoration-color: var(--foreground); }
+.rp-block-end a:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+/* Two figures side by side in the drawer's width. */
+.rp-body .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.rp-body .rl-end svg { width: var(--icon); height: var(--icon); }
+
+.rp-skeleton { display: flex; flex-direction: column; gap: var(--space-20); }
+.rp-skel-label { width: 48%; height: var(--space-12); }
+.rp-skel-value { width: 72%; height: var(--space-24); }

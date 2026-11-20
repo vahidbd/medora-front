@@ -1,0 +1,29 @@
+{
+  "about": "Names that must never appear in this repo (ADR 0032): other products and their parts. Stored as SHA-256 hashes of the lowercase name so this file names nothing. scripts/check-names.mjs matches whole words, camelCase parts, two and three words joined, and (for 'substrings') any part of a word. To add a name, ask the product owner.",
+  "words": [
+    "0ffa91d3915f885e0ac5d334064b986b47c860898f954a6f288c1eb01abf741c",
+    "18c082269e98051b8aa3f8317f3ceced15ed820d5eb9715ee1e4db9df582759b",
+    "19e05df6b2e5fb94f3ee7eed2c02d340a1128a00231f5f6949641a143ab3b57a",
+    "20e856d5eed87ee560f33d4641ff9f9725e1c6adeef6a35757e30688d2bacc47",
+    "2c0dbc716fbc970bb992698c98386012a06533174331d45be20db9d083e3ba33",
+    "2eebe4707ca5c67f54c45b1986f90c972c00509821f6812a1ebf28abfa62bbd1",
+    "5b023a7738d515b8cec17f4d9c1c4ff1828c65e2c2d86401fe573faa439da034",
+    "87b31cffc9a062aace5c89e27be51f8cb65a1fda089195a3e13952f0e1b22ebc",
+    "94c9b9e758ce36e5057b4c2f6c3e317e7ecd12a50f5dca241ca2a86d7fe014d0",
+    "970ec274ca867815174ebe4eff19282000f9495a6c7254e94991d1fb4dc3df30"
+  ],
+  "substrings": [
+    {
+      "length": 7,
+      "hash": "0ffa91d3915f885e0ac5d334064b986b47c860898f954a6f288c1eb01abf741c"
+    },
+    {
+      "length": 6,
+      "hash": "94c9b9e758ce36e5057b4c2f6c3e317e7ecd12a50f5dca241ca2a86d7fe014d0"
+    },
+    {
+      "length": 7,
+      "hash": "2eebe4707ca5c67f54c45b1986f90c972c00509821f6812a1ebf28abfa62bbd1"
+    }
+  ]
+}

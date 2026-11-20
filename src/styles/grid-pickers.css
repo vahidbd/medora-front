@@ -1,0 +1,99 @@
+/* ============== Date, time and date-time fields ==============
+   The kit's input with a picker button inside its right edge, and the kit
+   popover holding a calendar or a list of times. Built from tokens only. */
+
+.date-field, .time-field { position: relative; display: block; width: 100%; min-width: 0; }
+.date-field > .input, .time-field > .input { padding-right: calc(var(--h-control) - 2px); font-variant-numeric: tabular-nums; }
+/* The date keeps room for "18/11/2026"; the time takes what "23:45" needs. */
+.datetime-field { display: grid; grid-template-columns: minmax(8.5rem, 1fr) 6.5rem; gap: var(--space-8); width: 100%; min-width: 0; }
+
+.field-btn {
+  position: absolute; top: 4px; right: 4px; bottom: 4px; width: calc(var(--h-control) - 8px);
+  display: grid; place-items: center; padding: 0; border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: var(--icon-color); cursor: pointer;
+  transition: background-color var(--dur-quick) var(--ease-out), color var(--dur-quick) var(--ease-out);
+}
+.field-btn:hover, .field-btn[data-popup-open] { background: var(--muted); color: var(--foreground); }
+.field-btn:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.field-btn:disabled { opacity: 0.5; cursor: not-allowed; background: transparent; }
+.field-btn svg { width: var(--icon); height: var(--icon); }
+.date-field[data-disabled] > .input, .time-field[data-disabled] > .input { cursor: not-allowed; }
+
+.picker-pop { padding: var(--space-12); outline: none; }
+.cal-pop { width: 300px; }
+.time-pop { width: 148px; padding: var(--space-4); }
+
+.cal-head { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-8); }
+.cal-title {
+  flex: 1; display: inline-flex; align-items: center; gap: var(--space-4); justify-content: flex-start;
+  height: var(--h-xs); margin-left: calc(-1 * var(--space-6)); padding: 0 var(--space-6); border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: var(--foreground); font: var(--fw-semibold) var(--fs-ui)/1 var(--font-sans); cursor: pointer;
+  transition: background-color var(--dur-quick) var(--ease-out);
+}
+.cal-title:hover:not(:disabled) { background: var(--muted); }
+.cal-title:disabled { cursor: default; }
+.cal-title svg { width: var(--icon-sm); height: var(--icon-sm); color: var(--muted-foreground); }
+.cal-step {
+  display: grid; place-items: center; width: var(--h-xs); height: var(--h-xs); padding: 0; border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: var(--icon-color); cursor: pointer; transition: background-color var(--dur-quick) var(--ease-out), color var(--dur-quick) var(--ease-out);
+}
+.cal-step:hover { background: var(--muted); color: var(--foreground); }
+.cal-step svg { width: var(--icon); height: var(--icon); }
+.cal-title:focus-visible, .cal-step:focus-visible, .cal-day:focus-visible, .cal-cell:focus-visible, .cal-link:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+
+.cal-grid { display: flex; flex-direction: column; gap: var(--space-2); }
+.cal-row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-2); }
+.cal-dow {
+  height: var(--h-28); display: grid; place-items: center;
+  font-size: var(--fs-micro); font-weight: var(--fw-semibold); letter-spacing: var(--ls-overline); text-transform: uppercase; color: var(--muted-foreground);
+}
+.cal-day {
+  position: relative; height: var(--h-control); padding: 0; border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: var(--foreground); font: var(--fw-medium) var(--fs-ui)/1 var(--font-sans); font-variant-numeric: tabular-nums;
+  cursor: pointer; transition: background-color var(--dur-quick) var(--ease-out), color var(--dur-quick) var(--ease-out);
+}
+.cal-day:hover { background: var(--muted); }
+.cal-day.is-outside { color: var(--text-faint); }
+.cal-day.is-today::after {
+  content: ""; position: absolute; left: 50%; bottom: 5px; width: 4px; height: 4px; margin-left: -2px;
+  border-radius: var(--radius-full); background: currentColor;
+}
+.cal-day[aria-selected="true"] { background: var(--primary); color: var(--primary-foreground); }
+.cal-day:disabled { opacity: 0.35; cursor: not-allowed; background: transparent; }
+
+.cal-cells { display: grid; gap: var(--space-4); }
+.cal-cells.is-months { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cal-cells.is-years { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.cal-cell {
+  height: var(--h-control); padding: 0; border: 0; border-radius: var(--radius-sm); background: transparent;
+  color: var(--foreground); font: var(--fw-medium) var(--fs-ui)/1 var(--font-sans); font-variant-numeric: tabular-nums; cursor: pointer;
+  transition: background-color var(--dur-quick) var(--ease-out), color var(--dur-quick) var(--ease-out);
+}
+.cal-cell:hover, .cal-cell.is-current { background: var(--muted); }
+.cal-cell.is-today { box-shadow: inset 0 0 0 1px var(--border-strong); }
+.cal-cell.is-selected { background: var(--primary); color: var(--primary-foreground); }
+
+.cal-foot {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: var(--space-10); padding-top: var(--space-10); border-top: 1px solid var(--border);
+}
+.cal-link {
+  height: var(--h-xs); padding: 0 var(--space-8); border: 0; border-radius: var(--radius-sm); background: transparent;
+  color: var(--foreground); font: var(--fw-medium) var(--fs-ui)/1 var(--font-sans); cursor: pointer;
+  transition: background-color var(--dur-quick) var(--ease-out);
+}
+.cal-link:hover { background: var(--muted); }
+.cal-link:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.cal-grid, .cal-cells { animation: cal-in var(--dur-quick) var(--ease-out); }
+@keyframes cal-in { from { opacity: 0; } }
+
+.time-list { max-height: 264px; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: var(--space-2); }
+.time-option { justify-content: center; font-variant-numeric: tabular-nums; }
+.time-option.is-active { background: var(--primary); color: var(--primary-foreground); }
+
+/* A typed date or time that can't be read says so under the field, in the
+   kit's inline error ("Enter a date as DD/MM/YYYY"); the picker button keeps
+   to the input's own height. */
+.date-field > .field-btn, .time-field > .field-btn { bottom: auto; height: calc(var(--h-control) - 8px); }
+.date-field > .field-err, .time-field > .field-err { display: block; margin-top: 7px; font-size: var(--fs-caption); color: var(--destructive); }

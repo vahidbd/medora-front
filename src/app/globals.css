@@ -1,0 +1,237 @@
+/* Cascade layer order: Tailwind's layers, with the Grid UI kit and Medora's
+   additions in "components" so a utility class can still adjust layout.
+   It must stay above the imports. */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* Grid UI kit (DESIGN.md). Tokens stay unlayered so they win over Tailwind's
+   own theme defaults. */
+@import "../styles/grid-tokens.css";
+@import "../styles/grid-tokens-aa.css";
+@import "../styles/grid-kit.css" layer(components);
+@import "../styles/grid-app.css" layer(components);
+@import "../styles/grid-list.css" layer(components);
+@import "../styles/grid-record.css" layer(components);
+@import "../styles/grid-native.css" layer(components);
+@import "../styles/grid-pickers.css" layer(components);
+
+/* docs/ is prose (feature rulings in docs/decisions, architecture decisions in
+   docs/adr), not markup: keep its words out of Tailwind's class scan, so
+   writing something down never changes the stylesheet. */
+@source not "../../docs";
+
+@custom-variant dark (&:is(.dark *));
+
+/* next/font gives Inter and Geist Mono their own family names; the kit's
+   stacks start with them. */
+:root {
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --font-mono: var(--font-geist-mono), "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas,
+    monospace;
+}
+
+@theme inline {
+  /* Surfaces and ink */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-canvas: var(--canvas);
+  --color-canvas-strong: var(--canvas-strong);
+  --color-subtle: var(--subtle);
+  --color-raised: var(--raised);
+  --color-heading: var(--heading);
+  --color-ink: var(--text-body);
+  --color-ink-subtle: var(--text-subtle);
+  --color-ink-quiet: var(--text-quiet);
+  --color-ink-faint: var(--text-faint);
+  --color-ink-ghost: var(--text-ghost);
+  --color-icon: var(--icon-color);
+  --color-placeholder: var(--placeholder);
+
+  /* Brand and interaction */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-hover: var(--border-hover);
+  --color-input: var(--input);
+  --color-input-focus: var(--input-focus);
+  --color-ring: var(--ring);
+  --color-rule: var(--rule);
+  --color-inverse: var(--inverse);
+  --color-inverse-foreground: var(--inverse-foreground);
+
+  /* Charts */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+  --color-chart-8: var(--chart-8);
+
+  /* Sidebar */
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Tables */
+  --color-table-header: var(--table-header);
+  --color-table-row: var(--table-row);
+  --color-table-row-alt: var(--table-row-alt);
+  --color-table-row-hover: var(--table-row-hover);
+  --color-table-separator: var(--table-separator);
+
+  /* Feedback */
+  --color-feedback-success: var(--feedback-success);
+  --color-feedback-success-foreground: var(--feedback-success-foreground);
+  --color-feedback-info: var(--feedback-info);
+  --color-feedback-info-foreground: var(--feedback-info-foreground);
+  --color-feedback-danger: var(--feedback-danger);
+  --color-feedback-danger-foreground: var(--feedback-danger-foreground);
+  --color-ai: var(--ai-fg);
+  --color-ai-bg: var(--ai-bg);
+  --color-ai-border: var(--ai-border);
+
+  /* Soft status families: bg, ink, border, dot, wash */
+  --color-status-success-bg: var(--status-success-bg);
+  --color-status-success-fg: var(--status-success-fg);
+  --color-status-success-border: var(--status-success-border);
+  --color-status-success-dot: var(--status-success-dot);
+  --color-status-success-wash: var(--status-success-wash);
+  --color-status-warning-bg: var(--status-warning-bg);
+  --color-status-warning-fg: var(--status-warning-fg);
+  --color-status-warning-border: var(--status-warning-border);
+  --color-status-warning-dot: var(--status-warning-dot);
+  --color-status-warning-wash: var(--status-warning-wash);
+  --color-status-info-bg: var(--status-info-bg);
+  --color-status-info-fg: var(--status-info-fg);
+  --color-status-info-border: var(--status-info-border);
+  --color-status-info-dot: var(--status-info-dot);
+  --color-status-accent-bg: var(--status-accent-bg);
+  --color-status-accent-fg: var(--status-accent-fg);
+  --color-status-accent-border: var(--status-accent-border);
+  --color-status-accent-dot: var(--status-accent-dot);
+  --color-status-danger-bg: var(--status-danger-bg);
+  --color-status-danger-fg: var(--status-danger-fg);
+  --color-status-danger-border: var(--status-danger-border);
+  --color-status-danger-dot: var(--status-danger-dot);
+  --color-status-danger-wash: var(--status-danger-wash);
+  --color-status-neutral-bg: var(--status-neutral-bg);
+  --color-status-neutral-fg: var(--status-neutral-fg);
+  --color-status-neutral-border: var(--status-neutral-border);
+  --color-status-neutral-dot: var(--status-neutral-dot);
+
+  /* The kit's type scale, as text-* utilities. Tailwind's own text-xs (12),
+     text-sm (14) and text-base (16) already match --fs-xs, --fs-body and
+     --fs-title. */
+  --text-display: var(--fs-display);
+  --text-display--line-height: var(--lh-tight);
+  --text-lg-title: var(--fs-lg);
+  --text-title: var(--fs-title);
+  --text-lead: var(--fs-lead);
+  --text-tab: var(--fs-tab);
+  --text-ui: var(--fs-ui);
+  --text-small: var(--fs-sm);
+  --text-caption: var(--fs-caption);
+  --text-overline: var(--fs-overline);
+  --text-micro: var(--fs-micro);
+  --text-tiny: var(--fs-tiny);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-heading: var(--font-sans);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--canvas);
+    color: var(--foreground);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* Focus is a 3px halo, never an outline (kit, Elevation and motion). */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--halo-strong);
+  }
+
+  ::placeholder {
+    color: var(--placeholder);
+  }
+
+  /* Raw headings follow the kit's type scale: page title, card title, section
+     title, small label. */
+  h1 {
+    font-size: var(--fs-display);
+    line-height: var(--lh-tight);
+    font-weight: 600;
+    letter-spacing: var(--ls-display);
+    color: var(--heading);
+  }
+
+  h2 {
+    font-size: var(--fs-title);
+    line-height: 1.45;
+    font-weight: 600;
+    letter-spacing: var(--ls-title);
+    color: var(--heading);
+  }
+
+  h3 {
+    font-size: var(--fs-title);
+    line-height: 1.45;
+    font-weight: 600;
+    letter-spacing: var(--ls-title);
+    color: var(--heading);
+  }
+
+  h4 {
+    font-size: var(--fs-ui);
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--heading);
+  }
+
+  /* Scrollbars live in grid-native.css. */
+}
+
+/* The kit's .overline label shares its name with Tailwind's text-decoration
+   utility, which sits in a later layer; unlayered, this keeps the label clean. */
+.overline { text-decoration-line: none; }

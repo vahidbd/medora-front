@@ -1,0 +1,76 @@
+/* The sidebar's blocks and the section tabs (config/navigation.ts).
+   Built only from the kit's tokens. */
+
+/* A gap between the sidebar's blocks: Home, the work areas, and the
+   back-room groups. The kit has no section label, so a gap does the work. */
+.sb-gap { height: var(--space-14); flex: none; }
+.sb-narrow .sb-gap { height: var(--space-8); }
+
+/* The sidebar's scrolling lists keep 4px of room above the first row, so
+   the tile of the row you are on (its 1px edge and shadow) is never cut
+   off at the top. The negative margin keeps every row where it was; the
+   rail's list still sits 2px below its title. */
+.sb-nav { padding-top: var(--space-4); margin-top: calc(-1 * var(--space-4)); }
+.sb-panel .sb-nav { margin-top: calc(2px - var(--space-4)); }
+/* The icon column's list spans the column (the icons stay centred), so the
+   tile's 1px edge isn't cut off at the sides either. */
+.sb-narrow .sb-nav { align-self: stretch; }
+
+/* Focus in the sidebar: the focus ring's colour (--focus-edge, 3:1 on
+   every sidebar surface) as a 1px edge drawn inside the row or button. The
+   page's 3px halo outside a row was cut off by the scrolling list and
+   crowded rows that sit 2px apart. Keyboard focus only: the shell moves
+   focus into a rail or the phone drawer only when it was opened from the
+   keyboard, never after a click or when a page loads. */
+.sidebar :is(.sb-item, .sb-search, .sb-brand-btn, .sb-account, .sb-logo-btn, .btn-icon):focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--focus-edge);
+}
+/* The company switch's logo sits flush with its left side and would cover
+   an inside edge, so its edge goes just outside (the brand row has room). */
+.sidebar .sb-brand-btn:focus-visible { box-shadow: 0 0 0 1px var(--focus-edge); }
+/* The row you are on, or the open group, keeps its tile under the edge. */
+.sidebar .sb-item:is(.active, .is-open):focus-visible {
+  box-shadow: inset 0 0 0 1px var(--focus-edge), 0 0 0 1px var(--sidebar-border), var(--shadow-xs);
+}
+.app.rail-open .sb-narrow .sb-item.active:not(.is-open):focus-visible { box-shadow: inset 0 0 0 1px var(--focus-edge); }
+/* The phone drawer takes focus itself after a tap: no ring, and it keeps
+   its drawer shadow. */
+.sidebar:focus { outline: none; }
+.sidebar:focus-visible { box-shadow: none; }
+.app.phone-nav-open .sidebar:focus-visible { box-shadow: var(--shadow-xl); }
+
+/* Sibling screens of one sidebar entry, as the kit's underline tabs under
+   the page title. On a list page the tool row follows closer. */
+.section-tabs { margin-bottom: var(--space-24); }
+.list-head-title + .section-tabs { margin-top: calc(-1 * var(--space-4)); margin-bottom: var(--space-16); }
+
+/* "Skip to content": the first stop for a keyboard, out of sight until
+   focused, then a kit button over the canvas's top left. */
+.skip-link {
+  position: fixed; top: var(--space-12); left: var(--space-12); z-index: 100;
+  display: inline-flex; align-items: center; height: var(--h-control); padding: 0 var(--space-14);
+  border-radius: var(--radius-md); background: var(--primary); color: var(--primary-foreground);
+  font-size: var(--fs-ui); font-weight: 500; text-decoration: none;
+  transform: translateY(calc(-100% - var(--space-24))); opacity: 0;
+  transition: transform var(--dur-quick) var(--ease-out), opacity var(--dur-quick) var(--ease-out);
+}
+.skip-link:focus-visible { transform: none; opacity: 1; outline: none; box-shadow: var(--halo-strong); }
+/* The page takes focus from the skip link without drawing a ring. */
+.main-scroll > main.page:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) { .skip-link { transition: none; } }
+
+/* Tasks and Calendar in the top bar, beside the bell: bare kit icon buttons,
+   pressed (the hover fill) while you are on that screen. Tasks carries the
+   count of yours due today or overdue, as the sidebar row's count did. */
+.topbar-link { position: relative; }
+.topbar-link[aria-current="page"] { background: var(--muted); color: var(--foreground); }
+.topbar-count {
+  position: absolute; top: 0; right: calc(var(--space-4) * -1);
+  min-width: 18px; height: 18px; padding: 0 var(--space-4);
+  display: inline-grid; place-items: center;
+  border-radius: var(--radius-full); background: var(--primary); color: var(--primary-foreground);
+  font-size: var(--fs-xs); font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2px var(--card);
+  pointer-events: none;
+}
