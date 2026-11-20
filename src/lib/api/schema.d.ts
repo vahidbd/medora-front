@@ -102,6 +102,640 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/agent-conversations/{conversationId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One conversation's model-side transcript (audited) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    conversationId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                            /** @enum {string} */
+                            channel: "chat" | "email" | "sms" | "voice" | "job";
+                            /** Format: uuid */
+                            conversationId: string;
+                            createdAt: string;
+                            handoffReason: string | null;
+                            messages: {
+                                blocks: ({
+                                    text: string;
+                                    /** @enum {string} */
+                                    type: "text";
+                                } | {
+                                    id: string;
+                                    input: unknown;
+                                    name: string;
+                                    /** @enum {string} */
+                                    type: "tool_use";
+                                } | {
+                                    content: string;
+                                    isError: boolean;
+                                    toolUseId: string;
+                                    /** @enum {string} */
+                                    type: "tool_result";
+                                })[];
+                                createdAt: string;
+                                id: number;
+                                /** @enum {string} */
+                                role: "patient" | "staff" | "agent" | "tool" | "notice";
+                                /** Format: uuid */
+                                runId: string | null;
+                                untrusted: boolean;
+                            }[];
+                            /** Format: uuid */
+                            patientId: string | null;
+                            /** @enum {string} */
+                            status: "open" | "handed_off" | "closed";
+                            verified: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agent-proposals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Approval cards you could approve (each read audited) */
+        get: {
+            parameters: {
+                query?: {
+                    state?: "pending" | "decided";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            proposals: {
+                                /** @enum {string} */
+                                agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                                /** Format: uuid */
+                                conversationId: string;
+                                createdAt: string;
+                                decidedAt: string | null;
+                                /** Format: uuid */
+                                decidedBy: string | null;
+                                decisionReason: string | null;
+                                executedAt: string | null;
+                                expiresAt: string;
+                                finalInput: unknown;
+                                input: unknown;
+                                permission: string;
+                                /** Format: uuid */
+                                proposalId: string;
+                                rationale: string | null;
+                                resultStatus: number | null;
+                                /** Format: uuid */
+                                runId: string;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "rejected" | "executed" | "failed" | "expired";
+                                tool: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agent-proposals/{proposalId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One approval card (audited) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    proposalId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                            /** Format: uuid */
+                            conversationId: string;
+                            createdAt: string;
+                            decidedAt: string | null;
+                            /** Format: uuid */
+                            decidedBy: string | null;
+                            decisionReason: string | null;
+                            executedAt: string | null;
+                            expiresAt: string;
+                            finalInput: unknown;
+                            input: unknown;
+                            permission: string;
+                            /** Format: uuid */
+                            proposalId: string;
+                            rationale: string | null;
+                            resultStatus: number | null;
+                            /** Format: uuid */
+                            runId: string;
+                            /** @enum {string} */
+                            status: "pending" | "approved" | "rejected" | "executed" | "failed" | "expired";
+                            tool: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agent-proposals/{proposalId}/approve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Approve a card, with your edits, and run it once */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    proposalId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        finalInput?: {
+                            [key: string]: unknown;
+                        };
+                        /** @enum {string} */
+                        reason?: "not_needed" | "wrong_details" | "unsafe" | "patient_declined" | "duplicate" | "edited" | "other";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                            /** Format: uuid */
+                            conversationId: string;
+                            createdAt: string;
+                            decidedAt: string | null;
+                            /** Format: uuid */
+                            decidedBy: string | null;
+                            decisionReason: string | null;
+                            executedAt: string | null;
+                            expiresAt: string;
+                            finalInput: unknown;
+                            input: unknown;
+                            permission: string;
+                            /** Format: uuid */
+                            proposalId: string;
+                            rationale: string | null;
+                            resultStatus: number | null;
+                            /** Format: uuid */
+                            runId: string;
+                            /** @enum {string} */
+                            status: "pending" | "approved" | "rejected" | "executed" | "failed" | "expired";
+                            tool: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agent-proposals/{proposalId}/reject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Reject a card, with a reason */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    proposalId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        reason: "not_needed" | "wrong_details" | "unsafe" | "patient_declined" | "duplicate" | "edited" | "other";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                            /** Format: uuid */
+                            conversationId: string;
+                            createdAt: string;
+                            decidedAt: string | null;
+                            /** Format: uuid */
+                            decidedBy: string | null;
+                            decisionReason: string | null;
+                            executedAt: string | null;
+                            expiresAt: string;
+                            finalInput: unknown;
+                            input: unknown;
+                            permission: string;
+                            /** Format: uuid */
+                            proposalId: string;
+                            rationale: string | null;
+                            resultStatus: number | null;
+                            /** Format: uuid */
+                            runId: string;
+                            /** @enum {string} */
+                            status: "pending" | "approved" | "rejected" | "executed" | "failed" | "expired";
+                            tool: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agent-runs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Agent runs, newest first: what triggered each, how it ended and what it cost */
+        get: {
+            parameters: {
+                query?: {
+                    agent?: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                    before?: string;
+                    limit?: number;
+                    status?: "queued" | "running" | "completed" | "handed_off" | "stopped" | "failed";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            runs: {
+                                /** @enum {string} */
+                                agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                                agentVersion: string | null;
+                                /** Format: uuid */
+                                conversationId: string;
+                                costCents: number;
+                                endedAt: string | null;
+                                endReason: string | null;
+                                inputTokens: number;
+                                model: string | null;
+                                outputTokens: number;
+                                queuedAt: string;
+                                /** Format: uuid */
+                                runId: string;
+                                startedAt: string | null;
+                                /** @enum {string} */
+                                status: "queued" | "running" | "completed" | "handed_off" | "stopped" | "failed";
+                                steps: number;
+                                /** @enum {string} */
+                                trigger: "message" | "staff" | "event" | "schedule" | "call";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's agents: whether each is on, its version, tools, caps and use */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            agents: {
+                                /** @enum {string} */
+                                agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                                autoTools: string[];
+                                channels: ("chat" | "email" | "sms" | "voice" | "job")[];
+                                dailyReplyCap: number;
+                                defaultName: string;
+                                enabled: boolean;
+                                /** @enum {string} */
+                                evals: "passed" | "failed" | "stale" | "none";
+                                monthlySpendCapCents: number;
+                                name: string;
+                                /** @enum {string|null} */
+                                off: "platform_off" | "tenant_paused" | "agent_off" | null;
+                                refundCapCents: number;
+                                tools: {
+                                    auto: boolean;
+                                    available: boolean;
+                                    /** @enum {string} */
+                                    ceiling: "auto" | "approve";
+                                    changesData: boolean;
+                                    name: string;
+                                    waitingOn: string | null;
+                                }[];
+                                updatedAt: string | null;
+                                usage: {
+                                    monthSpendCents: number;
+                                    runsToday: number;
+                                };
+                                version: string;
+                            }[];
+                            paused: boolean;
+                            platformOn: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agents/{agent}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Switch an agent on or off, or change its name, caps and auto tools */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        autoTools?: string[];
+                        dailyReplyCap?: number;
+                        displayName?: string | null;
+                        enabled?: boolean;
+                        monthlySpendCapCents?: number;
+                        refundCapCents?: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string} */
+                            agent: "intake" | "support" | "care_coordinator" | "clinical_copilot";
+                            autoTools: string[];
+                            channels: ("chat" | "email" | "sms" | "voice" | "job")[];
+                            dailyReplyCap: number;
+                            defaultName: string;
+                            enabled: boolean;
+                            /** @enum {string} */
+                            evals: "passed" | "failed" | "stale" | "none";
+                            monthlySpendCapCents: number;
+                            name: string;
+                            /** @enum {string|null} */
+                            off: "platform_off" | "tenant_paused" | "agent_off" | null;
+                            refundCapCents: number;
+                            tools: {
+                                auto: boolean;
+                                available: boolean;
+                                /** @enum {string} */
+                                ceiling: "auto" | "approve";
+                                changesData: boolean;
+                                name: string;
+                                waitingOn: string | null;
+                            }[];
+                            updatedAt: string | null;
+                            usage: {
+                                monthSpendCents: number;
+                                runsToday: number;
+                            };
+                            version: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/agents/pause": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Pause every agent in the tenant */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            paused: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/agents/resume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Resume the tenant's agents, each as it was set */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            paused: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/break-glass": {
         parameters: {
             query?: never;
@@ -356,7 +990,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -458,13 +1092,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -473,7 +1107,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts")[];
                             }[];
                         };
                     };
@@ -496,7 +1130,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts")[];
                     };
                 };
             };
@@ -516,7 +1150,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -583,7 +1217,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts")[];
                     };
                 };
             };
@@ -603,7 +1237,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "agents:read" | "agents:manage" | "agents:transcripts")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };

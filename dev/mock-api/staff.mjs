@@ -32,6 +32,9 @@ const usable = (m) => m.status === "active" && !past(m.expiresAt);
 const customRoleOf = (m) => customRoles.find((r) => r.id === m.customRoleId) ?? null;
 const permissionsOf = (m) => (m.role === "custom" ? (customRoleOf(m)?.permissions ?? []) : ROLE_PERMISSIONS[m.role]);
 const openBreakGlass = (m) => breakGlass.find((b) => b.membershipId === m.membershipId && Date.parse(b.endsAt) > Date.now());
+const isClinical = (m) => (m.role === "custom" ? Boolean(customRoleOf(m)?.clinical) : CLINICAL_ROLES.has(m.role));
+/** As the API's usablePermissions (ADR 0036): a clinical-zone permission works only in a clinical role or under break-glass. */
+export const usablePermissionsOf = (m) => permissionsOf(m).filter((p) => PERMISSION_ZONES[p] !== "clinical" || isClinical(m) || Boolean(openBreakGlass(m)));
 
 function staffMember(m) {
   const custom = customRoleOf(m);
@@ -51,7 +54,7 @@ function staffMember(m) {
 }
 
 /** The caller's usable membership in the tenant the header names, or null with a reply already sent. */
-function tenantOf(req, res, permission) {
+export function tenantOf(req, res, permission) {
   const tenantId = req.headers[TENANT_HEADER];
   if (typeof tenantId !== "string" || !UUID.test(tenantId)) {
     fail(res, 400, "tenant_required", `Choose a tenant first (${TENANT_HEADER})`);
@@ -62,7 +65,7 @@ function tenantOf(req, res, permission) {
     fail(res, 403, "not_a_member", "You aren't a member of that tenant");
     return null;
   }
-  if (permission && !permissionsOf(mine).includes(permission)) {
+  if (permission && !usablePermissionsOf(mine).includes(permission)) {
     fail(res, 403, "forbidden", "You don't have permission to do that");
     return null;
   }
@@ -109,7 +112,7 @@ function me(req, res) {
           customRole: custom ? { id: custom.id, name: custom.name } : null,
           status: m.status,
           expiresAt: m.expiresAt,
-          permissions: [...permissionsOf(m)],
+          permissions: usablePermissionsOf(m),
           breakGlass: { available: PRETEND_BREAK_GLASS.has(`${m.tenantId}:${m.role}`), until: open ? open.endsAt : null },
         };
       }),
