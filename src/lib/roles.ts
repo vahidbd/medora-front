@@ -33,4 +33,6 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "consents:manage": "Publish the tenant's consent documents",
   "clinicians:read": "See clinicians, whether they can consult, and their hours",
   "clinicians:manage": "Add clinicians, check their credentials and suspend them",
+  "consults:read": "See the consult schedule and the free slots",
+  "consults:book": "Book, move and cancel consults, and mark a no-show",
 };

@@ -35,6 +35,9 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | The questions a patient answers before a consult | **Intake** | questionnaire, survey, form |
 | A real-time video or phone appointment with a clinician | **Consult** | appointment (except when booking), session, call |
 | When the patient and the clinician connected and left during a consult, from the provider's verified callbacks | **Consult evidence** | call log, attendance, recording |
+| A time a consult can be booked in, cut from a clinician's working hours | **Slot** | availability, opening, appointment time |
+| Moving a consult to another time: the old one is cancelled and a new one booked, linked to it | **Reschedule** | move (in code), rebook |
+| A consult the patient didn't come to | **No-show** | missed, DNA, failed to attend |
 | A prescription | **Script** | Rx, prescription (in code), order |
 | Writing a script (in Parchment) | **Prescribe** | order, issue |
 | Preparing and handing over medicine against a script | **Dispense** | fulfil, fill |
