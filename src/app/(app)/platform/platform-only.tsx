@@ -16,7 +16,7 @@ export function PlatformOnly({ children }: { children: React.ReactNode }) {
     <EmptyState
       icon={Building2}
       title="For Medora's platform staff"
-      description="These screens create tenants and verify brands' domains. Your account isn't platform staff."
+      description="These screens create tenants, verify brands' domains and block products for every tenant. Your account isn't platform staff."
     />
   );
 }

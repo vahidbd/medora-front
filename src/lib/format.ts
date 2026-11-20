@@ -83,3 +83,11 @@ export function formatAbn(abn: string | null | undefined): string {
   if (!abn) return EMPTY;
   return /^\d{11}$/.test(abn) ? `${abn.slice(0, 2)} ${abn.slice(2, 5)} ${abn.slice(5, 8)} ${abn.slice(8)}` : abn;
 }
+
+/** A calendar date the API sends as YYYY-MM-DD, such as a date of birth: "12 Apr 1990", never shifted by a time zone. */
+export function formatCalendarDate(value: string | null | undefined): string {
+  if (!value) return EMPTY;
+  const parts = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!parts) return value;
+  return `${Number(parts[3])} ${MONTHS[Number(parts[2]) - 1]} ${parts[1]}`;
+}
