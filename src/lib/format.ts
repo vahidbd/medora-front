@@ -77,3 +77,9 @@ export function formatFileSize(bytes: number | null | undefined): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
+
+/** An ABN as the ATO writes it: 51 824 753 556. */
+export function formatAbn(abn: string | null | undefined): string {
+  if (!abn) return EMPTY;
+  return /^\d{11}$/.test(abn) ? `${abn.slice(0, 2)} ${abn.slice(2, 5)} ${abn.slice(5, 8)} ${abn.slice(8)}` : abn;
+}

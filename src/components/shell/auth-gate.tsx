@@ -23,7 +23,7 @@ import { BrandLogo, BrandMark } from "./brand-mark";
  * sign-in would loop. They need an invitation, a fresh one, their
  * membership made active again, or two-step sign-in set up, so the screen
  * says which and offers a way out. The API refuses every tenant call
- * without a second factor whatever this screen shows (ADR 0036).
+ * without a second factor whatever this screen shows (ADR 0220).
  */
 export function AuthGate({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -78,7 +78,8 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
   }
 
   const memberships = me.data.memberships;
-  if (!memberships.some((m) => isUsable(m))) {
+  // Platform staff work on their own screens without a tenant (docs/decisions/admin.md ADM15).
+  if (!memberships.some((m) => isUsable(m)) && !me.data.platformStaff) {
     // An invitation still open when this session began was accepted by the API, so one still invited has expired.
     const expiredInvitation = memberships.length > 0 && memberships.every((m) => m.status === "invited");
     const ended = memberships.filter((m) => m.status === "active" && m.expiresAt);

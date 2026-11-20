@@ -3,7 +3,7 @@
  * Preview-mode stand-in for the Medora API: the routes the web app calls
  * today, with made-up tenants and staff (people.mjs), held in memory and
  * reset on every start. No dependencies, so it runs anywhere Node does.
- * Each area's routes live in their own file (staff.mjs).
+ * Each area's routes live in their own file (staff.mjs, tenant-setup.mjs).
  *
  * It answers the way the API does (contract/openapi.json in the backend):
  * the same shapes, the same error envelope, the tenant in the
@@ -15,6 +15,7 @@
 import { createServer } from "node:http";
 import { fail, send } from "./http.mjs";
 import { staffRoutes } from "./staff.mjs";
+import { tenantSetupRoutes } from "./tenant-setup.mjs";
 
 const PORT = Number(process.env.MOCK_API_PORT || 4010);
 
@@ -26,6 +27,7 @@ const routes = [
     (req, res) => send(res, 200, { status: "ok", service: "medora-api", version: "mock", database: "ok" }),
   ],
   ...staffRoutes,
+  ...tenantSetupRoutes,
 ];
 
 const server = createServer(async (req, res) => {

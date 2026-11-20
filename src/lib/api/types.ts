@@ -45,5 +45,28 @@ export type DataZone = RolesReply["permissions"][number]["zone"];
 export type RoleInput = RequestBody<"/v1/roles", "post">;
 export type RoleUpdate = RequestBody<"/v1/roles/{roleId}", "patch">;
 
-/** Break-glass (ADR 0036): opened by the person, reviewed by someone else. */
+/** Break-glass (ADR 0220): opened by the person, reviewed by someone else. */
 export type BreakGlassRecord = Reply<"/v1/break-glass", "get">["breakGlass"][number];
+
+/** A tenant's set-up (docs/decisions/admin.md ADM14 to ADM20). */
+export type TenantSettings = Reply<"/v1/tenant", "get">;
+export type TenantSettingsChange = RequestBody<"/v1/tenant", "patch">;
+export type TimeZone = TenantSettings["timeZone"];
+export type Onboarding = Reply<"/v1/tenant/onboarding", "get">;
+export type OnboardingItem = Onboarding["items"][number]["key"];
+export type Company = Reply<"/v1/companies", "get">["companies"][number];
+export type AuState = Company["state"];
+export type CompanyInput = RequestBody<"/v1/companies", "post">;
+export type CompanyChange = RequestBody<"/v1/companies/{companyId}", "patch">;
+export type Brand = Reply<"/v1/brands", "get">["brands"][number];
+export type BrandStatus = Brand["status"];
+export type BrandDomain = Brand["domains"][number];
+export type BrandInput = RequestBody<"/v1/brands", "post">;
+export type BrandChange = RequestBody<"/v1/brands/{brandId}", "patch">;
+
+/** Platform staff's screens (ADM14, ADM15). */
+export type PlatformTenant = Reply<"/v1/platform/tenants", "get">["tenants"][number];
+export type TenantInput = RequestBody<"/v1/platform/tenants", "post">;
+export type TenantCreated = Created<"/v1/platform/tenants", "post">;
+export type OwnerInvitationReply = Reply<"/v1/platform/tenants/{tenantId}/owner-invitation", "post">;
+export type PlatformDomain = Reply<"/v1/platform/domains", "get">["domains"][number];

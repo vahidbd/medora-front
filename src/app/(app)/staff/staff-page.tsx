@@ -36,7 +36,7 @@ import { SignInsSheet } from "./sign-ins-sheet";
  * Staff: who works in this tenant, their role, where their access stands
  * and when they last signed in. Whoever holds staff:manage invites people,
  * changes roles and access, and resends or withdraws invitations; the API
- * checks every one of those itself (ADR 0036, docs/decisions/admin.md).
+ * checks every one of those itself (ADR 0220, docs/decisions/admin.md).
  */
 export function StaffPage() {
   const { current, can } = useTenant();

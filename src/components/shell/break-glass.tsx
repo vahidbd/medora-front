@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ShieldAlert } from "lucide-react";
 import { toast } from "sonner";
 import { StatusBadge } from "@/components/shared/status-badge";
-import { useTenant } from "@/components/shell/tenant-context";
+import { useShellTenant, useTenant } from "@/components/shell/tenant-context";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,13 +17,18 @@ const REASON_MIN = 10;
 const REASON_MAX = 500;
 
 /**
- * Break-glass in the topbar (ADR 0036, docs/decisions/admin.md ADM3).
+ * Break-glass in the topbar (ADR 0220, docs/decisions/admin.md ADM3).
  * Shown only to someone whose role holds clinical permissions it can't use
  * on its own, such as the owner. Opening it takes a reason and lasts 60
  * minutes; while it is open the topbar says until when and offers to end
  * it. The API decides what it unlocks; this only asks and shows.
  */
 export function BreakGlassControl() {
+  // Platform staff with no tenant have no break-glass.
+  return useShellTenant().current ? <TenantBreakGlass /> : null;
+}
+
+function TenantBreakGlass() {
   const { current } = useTenant();
   const queryClient = useQueryClient();
   const [asking, setAsking] = useState(false);

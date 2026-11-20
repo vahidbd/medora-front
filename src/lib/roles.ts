@@ -48,9 +48,11 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "staff:manage": "Invite staff and change their roles",
   "roles:manage": "Make and edit custom roles",
   "break_glass:review": "Review break-glass use",
+  "tenant:manage": "Change the tenant's settings and companies",
+  "brands:manage": "Set up brands and take them live",
 };
 
-/** The data zone a permission opens (ADR 0036), as a heading in the role editor. */
+/** The data zone a permission opens (ADR 0220), as a heading in the role editor. */
 export const ZONE_LABELS: Record<DataZone, string> = {
   clinical: "Clinical records",
   operational: "Running the service",

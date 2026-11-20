@@ -180,7 +180,7 @@ function RoleForm({ target, roles, onDone }: { target: RoleSheetTarget; roles: R
 }
 
 /**
- * Every permission, grouped by the data zone it opens (ADR 0036). Clinical
+ * Every permission, grouped by the data zone it opens (ADR 0220). Clinical
  * ones say plainly that they work only for a clinical role; for anyone
  * else they need break-glass first. Every box can be ticked; the API
  * refuses a permission you don't hold yourself (ADR 0030), and the sheet

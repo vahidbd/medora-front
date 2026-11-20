@@ -21,7 +21,10 @@ type TenantContextValue = {
   can: (permission: Permission) => boolean;
 };
 
-const TenantContext = createContext<TenantContextValue | null>(null);
+/** As above, except that platform staff with no tenant of their own have none (docs/decisions/admin.md ADM15). */
+type ShellValue = Omit<TenantContextValue, "current"> & { current: Membership | null; platformStaff: boolean };
+
+const TenantContext = createContext<ShellValue | null>(null);
 const STORAGE_KEY = "medora:tenant";
 
 function stored(): string | null {
@@ -55,21 +58,37 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
     [queryClient],
   );
 
-  const value = useMemo<TenantContextValue | null>(
+  const platformStaff = me?.platformStaff === true;
+  const value = useMemo<ShellValue | null>(
     () =>
-      current
-        ? { memberships, current, setTenant, can: (permission: Permission) => current.permissions.includes(permission) }
+      current || platformStaff
+        ? {
+            memberships,
+            current: current ?? null,
+            setTenant,
+            can: (permission: Permission) => current?.permissions.includes(permission) === true,
+            platformStaff,
+          }
         : null,
-    [memberships, current, setTenant],
+    [memberships, current, setTenant, platformStaff],
   );
 
-  // AuthGate shows its own screen when there is no active membership.
+  // AuthGate shows its own screen when there is no active membership and the person isn't platform staff.
   if (!value) return null;
   return <TenantContext.Provider value={value}>{children}</TenantContext.Provider>;
 }
 
+/** The tenant a screen works in. Only screens inside a tenant call it; the shell keeps platform staff with no tenant on their own screens. */
 export function useTenant(): TenantContextValue {
   const value = useContext(TenantContext);
   if (!value) throw new Error("useTenant must be used inside TenantProvider");
+  if (!value.current) throw new Error("useTenant needs a tenant, and platform staff with none have no tenant screens");
+  return { ...value, current: value.current };
+}
+
+/** For the shell and the platform screens: the tenant if there is one, and whether the person is platform staff. */
+export function useShellTenant(): ShellValue {
+  const value = useContext(TenantContext);
+  if (!value) throw new Error("useShellTenant must be used inside TenantProvider");
   return value;
 }

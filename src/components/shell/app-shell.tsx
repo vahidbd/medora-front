@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ChevronLeft, ChevronRight, ChevronsUpDown, LogOut, Menu, Monitor, Moon, PanelLeft, Search, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useClerk, useUser } from "@clerk/nextjs";
 import { navigation, navFor, isItemActive, type NavGroup, type NavItem } from "@/config/navigation";
-import { useTenant } from "@/components/shell/tenant-context";
+import { useShellTenant } from "@/components/shell/tenant-context";
 import { useCanSee } from "@/components/shell/use-can-see";
 import { InitialsAvatar } from "@/components/shared/initials-avatar";
 import { formatDate, formatDateTime } from "@/lib/format";
@@ -509,17 +509,17 @@ function SecondRail({
  * is working in. With one tenant it only names it.
  */
 function TenantSwitch() {
-  const { memberships, current, setTenant } = useTenant();
+  const { memberships, current, setTenant } = useShellTenant();
   const label = (
     <>
       <BrandMark />
       <span className="sb-brand-text">
         <span className="sb-name">Medora</span>
-        <span className="sb-brand-sub">{current.tenantName}</span>
+        <span className="sb-brand-sub">{current?.tenantName ?? "Platform"}</span>
       </span>
     </>
   );
-  if (memberships.length < 2) return <div className="sb-brand-btn">{label}</div>;
+  if (!current || memberships.length < 2) return <div className="sb-brand-btn">{label}</div>;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -548,7 +548,7 @@ function TenantSwitch() {
 function AccountMenu() {
   const { signOut } = useClerk();
   const { user } = useUser();
-  const { current } = useTenant();
+  const { current } = useShellTenant();
   const { theme, setTheme } = useTheme();
   const name = user?.fullName || user?.primaryEmailAddress?.emailAddress || "Signed in";
   return (
@@ -559,7 +559,7 @@ function AccountMenu() {
             <InitialsAvatar name={name} size={32} />
             <span className="min-w-0 flex-1">
               <span className="sb-account-name block">{name}</span>
-              <span className="sb-account-sub block">{roleName(current)}</span>
+              <span className="sb-account-sub block">{current ? roleName(current) : "Platform staff"}</span>
             </span>
             <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
           </button>
@@ -694,11 +694,23 @@ function MainPanel({
       </header>
       <div className="main-scroll" ref={scrollRef}>
         <main className="page" key={pathname} id="main-content" tabIndex={-1}>
-          {children}
+          <TenantScreens>{children}</TenantScreens>
         </main>
       </div>
     </div>
   );
+}
+
+/** Platform staff with no tenant of their own see only the platform screens (docs/decisions/admin.md ADM15). */
+function TenantScreens({ children }: { children: React.ReactNode }) {
+  const { current } = useShellTenant();
+  const pathname = usePathname();
+  const router = useRouter();
+  const elsewhere = !current && !pathname.startsWith("/platform/");
+  useEffect(() => {
+    if (elsewhere) router.replace("/platform/tenants");
+  }, [elsewhere, router]);
+  return elsewhere ? null : <>{children}</>;
 }
 
 const SEGMENT_LABELS: Record<string, string> = {
