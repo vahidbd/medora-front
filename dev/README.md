@@ -29,6 +29,7 @@ There you start signed out. Sign in as `jamie@example.test` (a made-up patient o
 | `GET /v1/public/brands/by-host/:host` | the two made-up brands; 404 for any other host (`mock-api/patient.mjs`) |
 | `GET /v1/patient/me` | the patient in the brand's tenant, after the date of birth check; `no_patient_record` for a new sign-up |
 | `POST /v1/patient/confirm-date-of-birth` | the check each new patient session makes once (`date_of_birth_mismatch`, five tries) |
+| `POST /v1/patient/activity/app-opened` | the day the opening counts for, in Sydney; the API counts one a day (`mock-api/adherence.mjs`) |
 | `GET`, `PUT /v1/patient/notification-preferences` | texts and reminders on until changed, per sign-in |
 | `GET`, `POST /v1/patient/measurements`, `/v1/patient/side-effects` and `/v1/patient/check-ins` | Jamie's made-up history at Kestrel (four weekly weights, two waists, a check-in a week ago), with the API's checks; each sign-in starts from it afresh (`mock-api/tracking.mjs`) |
 | `GET`, `PATCH /v1/tenant`, `GET /v1/tenant/onboarding` | the tenant's name and time zone, and its onboarding checklist, worked out from the data below (Harbour has no medical director, so it isn't ready) |
