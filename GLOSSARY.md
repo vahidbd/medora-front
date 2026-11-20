@@ -41,6 +41,15 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A parcel on its way to a patient | **Shipment** | delivery, consignment |
 | A patient's ongoing goals, check-ins and reviews | **Care plan** | journey, treatment plan |
 | A clinical record of a consult or review | **Note** | encounter, chart entry |
+| A tenant's published text a patient agrees to, in numbered versions | **Consent document** | policy, form, terms (as a record) |
+| A patient's recorded decision on one version of a consent document | **Consent** | agreement, opt-in, acceptance |
+| Checking a patient is who they say, against a document | **Identity check** | KYC, ID verification, DVS check |
+| The national Individual Healthcare Identifier | **IHI** | health ID, healthcare number |
+| One numbered edition of a protocol: a draft, then live once signed off | **Protocol version** | revision, release |
+| A medical director's recorded approval that makes a protocol version live | **Sign-off** | approval, publish |
+| A platform protocol a tenant copies into a draft of its own | **Protocol template** | preset, starter |
+| A protocol rule that ends an intake because the person can't be treated on it | **Hard stop** | exclusion, knock-out, disqualifier |
+| A protocol rule that lets the intake go on and shows the prescriber something to look at | **Red flag** | warning, alert, caution |
 
 ## Platform
 
