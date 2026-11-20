@@ -34,7 +34,7 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 /** What the API's claim accepts as a token. */
 export const TOKEN = /^[A-Za-z0-9_-]{20,100}$/;
 
-export function isIntakeId(value: string): boolean {
+export function isId(value: string): boolean {
   return UUID.test(value);
 }
 

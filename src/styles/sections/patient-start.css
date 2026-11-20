@@ -1,0 +1,50 @@
+/* The patient app's start (src/app/(patient)/patient/start/): choosing a
+   program, the first screen with the privacy notice, the intake's steps and
+   the screens that end it. Built on patient.css and the kit's tokens only.
+   Classes are prefixed st-. */
+
+.st-page { max-width: 640px; width: 100%; margin: 0 auto; }
+
+/* The brand's programs, each a row that is one link. */
+.st-program { padding: 0; }
+.st-program-link { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-12); min-height: var(--h-tr-list); padding: var(--space-12) var(--space-4); color: inherit; text-decoration: none; border-radius: var(--radius-sm); }
+.st-program:first-child .st-program-link { padding-top: 0; }
+.st-program:last-child .st-program-link { padding-bottom: 0; }
+.st-program-link:hover .pt-row-title { text-decoration: underline; text-underline-offset: 3px; }
+.st-program-link:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.st-chevron { width: var(--icon); height: var(--icon); color: var(--icon-color); }
+
+/* A screen that says one thing: closed, failed, stopped. */
+.st-message { gap: var(--space-12); }
+.st-message-icon { width: 22px; height: 22px; color: var(--icon-color); }
+.st-message .pt-card-title:focus { outline: none; }
+.st-stop-message { white-space: pre-line; }
+
+/* The privacy notice: the tenant's own words, plain text in a box that scrolls. */
+.st-notice { display: flex; flex-direction: column; gap: var(--space-10); max-height: 280px; overflow-y: auto; padding: var(--space-16); border: 1px solid var(--border); border-radius: var(--radius); background: var(--subtle); font-size: var(--fs-ui); line-height: var(--lh-relaxed); color: var(--secondary-foreground); }
+.st-notice:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.st-notice-title { font-size: var(--fs-body); font-weight: 600; color: var(--heading); }
+.st-check { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: var(--space-10); font-size: var(--fs-body); line-height: var(--lh-body); color: var(--foreground); cursor: pointer; }
+.st-check .check-box { margin-top: 3px; }
+.st-dob { max-width: 200px; }
+
+/* A step: where the person is, the questions, Continue and Back. */
+.st-progress { display: flex; flex-direction: column; gap: var(--space-6); }
+.st-progress-text { font-size: var(--fs-caption); font-weight: 500; color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
+.st-progress-bar { display: block; height: 4px; border-radius: var(--radius-full); background: var(--muted); overflow: hidden; }
+.st-progress-bar span { display: block; height: 100%; border-radius: inherit; background: var(--primary); }
+.st-step-title:focus { outline: none; }
+.st-question .pt-label { font-size: var(--fs-body); line-height: var(--lh-body); }
+.st-optional { font-weight: 400; color: var(--muted-foreground); }
+.st-number { display: inline-flex; align-items: center; gap: var(--space-8); }
+.st-number .input { flex: none; width: 160px; }
+.st-unit { font-size: var(--fs-ui); color: var(--muted-foreground); }
+.st-date { max-width: 220px; }
+/* Urgent help's numbers are links, and look it on the danger note. */
+.st-message .pt-note a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+@media (max-width: 760px) {
+  /* Continue first, as it is in the page's order, then Back. */
+  .st-step-actions { flex-direction: column; align-items: stretch; }
+  .st-step-actions .btn { width: 100%; }
+}
