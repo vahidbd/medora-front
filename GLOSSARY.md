@@ -56,6 +56,9 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A mark on a ticket such as emergency, self-harm or possible complaint | **Flag** | tag, label |
 | Approved saved wording for a ticket reply | **Macro** | canned response, snippet, template (for replies) |
 | A brand's own email address or phone number on a channel, for service or for marketing | **Sender** | from address, sender id |
+| A brand's public pages of service articles, which agents answer from | **Help centre** | knowledge base, help center, FAQ, docs |
+| One page of a help centre, with its approved wording in versions | **Article** | help doc, FAQ entry, page |
+| A heading a brand's help centre articles are grouped under | **Section** | category, folder, topic (for articles) |
 
 ## Platform
 
