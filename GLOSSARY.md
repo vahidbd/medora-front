@@ -45,6 +45,9 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A row in `platform.audit_log` | **Audit entry** | log, history |
 | A fact written to the outbox for others to react to | **Event** | message, notification, webhook |
 | A setting that switches unfinished work on or off | **Feature flag** | toggle, switch |
+| The web app a brand's patients sign in to | **Patient app** | portal, member area, patient portal |
+| A domain a brand's patient app answers on | **Patient host** | site, subdomain, URL |
+| What one host serves: the staff console or a brand's patient app | **Surface** | frontend, channel, app (alone) |
 
 ## Who is who in these docs
 

@@ -130,7 +130,7 @@ export type paths = {
                             memberships: {
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "patients:read")[];
                                 /** @enum {string} */
                                 role: "owner" | "clinician" | "support" | "finance";
                                 /** @enum {string} */
@@ -141,6 +141,416 @@ export type paths = {
                             }[];
                             /** Format: uuid */
                             userId: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create the signed-in patient’s account in this tenant */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        dateOfBirth: string;
+                        email?: string;
+                        familyName: string;
+                        givenName: string;
+                        mobile?: string;
+                        preferredName?: string | null;
+                        /** @enum {string} */
+                        sex: "female" | "male" | "intersex" | "not_stated";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/confirm-date-of-birth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm the date of birth on a new sign-in */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        dateOfBirth: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            confirmed: true;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s own details */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change the signed-in patient’s own details */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        address?: {
+                            line1: string;
+                            line2?: string | null;
+                            postcode: string;
+                            /** @enum {string} */
+                            state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                            suburb: string;
+                        };
+                        dateOfBirth?: string;
+                        familyName?: string;
+                        givenName?: string;
+                        medicare?: {
+                            irn: string | null;
+                            number: string;
+                            validTo: string | null;
+                        } | null;
+                        mobile?: string;
+                        preferredName?: string | null;
+                        /** @enum {string} */
+                        sex?: "female" | "male" | "intersex" | "not_stated";
+                        timeZone?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/patients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's patients, newest first or matching a search */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                    search?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            patients: {
+                                /** Format: date-time */
+                                createdAt: string;
+                                dateOfBirth: string;
+                                displayName: string;
+                                familyName: string;
+                                givenName: string;
+                                /** @enum {string} */
+                                identityStatus: "unverified" | "verified" | "failed";
+                                /** Format: uuid */
+                                patientId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient's identity and contact details */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "ACT" | "NSW" | "NT" | "QLD" | "SA" | "TAS" | "VIC" | "WA";
+                                suburb: string;
+                            } | null;
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
                         };
                     };
                 };

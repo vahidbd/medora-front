@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * Preview-mode stand-in for the Medora API: the few routes the web app
- * calls today, with made-up tenants and staff, held in memory and reset
- * on every start. No dependencies, so it runs anywhere Node does.
+ * calls today, with made-up tenants, staff, brands and patients, held in
+ * memory and reset on every start. The brand and patient routes are in
+ * patient.mjs. No dependencies, so it runs anywhere Node does.
  *
  * It answers the way the API does (contract/openapi.json in the backend):
  * the same shapes, the same error envelope, the tenant in the
@@ -12,6 +13,7 @@
  * Env: MOCK_API_PORT (default 4010).
  */
 import { createServer } from "node:http";
+import { patientRoutes } from "./patient.mjs";
 
 const PORT = Number(process.env.MOCK_API_PORT || 4010);
 const TENANT_HEADER = "x-medora-tenant";
@@ -110,6 +112,7 @@ function requirePermission(res, mine, permission) {
 }
 
 const routes = [
+  ...patientRoutes({ send, fail, readJson }),
   ["GET", /^\/health$/, (req, res) => send(res, 200, { status: "ok", service: "medora-api", version: "mock" })],
   [
     "GET",

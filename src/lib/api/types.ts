@@ -26,3 +26,8 @@ export type Permission = Membership["permissions"][number];
 /** A tenant's staff (GET /v1/staff). */
 export type StaffMember = Reply<"/v1/staff", "get">["staff"][number];
 export type MembershipChange = RequestBody<"/v1/staff/{membershipId}", "patch">;
+
+/** The signed-in patient, to this brand's tenant (GET /v1/patient/me). */
+export type PatientMe = Reply<"/v1/patient/me", "get">;
+export type PatientProgram = PatientMe["programs"][number];
+export type DateOfBirthConfirmation = RequestBody<"/v1/patient/confirm-date-of-birth", "post">;

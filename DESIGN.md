@@ -99,6 +99,14 @@ here with them.
 built to their own rules: no tracking scripts and no third-party scripts
 on any page that shows health data (ADRs 0018, 0022).
 
+**The patient app** (`src/styles/sections/patient.css`, `pt-` classes) is
+one column, at most 880px wide, with the brand's name in the top bar and
+its areas as underline tabs; at phone width (760px and under) the areas
+move to a bar at the bottom. It wears its brand's primary colour in place
+of the kit's, set from the brand's configuration and only when its text
+reaches 4.5:1 (`src/lib/brand-colour.ts`, `docs/decisions/patient-app.md`
+PA4). That is the one exception to "No tinted primary" below.
+
 ## Spacing
 
 Nothing touches the edge of the box it sits in.
@@ -169,7 +177,7 @@ after values and the contrast it reaches.
 - **No per-screen table, card or button styling.** One of each; a genuine
   difference becomes a documented class in `grid-app.css`.
 - **No tinted primary.** The primary is near-black (`--primary`); colour is
-  for status.
+  for status. The patient app's brand colour is the one exception.
 - **No colour-only status.** Every status has a label.
 - **No stripped focus.** Focus shows the kit's halo, or the focus edge on
   nav rows and underline tabs.
