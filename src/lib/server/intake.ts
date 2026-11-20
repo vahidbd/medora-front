@@ -11,7 +11,7 @@ import {
   HELD_FOR_SECONDS,
   INTAKE_COOKIE,
   INTAKE_TOKEN_HEADER,
-  isIntakeId,
+  isId,
   readHeld,
   TOKEN,
   withHeld,
@@ -131,7 +131,7 @@ export async function startIntake(request: NextRequest): Promise<NextResponse> {
     // Checked below: a reply this server can't read can't be held.
   }
   const { intakeId, programId } = view;
-  if (!TOKEN.test(token) || typeof intakeId !== "string" || !isIntakeId(intakeId) || typeof programId !== "string" || !isIntakeId(programId)) {
+  if (!TOKEN.test(token) || typeof intakeId !== "string" || !isId(intakeId) || typeof programId !== "string" || !isId(programId)) {
     return refusal("backend_unreachable", "Medora can't be reached at the moment", 502);
   }
   return keep(passOn(upstream, text), withHeld(heldIn(request), { intakeId, programId, token }));
@@ -139,7 +139,7 @@ export async function startIntake(request: NextRequest): Promise<NextResponse> {
 
 /** The held entry for an intake id in the path, or the refusal: an intake this browser doesn't hold is one the API would say isn't found. */
 function heldEntry(request: NextRequest, intakeId: string): HeldIntake | NextResponse {
-  if (!isIntakeId(intakeId)) return refusal("not_found", "Intake not found", 404);
+  if (!isId(intakeId)) return refusal("not_found", "Intake not found", 404);
   return heldIn(request).find((h) => h.intakeId === intakeId) ?? refusal("not_found", "Intake not found", 404);
 }
 

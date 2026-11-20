@@ -36,8 +36,9 @@ export default defineConfig([
     rules: { "no-console": "off" },
   },
   {
-    // Route handlers, the proxy and server-only modules may use the server helpers.
-    files: ["src/app/api/**", "src/proxy.ts", "src/instrumentation.ts", "src/lib/server/**", "test/**"],
+    // Route handlers, the proxy and server-only modules may use the server helpers, and so may the start
+    // flow's pages, which are server components reading the brand's open programs before anything renders.
+    files: ["src/app/api/**", "src/proxy.ts", "src/instrumentation.ts", "src/lib/server/**", "test/**", "src/app/(patient)/patient/start/**/page.tsx"],
     rules: { "no-restricted-imports": "off" },
   },
 ]);

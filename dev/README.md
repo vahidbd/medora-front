@@ -27,6 +27,8 @@ There you start signed out. Sign in as `jamie@example.test` (a made-up patient o
 | `GET`, `POST /v1/roles`, `PATCH` and `DELETE /v1/roles/:roleId` | starting roles and custom roles (`role_name_taken`, `own_role`, `role_in_use`) |
 | `POST /v1/break-glass`, `POST /v1/break-glass/close`, `GET /v1/break-glass`, `POST /v1/break-glass/:id/review` | break-glass and its reviews |
 | `GET /v1/public/brands/by-host/:host` | the two made-up brands; 404 for any other host (`mock-api/patient.mjs`) |
+| `GET /v1/public/brands/:brandId/programs`, `GET /v1/public/programs/:programId/intake-start` | Kestrel's two made-up programs (Weight care with four steps, Sleep care with one) and their privacy notice; Larkspur answers `brand_not_accepting` (`mock-api/intake.mjs`) |
+| `POST /v1/public/intakes`, `GET /v1/public/intakes/:id`, `PUT /v1/public/intakes/:id/steps/:stepKey` | an intake before an account, with the resume token in `x-medora-intake-token`; under 18 ends it at once, and in Weight care "pregnant: yes" or "harm: recently" (with the urgent help message) is a hard stop |
 | `GET /v1/patient/me` | the patient in the brand's tenant, after the date of birth check; `no_patient_record` for a new sign-up |
 | `POST /v1/patient/confirm-date-of-birth` | the check each new patient session makes once (`date_of_birth_mismatch`, five tries) |
 | `GET`, `PUT /v1/patient/notification-preferences` | texts and reminders on until changed, per sign-in |
