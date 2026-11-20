@@ -244,7 +244,7 @@ export type paths = {
                             memberships: {
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "ledger:read" | "payment_accounts:manage" | "prices:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "ledger:read" | "payment_accounts:manage" | "prices:manage" | "subscriptions:read" | "subscriptions:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "clinician" | "support" | "finance";
                                 /** @enum {string} */
@@ -1209,6 +1209,529 @@ export type paths = {
                 };
             };
         };
+        trace?: never;
+    };
+    "/v1/subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's subscriptions, newest first */
+        get: {
+            parameters: {
+                query?: {
+                    patientId?: string;
+                    status?: "pending" | "active" | "paused" | "cancelled";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            subscriptions: {
+                                /** @enum {string|null} */
+                                cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                                cancelsAtPeriodEnd: boolean;
+                                /** Format: date-time */
+                                createdAt: string;
+                                currentPeriod: {
+                                    /** Format: date */
+                                    endsOn: string;
+                                    /** Format: date */
+                                    startsOn: string;
+                                } | null;
+                                /** Format: date */
+                                endedOn: string | null;
+                                interval: {
+                                    count: number;
+                                    /** @enum {string} */
+                                    unit: "week" | "month";
+                                };
+                                /** Format: date */
+                                nextPeriodStartsOn: string | null;
+                                /** Format: uuid */
+                                patientId: string;
+                                /** Format: uuid */
+                                paymentAccountId: string;
+                                /** Format: uuid */
+                                priceId: string;
+                                /** Format: uuid */
+                                programId: string;
+                                /** @enum {string} */
+                                status: "pending" | "active" | "paused" | "cancelled";
+                                /** Format: uuid */
+                                subscriptionId: string;
+                                timeZone: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/subscriptions/{subscriptionId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One subscription */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelsAtPeriodEnd: boolean;
+                            /** Format: date-time */
+                            createdAt: string;
+                            currentPeriod: {
+                                /** Format: date */
+                                endsOn: string;
+                                /** Format: date */
+                                startsOn: string;
+                            } | null;
+                            /** Format: date */
+                            endedOn: string | null;
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            /** Format: date */
+                            nextPeriodStartsOn: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** @enum {string} */
+                            status: "pending" | "active" | "paused" | "cancelled";
+                            /** Format: uuid */
+                            subscriptionId: string;
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/subscriptions/{subscriptionId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** End it at the current period's end, or now */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        reason: "patient_request" | "staff_decision" | "other";
+                        /** @enum {string} */
+                        when: "period_end" | "now";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelsAtPeriodEnd: boolean;
+                            /** Format: date-time */
+                            createdAt: string;
+                            currentPeriod: {
+                                /** Format: date */
+                                endsOn: string;
+                                /** Format: date */
+                                startsOn: string;
+                            } | null;
+                            /** Format: date */
+                            endedOn: string | null;
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            /** Format: date */
+                            nextPeriodStartsOn: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** @enum {string} */
+                            status: "pending" | "active" | "paused" | "cancelled";
+                            /** Format: uuid */
+                            subscriptionId: string;
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/subscriptions/{subscriptionId}/pause": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** No invoice until the resume date, at most three months on */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: date */
+                        resumesOn: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelsAtPeriodEnd: boolean;
+                            /** Format: date-time */
+                            createdAt: string;
+                            currentPeriod: {
+                                /** Format: date */
+                                endsOn: string;
+                                /** Format: date */
+                                startsOn: string;
+                            } | null;
+                            /** Format: date */
+                            endedOn: string | null;
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            /** Format: date */
+                            nextPeriodStartsOn: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** @enum {string} */
+                            status: "pending" | "active" | "paused" | "cancelled";
+                            /** Format: uuid */
+                            subscriptionId: string;
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/subscriptions/{subscriptionId}/reinstate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Keep a subscription that was due to end at its period end */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelsAtPeriodEnd: boolean;
+                            /** Format: date-time */
+                            createdAt: string;
+                            currentPeriod: {
+                                /** Format: date */
+                                endsOn: string;
+                                /** Format: date */
+                                startsOn: string;
+                            } | null;
+                            /** Format: date */
+                            endedOn: string | null;
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            /** Format: date */
+                            nextPeriodStartsOn: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** @enum {string} */
+                            status: "pending" | "active" | "paused" | "cancelled";
+                            /** Format: uuid */
+                            subscriptionId: string;
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/subscriptions/{subscriptionId}/resume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** End a pause: the next period starts when the current one ends, or is due now if that has passed */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelsAtPeriodEnd: boolean;
+                            /** Format: date-time */
+                            createdAt: string;
+                            currentPeriod: {
+                                /** Format: date */
+                                endsOn: string;
+                                /** Format: date */
+                                startsOn: string;
+                            } | null;
+                            /** Format: date */
+                            endedOn: string | null;
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            /** Format: date */
+                            nextPeriodStartsOn: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** @enum {string} */
+                            status: "pending" | "active" | "paused" | "cancelled";
+                            /** Format: uuid */
+                            subscriptionId: string;
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/subscriptions/{subscriptionId}/skip": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Move the next billing period one interval later */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    subscriptionId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelsAtPeriodEnd: boolean;
+                            /** Format: date-time */
+                            createdAt: string;
+                            currentPeriod: {
+                                /** Format: date */
+                                endsOn: string;
+                                /** Format: date */
+                                startsOn: string;
+                            } | null;
+                            /** Format: date */
+                            endedOn: string | null;
+                            interval: {
+                                count: number;
+                                /** @enum {string} */
+                                unit: "week" | "month";
+                            };
+                            /** Format: date */
+                            nextPeriodStartsOn: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            paymentAccountId: string;
+                            /** Format: uuid */
+                            priceId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** @enum {string} */
+                            status: "pending" | "active" | "paused" | "cancelled";
+                            /** Format: uuid */
+                            subscriptionId: string;
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
 };

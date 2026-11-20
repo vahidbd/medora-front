@@ -21,4 +21,6 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "ledger:read": "See the ledger and its balances",
   "payment_accounts:manage": "Connect and manage payment accounts",
   "prices:manage": "Set and publish prices",
+  "subscriptions:read": "See subscriptions",
+  "subscriptions:manage": "Pause, skip, cancel and reinstate subscriptions",
 };
