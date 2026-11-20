@@ -81,6 +81,7 @@ Files, tables, checks.
 | [0033](0033-before-the-first-patient.md) | What must be true before the first patient | Proposed |
 | [0034](0034-the-core-before-breadth.md) | The core before breadth; each feature ships whole | Proposed |
 | [0100](0100-patients-sign-in-on-their-own-instance.md) | Patients sign in on their own sign-in instance, and hold one record per tenant | Proposed |
+| [0120](0120-video-consults-on-self-hosted-livekit.md) | Video consults run on a self-hosted LiveKit server in Sydney, and its signed webhooks are the only video evidence | Proposed |
 | [0220](0220-permissions-name-their-zone-and-staff-sign-in-with-two-steps.md) | Permissions name their data zone, clinical ones need a clinical role or break-glass, and every staff session has two steps | Proposed |
 
 ## Timeline
@@ -88,3 +89,4 @@ Files, tables, checks.
 - **20 Nov 2026**: 0001 to 0034, the founding set, written with the first commit of each repo. 0001, 0002, 0004, 0005, 0011, 0013 and 0019 to 0023 were settled by the product owner's answers that day; the rest are Proposed until the foundation pull requests are approved.
 - **20 Nov 2026**: 0100, patient sign-in, with the intake and identity work.
 - **20 Nov 2026**: 0220, staff access: custom roles, break-glass and two steps for every staff session, from the admin build.
+- **20 Nov 2026**: 0120, the video server and video consult evidence, with the consult gate (numbered in the clinical record and consults thread's block, 0120 to 0139).

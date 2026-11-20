@@ -42,6 +42,7 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | Medora's platform-wide rule that stops matching products being prescribed, ordered or charged, which no tenant can lift | **Block rule** | ban list, blacklist |
 | A product a block rule matches, or that its tenant blocked | **Blocked product** | banned product, disabled product |
 | A real-time video or phone appointment with a clinician | **Consult** | appointment (except when booking), session, call |
+| When the patient and the clinician connected and left during a consult, from the provider's verified callbacks | **Consult evidence** | call log, attendance, recording |
 | A prescription | **Script** | Rx, prescription (in code), order |
 | Writing a script (in Parchment) | **Prescribe** | order, issue |
 | Preparing and handing over medicine against a script | **Dispense** | fulfil, fill |
