@@ -23,4 +23,5 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "prices:manage": "Set and publish prices",
   "subscriptions:read": "See subscriptions",
   "subscriptions:manage": "Pause, skip, cancel and reinstate subscriptions",
+  "invoices:read": "See invoices",
 };
