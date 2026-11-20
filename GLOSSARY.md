@@ -8,6 +8,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | --- | --- | --- |
 | A business that runs its care on Medora (a clinic, an operator) | **Tenant** | customer, client, org, account |
 | A name and look a tenant sells under; one tenant can have several | **Brand** | site, storefront, white label |
+| A legal entity under a tenant, with its own ABN; every brand belongs to one | **Company** | entity, legal entity, business |
+| A web address a brand's public pages answer on, such as app.brand.com.au | **Domain** | URL, site, web address |
+| What a tenant must have before it takes new patients: a company, a live brand, a medical director and a prescriber | **Onboarding checklist** | setup wizard, go-live list |
+| Medora's own team, who create tenants and verify domains, and see no tenant's data | **Platform staff** | super admin, Medora admin, staff (alone) |
 | A person receiving care | **Patient** | client, customer, user, member |
 | A person working for a tenant | **Staff member** | user, employee, agent |
 | A staff member who prescribes (doctor, nurse practitioner) | **Prescriber** | doctor (unless the role really is "doctor"), provider |
@@ -45,6 +49,7 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | Thing | We call it | Never |
 | --- | --- | --- |
 | One thing said to or by a person on any channel (email, SMS, chat, a logged call), in or out | **Message** | post, entry, communication |
+| A brand's own email address or phone number on a channel, for service or for marketing | **Sender** | from address, sender id |
 
 ## Platform
 
