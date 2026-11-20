@@ -5,7 +5,8 @@
  * reset on every start. No dependencies, so it runs anywhere Node does.
  * Each area's routes live in their own file: staff.mjs, tenant-setup.mjs,
  * catalogue.mjs, audit.mjs, patient.mjs for the brands and the patient's own
- * routes, and tracking.mjs for what patients record.
+ * routes, tracking.mjs for what patients record, and adherence.mjs for
+ * adherence.
  *
  * It answers the way the API does (contract/openapi.json in the backend):
  * the same shapes, the same error envelope, the tenant in the
@@ -15,6 +16,7 @@
  * Env: MOCK_API_PORT (default 4010).
  */
 import { createServer } from "node:http";
+import { adherenceRoutes } from "./adherence.mjs";
 import { auditRoutes } from "./audit.mjs";
 import { catalogueRoutes } from "./catalogue.mjs";
 import { fail, readJson, send } from "./http.mjs";
@@ -38,6 +40,7 @@ const routes = [
   ...tenantSetupRoutes,
   ...catalogueRoutes,
   ...auditRoutes,
+  ...adherenceRoutes({ send, fail }),
 ];
 
 const server = createServer(async (req, res) => {

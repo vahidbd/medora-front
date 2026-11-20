@@ -15,6 +15,7 @@ import { isPatientNavActive, patientNavigation } from "@/config/patient-navigati
 import { cn } from "@/lib/utils";
 import { useBrand } from "./brand-context";
 import { useIdleSignOut, usePatientSignOut } from "./sign-out";
+import { useAppOpened } from "./use-app-opened";
 import "@/styles/sections/patient.css";
 
 /**
@@ -24,6 +25,7 @@ import "@/styles/sections/patient.css";
  */
 export function PatientShell({ name, children }: { name: string; children: React.ReactNode }) {
   useIdleSignOut();
+  useAppOpened();
   const pathname = usePathname();
   return (
     <div className="pt">

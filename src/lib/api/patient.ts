@@ -1,5 +1,6 @@
 import { request } from "./client";
 import type {
+  AppOpened,
   CheckIn,
   CheckInSubmission,
   DateOfBirthConfirmation,
@@ -36,6 +37,8 @@ export const patientApi = {
   /** Newest first, with the readings and side effect each one carried. */
   checkIns: () => request<{ checkIns: CheckIn[] }>("/patient/check-ins"),
   submitCheckIn: (body: CheckInSubmission) => request<CheckIn>("/patient/check-ins", { method: "POST", body }),
+  /** The patient opened their app; the API counts it once on each of their days (ADR 0260). */
+  appOpened: () => request<AppOpened>("/patient/activity/app-opened", { method: "POST" }),
 
   notificationPreferences: () => request<NotificationPreferences>("/patient/notification-preferences"),
   setNotificationPreferences: (body: NotificationPreferences) =>
