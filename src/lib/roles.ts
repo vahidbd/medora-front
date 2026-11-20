@@ -64,6 +64,8 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "audit:read": "Read and export the audit log",
   "clinicians:read": "See clinicians, whether they can consult, and their hours",
   "clinicians:manage": "Add clinicians, check their credentials and suspend them",
+  "consults:read": "See the consult schedule and the free slots",
+  "consults:book": "Book, move and cancel consults, and mark a no-show",
 };
 
 /** The data zone a permission opens (ADR 0220), as a heading in the role editor. */

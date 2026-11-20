@@ -2452,6 +2452,494 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/consults": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Consults starting in a range, for one clinician or patient if asked */
+        get: {
+            parameters: {
+                query: {
+                    clinicianUserId?: string;
+                    from: string;
+                    patientId?: string;
+                    to: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consults: {
+                                /** @enum {string|null} */
+                                cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
+                                /** Format: uuid */
+                                clinicianUserId: string;
+                                /** Format: uuid */
+                                consultId: string;
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** @enum {string} */
+                                mode: "phone" | "video";
+                                /** Format: uuid */
+                                patientId: string;
+                                patientName: string;
+                                /** @enum {string} */
+                                purpose: "initial" | "review" | "follow_up";
+                                /** Format: uuid */
+                                rescheduledFrom: string | null;
+                                /** Format: date-time */
+                                startsAt: string;
+                                /** @enum {string} */
+                                status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Book a consult in a free slot */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        clinicianUserId: string;
+                        /** @enum {string} */
+                        mode: "phone" | "video";
+                        /** Format: uuid */
+                        patientId: string;
+                        /** @enum {string} */
+                        purpose: "initial" | "review" | "follow_up";
+                        /** Format: date-time */
+                        startsAt: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
+                            /** Format: uuid */
+                            clinicianUserId: string;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: uuid */
+                            rescheduledFrom: string | null;
+                            /** Format: date-time */
+                            startsAt: string;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/consults/{consultId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One consult in the schedule */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    consultId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
+                            /** Format: uuid */
+                            clinicianUserId: string;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: uuid */
+                            rescheduledFrom: string | null;
+                            /** Format: date-time */
+                            startsAt: string;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/consults/{consultId}/cancel": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Cancel a scheduled consult that hasn’t started */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    consultId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        reason: "patient_request" | "clinician_unavailable" | "booked_in_error" | "other";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
+                            /** Format: uuid */
+                            clinicianUserId: string;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: uuid */
+                            rescheduledFrom: string | null;
+                            /** Format: date-time */
+                            startsAt: string;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/consults/{consultId}/no-show": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record that the patient didn’t come to a consult that was due */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    consultId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
+                            /** Format: uuid */
+                            clinicianUserId: string;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: uuid */
+                            rescheduledFrom: string | null;
+                            /** Format: date-time */
+                            startsAt: string;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/consults/{consultId}/reinstate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Undo a mistaken no-show */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    consultId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
+                            /** Format: uuid */
+                            clinicianUserId: string;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: uuid */
+                            rescheduledFrom: string | null;
+                            /** Format: date-time */
+                            startsAt: string;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/consults/{consultId}/reschedule": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Move a consult: cancel it and book the new time, together */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    consultId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        clinicianUserId?: string;
+                        /** @enum {string} */
+                        mode?: "phone" | "video";
+                        /** Format: date-time */
+                        startsAt: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {string|null} */
+                            cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
+                            /** Format: uuid */
+                            clinicianUserId: string;
+                            /** Format: uuid */
+                            consultId: string;
+                            /** Format: date-time */
+                            endsAt: string;
+                            /** @enum {string} */
+                            mode: "phone" | "video";
+                            /** Format: uuid */
+                            patientId: string;
+                            patientName: string;
+                            /** @enum {string} */
+                            purpose: "initial" | "review" | "follow_up";
+                            /** Format: uuid */
+                            rescheduledFrom: string | null;
+                            /** Format: date-time */
+                            startsAt: string;
+                            /** @enum {string} */
+                            status: "scheduled" | "in_progress" | "completed" | "cancelled" | "no_show";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/consults/slots": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A clinician's free slots, in their time zone's hours */
+        get: {
+            parameters: {
+                query: {
+                    clinicianUserId: string;
+                    from?: string;
+                    to?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            slots: {
+                                /** Format: date-time */
+                                endsAt: string;
+                                /** Format: date-time */
+                                startsAt: string;
+                            }[];
+                            timeZone: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/intakes/{intakeId}": {
         parameters: {
             query?: never;
@@ -2577,7 +3065,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -6211,13 +6699,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -6226,7 +6714,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book")[];
                             }[];
                         };
                     };
@@ -6249,7 +6737,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book")[];
                     };
                 };
             };
@@ -6269,7 +6757,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -6336,7 +6824,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book")[];
                     };
                 };
             };
@@ -6356,7 +6844,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "clinicians:read" | "clinicians:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read" | "consults:read" | "consults:book")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
