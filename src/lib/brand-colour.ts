@@ -1,6 +1,6 @@
 /*
  * A brand's one colour on its patient pages (docs/decisions/patient-app.md
- * PA4). It replaces the kit's primary (buttons, the current tab, the
+ * APP4). It replaces the kit's primary (buttons, the current tab, the
  * unread count) only when its text reaches WCAG AA, 4.5:1, against it;
  * otherwise the kit's own primary stays. The same colour is used in light
  * and dark, so the check doesn't depend on the theme. Status colours never

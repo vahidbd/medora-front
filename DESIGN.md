@@ -105,7 +105,7 @@ its areas as underline tabs; at phone width (760px and under) the areas
 move to a bar at the bottom. It wears its brand's primary colour in place
 of the kit's, set from the brand's configuration and only when its text
 reaches 4.5:1 (`src/lib/brand-colour.ts`, `docs/decisions/patient-app.md`
-PA4). That is the one exception to "No tinted primary" below.
+APP4). That is the one exception to "No tinted primary" below.
 
 ## Spacing
 

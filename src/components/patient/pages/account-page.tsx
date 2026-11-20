@@ -13,7 +13,7 @@ import { useSignedInPatient } from "@/components/patient/use-patient";
 /**
  * Account: who the patient is to this brand, how the app looks, their
  * privacy rights and signing out. A copy of the record and deleting the
- * account go through support until they have their own screens (PA8).
+ * account go through support until they have their own screens (APP8).
  */
 export function PatientAccountPage() {
   const me = useSignedInPatient();

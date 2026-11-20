@@ -6,10 +6,10 @@ import { createContext, useContext } from "react";
  * The brand whose patient app this is, as its pages may show it: name,
  * support details and whether it takes new patients. It comes from the
  * brand's configuration on the server (ADR 0023), never from code. No ids:
- * this app's server names the brand's tenant to the API itself (PA2).
+ * this app's server names the brand's tenant to the API itself (APP2).
  */
 export interface PatientBrand {
-  /** The host the patient app is on, lower-case without a port; it keys every query (PA3). */
+  /** The host the patient app is on, lower-case without a port; it keys every query (APP3). */
   host: string;
   name: string;
   status: "live" | "paused";

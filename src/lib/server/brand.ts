@@ -6,7 +6,7 @@ import { backendApiUrl } from "@/lib/server/backend";
  * Which brand a patient host belongs to, from the API's public brand route
  * (GET /v1/public/brands/by-host/:host). It needs no session and carries
  * no patient data. The proxy uses it to refuse hosts that aren't a brand's
- * (PA1) and to hand the brand to the patient app's pages; the relay, to
+ * (APP1) and to hand the brand to the patient app's pages; the relay, to
  * name the brand's tenant.
  *
  * Answers are kept for a minute per host, in this process, so a page view

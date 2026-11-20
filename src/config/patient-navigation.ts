@@ -1,7 +1,7 @@
 import { House, UserRound, type LucideIcon } from "lucide-react";
 
 /**
- * The patient app's areas, in order (docs/decisions/patient-app.md PA6):
+ * The patient app's areas, in order (docs/decisions/patient-app.md APP6):
  * underline tabs under the brand row on a wide screen, a bar along the
  * bottom on a phone. An area is listed only once its screens exist; the
  * patient's own records need no permission check beyond being theirs,

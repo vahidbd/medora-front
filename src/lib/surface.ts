@@ -1,5 +1,5 @@
 /*
- * One deployment, two surfaces (ADR 0037, docs/decisions/patient-app.md PA1).
+ * One deployment, two surfaces (ADR 0037, docs/decisions/patient-app.md APP1).
  * The host a request arrived on decides which one answers: the staff
  * console on the hosts named in CONSOLE_HOSTS, and a brand's patient app on
  * every other host, which must then be a brand's patient-app domain. The

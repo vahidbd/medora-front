@@ -61,7 +61,7 @@ function withPolicy(request: NextRequest, publishableKey: string | undefined, ex
   for (const [name, value] of Object.entries(extra)) headers.set(name, value);
   const response = rewrite ? NextResponse.rewrite(internal(request, rewrite), { request: { headers } }) : NextResponse.next({ request: { headers } });
   response.headers.set("content-security-policy", policy);
-  // Patient pages show health data: nothing in between may keep a copy (PA3).
+  // Patient pages show health data: nothing in between may keep a copy (APP3).
   if (rewrite) response.headers.set("cache-control", "no-store");
   return response;
 }
@@ -103,7 +103,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   if (surface === "console") return staffClerk(request, event);
   if (surface !== "patient" || !host) return notFound();
 
-  // Default deny: a host that isn't a brand's patient-app domain answers nothing (PA1).
+  // Default deny: a host that isn't a brand's patient-app domain answers nothing (APP1).
   const lookup = await brandLookup(host);
   if (lookup.state === "unknown") return notFound();
   if (lookup.state === "failed") {

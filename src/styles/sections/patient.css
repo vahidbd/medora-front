@@ -1,7 +1,7 @@
 /* The patient app (src/app/(patient)/): a brand's own pages for its
    patients, readable on a phone, light or dark with the system. Built only
    from the kit's tokens (DESIGN.md "Public pages"); the brand's one colour
-   arrives as --primary from the layout (docs/decisions/patient-app.md PA4).
+   arrives as --primary from the layout (docs/decisions/patient-app.md APP4).
    Classes are prefixed pt-. */
 
 /* ------------------------------------------------------------------ */

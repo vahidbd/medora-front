@@ -20,7 +20,7 @@ import "@/styles/sections/patient.css";
  * this sign-in has confirmed their date of birth (ADR 0035).
  *
  * No session goes to sign-in. A session the API has no patient record for
- * is a sign-up that hasn't finished (PA7): it is not sent back to sign
+ * is a sign-up that hasn't finished (APP7): it is not sent back to sign
  * in, which would loop. An API that can't be reached says so, with Try
  * again, and never looks like an empty account.
  */

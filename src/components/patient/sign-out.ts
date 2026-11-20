@@ -6,7 +6,7 @@ import { useClerk } from "@clerk/nextjs";
 
 /*
  * Signing a patient out, by choice or after 30 minutes without activity on
- * a shared device (PA5). Everything loaded is dropped from memory first,
+ * a shared device (APP5). Everything loaded is dropped from memory first,
  * so nothing the patient saw survives the session. The patient Clerk
  * instance ends idle sessions on its own too; this timer is the screen's
  * courtesy, not the rule.

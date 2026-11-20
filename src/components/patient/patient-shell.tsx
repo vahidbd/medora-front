@@ -20,7 +20,7 @@ import "@/styles/sections/patient.css";
 /**
  * The signed-in patient app's frame: the brand row with the account menu,
  * the areas as tabs (a bottom bar on a phone), then the page. The brand's
- * name is its mark until logos are served from this app's own origin (PA4).
+ * name is its mark until logos are served from this app's own origin (APP4).
  */
 export function PatientShell({ name, children }: { name: string; children: React.ReactNode }) {
   useIdleSignOut();

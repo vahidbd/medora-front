@@ -9,7 +9,7 @@ import { Alert } from "@/components/ui/alert";
 import { useBrand } from "./brand-context";
 
 /**
- * A patient signs in with a six-digit code sent to their email (PA5). The
+ * A patient signs in with a six-digit code sent to their email (APP5). The
  * same two steps sign a new patient up: when Clerk has no account for the
  * address, the code comes from a sign-up instead. Both paths say the same
  * words, so the screen never tells anyone whether an address has an

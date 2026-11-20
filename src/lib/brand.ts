@@ -5,7 +5,7 @@ import { z } from "zod";
  * (GET /v1/public/brands/by-host/:host): its name, look and support
  * details, and nothing about any patient. Its type moves to the generated
  * contract (ADR 0014) when the route is in it; until then this schema is
- * the contract's copy (docs/decisions/patient-app.md PA9).
+ * the contract's copy (docs/decisions/patient-app.md APP9).
  *
  * The proxy finds the brand for a patient host and hands it to the patient
  * app's pages in BRAND_HEADER on the request, which only the proxy writes:

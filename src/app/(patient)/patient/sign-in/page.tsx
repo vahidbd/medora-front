@@ -6,7 +6,7 @@ import "@/styles/sections/patient.css";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-/** Sign-in and sign-up by emailed code, in the brand's look (PA5). */
+/** Sign-in and sign-up by emailed code, in the brand's look (APP5). */
 export default async function PatientSignInPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;
   const next = safeNext(params.next);
