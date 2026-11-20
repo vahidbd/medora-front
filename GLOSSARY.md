@@ -34,6 +34,7 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | The clinical rules for a service: eligibility, questions, products, reviews | **Protocol** | pathway, flow, playbook |
 | The questions a patient answers before a consult | **Intake** | questionnaire, survey, form |
 | A real-time video or phone appointment with a clinician | **Consult** | appointment (except when booking), session, call |
+| When the patient and the clinician connected and left during a consult, from the provider's verified callbacks | **Consult evidence** | call log, attendance, recording |
 | A prescription | **Script** | Rx, prescription (in code), order |
 | Writing a script (in Parchment) | **Prescribe** | order, issue |
 | Preparing and handing over medicine against a script | **Dispense** | fulfil, fill |
