@@ -57,6 +57,8 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "protocols:sign_off": "Sign off a protocol version",
   "programs:manage": "Set up and change programs",
   "intakes:read": "Read patients' intake answers",
+  "adherence:read": "See adherence flags and the side effects that raised them",
+  "adherence:resolve": "Resolve and reopen adherence flags",
   "tenant:manage": "Change the tenant's settings and companies",
   "brands:manage": "Set up brands and take them live",
   "catalogue:read": "See the products the tenant sells",
