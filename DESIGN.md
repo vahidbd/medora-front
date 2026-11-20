@@ -53,9 +53,9 @@ from shadcn's Base UI set and fitted to the kit's classes the same way.
 
 - Sidebar 256 wide; 68 minimised; 68 + 232 when a group's rail is open.
   Blocks with a gap between them (the kit has no sidebar label): Home on
-  top, the work areas as they arrive, then Workspace (Staff, Roles,
+  top, the work areas as they arrive (Catalogue: Products), then Workspace (Staff, Roles,
   Break-glass, Brands, Companies, Settings) and, for platform staff only,
-  Platform (Tenants, Domains), each group opening its rail. Search is the search
+  Platform (Tenants, Domains, Block rules), each group opening its rail. Search is the search
   box at the top of the sidebar (⌘K), not a row. A screen the staff member
   has no permission for is not drawn (`config/navigation.ts`, `useCanSee`);
   the API still checks every call.

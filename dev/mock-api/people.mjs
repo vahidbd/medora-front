@@ -19,21 +19,32 @@ export const STARTING_ROLES = [
   "compliance",
 ];
 export const CLINICAL_ROLES = new Set(["prescriber", "clinician", "medical_director"]);
-export const PERMISSIONS = ["staff:read", "staff:manage", "roles:manage", "break_glass:review", "tenant:manage", "brands:manage"];
-export const PERMISSION_ZONES = Object.fromEntries(PERMISSIONS.map((key) => [key, "platform"]));
+export const PERMISSIONS = [
+  "staff:read",
+  "staff:manage",
+  "roles:manage",
+  "break_glass:review",
+  "tenant:manage",
+  "brands:manage",
+  "catalogue:read",
+  "catalogue:manage",
+];
+export const PERMISSION_ZONES = Object.fromEntries(
+  PERMISSIONS.map((key) => [key, key.startsWith("catalogue:") ? "operational" : "platform"]),
+);
 
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
 export const ROLE_PERMISSIONS = {
   owner: [...PERMISSIONS],
-  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage"],
-  medical_director: ["staff:read", "break_glass:review"],
-  prescriber: ["staff:read"],
-  clinician: ["staff:read"],
-  support: ["staff:read"],
-  finance: ["staff:read"],
-  operations: ["staff:read"],
-  marketing: ["staff:read"],
-  compliance: ["staff:read"],
+  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage", "catalogue:read", "catalogue:manage"],
+  medical_director: ["staff:read", "break_glass:review", "catalogue:read"],
+  prescriber: ["staff:read", "catalogue:read"],
+  clinician: ["staff:read", "catalogue:read"],
+  support: ["staff:read", "catalogue:read"],
+  finance: ["staff:read", "catalogue:read"],
+  operations: ["staff:read", "catalogue:read", "catalogue:manage"],
+  marketing: ["staff:read", "catalogue:read"],
+  compliance: ["staff:read", "catalogue:read"],
 };
 
 // The preview person. The mock Clerk session (dev/mock-clerk) is the same person.

@@ -50,6 +50,8 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "break_glass:review": "Review break-glass use",
   "tenant:manage": "Change the tenant's settings and companies",
   "brands:manage": "Set up brands and take them live",
+  "catalogue:read": "See the products the tenant sells",
+  "catalogue:manage": "Add products, change prices and block products",
 };
 
 /** The data zone a permission opens (ADR 0220), as a heading in the role editor. */

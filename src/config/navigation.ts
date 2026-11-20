@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Building2, Globe, House, Landmark, Settings, ShieldAlert, ShieldCheck, Store, UsersRound } from "lucide-react";
+import { Ban, Building2, Globe, House, Landmark, Package, Settings, ShieldAlert, ShieldCheck, Store, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -43,6 +43,14 @@ export const navigation: NavGroup[] = [
     items: [{ title: "Home", href: "/home", icon: House }],
   },
   {
+    label: "Catalogue",
+    icon: Package,
+    gapBefore: true,
+    items: [
+      { title: "Products", href: "/products", icon: Package, permission: "catalogue:read", keywords: ["Medicines", "Prices", "Blocked"] },
+    ],
+  },
+  {
     label: "Workspace",
     icon: Settings,
     gapBefore: true,
@@ -62,6 +70,13 @@ export const navigation: NavGroup[] = [
     items: [
       { title: "Tenants", href: "/platform/tenants", icon: Building2, platform: true, keywords: ["New tenant", "Owner invitation"] },
       { title: "Domains", href: "/platform/domains", icon: Globe, platform: true, crumb: "Domains to verify", keywords: ["Verify", "DNS"] },
+      {
+        title: "Block rules",
+        href: "/platform/block-rules",
+        icon: Ban,
+        platform: true,
+        keywords: ["Blocked products", "Schedule", "ARTG"],
+      },
     ],
   },
 ];

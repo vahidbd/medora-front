@@ -102,6 +102,56 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/block-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Medora's block rules, in force or announced, the same for every tenant */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            rules: {
+                                /** Format: date-time */
+                                addedAt: string;
+                                /** Format: date-time */
+                                effectiveFrom: string;
+                                /** @enum {string} */
+                                match: "schedule" | "artg_number" | "compounded";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string;
+                                sourceUrl: string | null;
+                                value: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/brands": {
         parameters: {
             query?: never;
@@ -940,7 +990,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -1004,6 +1054,67 @@ export type paths = {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/platform/block-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a block rule for every tenant */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: date-time */
+                        effectiveFrom?: string;
+                        /** @enum {string} */
+                        match: "schedule" | "artg_number" | "compounded";
+                        reason: string;
+                        /** Format: uri */
+                        sourceUrl?: string | null;
+                        value?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: date-time */
+                            addedAt: string;
+                            /** Format: date-time */
+                            effectiveFrom: string;
+                            /** @enum {string} */
+                            match: "schedule" | "artg_number" | "compounded";
+                            reason: string;
+                            /** Format: uuid */
+                            ruleId: string;
+                            sourceUrl: string | null;
+                            value: string | null;
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -1244,6 +1355,469 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/products": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's products, each with whether it is blocked now */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            products: {
+                                artgNumber: string | null;
+                                blocked: {
+                                    /** @enum {string} */
+                                    code: "platform_rule" | "tenant_block";
+                                    reason: string;
+                                    /** Format: uuid */
+                                    ruleId: string | null;
+                                } | null;
+                                compounded: boolean;
+                                form: string | null;
+                                gstFree: boolean;
+                                /** @enum {string} */
+                                kind: "medicine" | "device" | "service";
+                                name: string;
+                                packSize: string | null;
+                                priceCents: number;
+                                /** Format: uuid */
+                                productId: string;
+                                /** @enum {string|null} */
+                                schedule: "S2" | "S3" | "S4" | "S8" | null;
+                                /** @enum {string} */
+                                status: "active" | "archived";
+                                /** @enum {string} */
+                                storage: "room" | "refrigerated";
+                                strength: string | null;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a product */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        artgNumber?: string | null;
+                        compounded?: boolean;
+                        form?: string | null;
+                        gstFree: boolean;
+                        /** @enum {string} */
+                        kind: "medicine" | "device" | "service";
+                        name: string;
+                        packSize?: string | null;
+                        priceCents: number;
+                        /** @enum {string|null} */
+                        schedule?: "S2" | "S3" | "S4" | "S8" | null;
+                        /** @enum {string} */
+                        storage?: "room" | "refrigerated";
+                        strength?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/products/{productId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One product */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change a product or its price */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        artgNumber?: string | null;
+                        compounded?: boolean;
+                        form?: string | null;
+                        gstFree?: boolean;
+                        /** @enum {string} */
+                        kind?: "medicine" | "device" | "service";
+                        name?: string;
+                        packSize?: string | null;
+                        priceCents?: number;
+                        /** @enum {string|null} */
+                        schedule?: "S2" | "S3" | "S4" | "S8" | null;
+                        /** @enum {string} */
+                        storage?: "room" | "refrigerated";
+                        strength?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/products/{productId}/block": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Block a product in this tenant, with the reason */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        /** Lift this tenant's block. Medora's block rules still apply. */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/products/{productId}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Archive a product, or bring it back */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    productId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "active" | "archived";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            artgNumber: string | null;
+                            blocked: {
+                                /** @enum {string} */
+                                code: "platform_rule" | "tenant_block";
+                                reason: string;
+                                /** Format: uuid */
+                                ruleId: string | null;
+                            } | null;
+                            compounded: boolean;
+                            form: string | null;
+                            gstFree: boolean;
+                            /** @enum {string} */
+                            kind: "medicine" | "device" | "service";
+                            name: string;
+                            packSize: string | null;
+                            priceCents: number;
+                            /** Format: uuid */
+                            productId: string;
+                            /** @enum {string|null} */
+                            schedule: "S2" | "S3" | "S4" | "S8" | null;
+                            /** @enum {string} */
+                            status: "active" | "archived";
+                            /** @enum {string} */
+                            storage: "room" | "refrigerated";
+                            strength: string | null;
+                            /** Format: date-time */
+                            updatedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/public/brands/by-host/{host}": {
         parameters: {
             query?: never;
@@ -1329,13 +1903,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -1344,7 +1918,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
                             }[];
                         };
                     };
@@ -1367,7 +1941,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
                     };
                 };
             };
@@ -1387,7 +1961,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -1454,7 +2028,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
                     };
                 };
             };
@@ -1474,7 +2048,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
