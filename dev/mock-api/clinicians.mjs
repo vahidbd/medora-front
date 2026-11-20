@@ -5,6 +5,9 @@
  * (src/modules/clinicians/standing.ts in the backend), with fewer edge cases.
  */
 import { randomUUID } from "node:crypto";
+import { fail, readJson, send } from "./http.mjs";
+import { ME, memberships, ROLE_PERMISSIONS } from "./people.mjs";
+import { tenantOf } from "./staff.mjs";
 
 const DAY_MS = 86_400_000;
 const today = () => new Date().toISOString().slice(0, 10);
@@ -82,7 +85,13 @@ function standingOf(clinician, membershipActive) {
   return { mayConsult, mayPrescribe: mayConsult && prescribing.length === 0, reasons: [...reasons, ...prescribing], warnings: [...warnings] };
 }
 
-export function clinicianRoutes({ send, fail, readJson, tenantOf, requirePermission, memberships, ME, ROLE_PERMISSIONS }) {
+function requirePermission(res, mine, permission) {
+  if ((ROLE_PERMISSIONS[mine.role] ?? []).includes(permission)) return true;
+  fail(res, 403, "forbidden", "You don't have permission to do that");
+  return false;
+}
+
+export function clinicianRoutes() {
   const byEmail = (email) => memberships.find((m) => m.email === email);
   const clinicians = [
     { member: byEmail("sam.lee@example.test"), profession: "medical_practitioner", timeZone: "Australia/Sydney", credentials: [registration("MED0000000101", true), indemnity(true)], hours: weekdays("09:00", "17:00") },
@@ -99,7 +108,7 @@ export function clinicianRoutes({ send, fail, readJson, tenantOf, requirePermiss
   const detail = (c, mine) => {
     const isSelf = memberOf(c).userId === ME.userId;
     const counts = countingIds(c);
-    const manages = ROLE_PERMISSIONS[mine.role].includes("clinicians:manage");
+    const manages = (ROLE_PERMISSIONS[mine.role] ?? []).includes("clinicians:manage");
     return {
       ...summary(c),
       credentials: manages || isSelf ? [...c.credentials].reverse().map((cr) => ({ ...cr, counts: counts.has(cr.credentialId) })) : null,
@@ -118,7 +127,7 @@ export function clinicianRoutes({ send, fail, readJson, tenantOf, requirePermiss
       return null;
     }
     const isSelf = memberOf(c).userId === ME.userId;
-    const manages = ROLE_PERMISSIONS[mine.role].includes("clinicians:manage");
+    const manages = (ROLE_PERMISSIONS[mine.role] ?? []).includes("clinicians:manage");
     return { mine, c, isSelf, manages };
   }
   const selfOrManager = (res, s) => (s.manages || s.isSelf ? true : (fail(res, 403, "forbidden", "You don't have permission to do that"), false));

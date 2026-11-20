@@ -63,9 +63,23 @@ export function formatDateTime(value: string | Date | null | undefined): string 
   return `${formatDate(d)}, ${hh}:${mm}`;
 }
 
+/** "14:05". */
+export function formatTime(value: string | Date | null | undefined): string {
+  if (!value) return EMPTY;
+  const d = toDate(value);
+  if (Number.isNaN(d.getTime())) return String(value);
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
 export function formatFileSize(bytes: number | null | undefined): string {
   if (bytes == null) return EMPTY;
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+/** An ABN as the ATO writes it: 51 824 753 556. */
+export function formatAbn(abn: string | null | undefined): string {
+  if (!abn) return EMPTY;
+  return /^\d{11}$/.test(abn) ? `${abn.slice(0, 2)} ${abn.slice(2, 5)} ${abn.slice(5, 8)} ${abn.slice(8)}` : abn;
 }
