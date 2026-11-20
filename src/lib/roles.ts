@@ -37,6 +37,6 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "support:reply": "Reply to tickets, flag them and log calls",
   "support:clinical": "Read and answer tickets in the clinical queue",
   "support:manage": "Write and approve macros and help centre articles",
-  "help_centre:read": "See help centre articles, drafts too",
+  "help_centre:read": "See and search published help centre articles",
   "messaging:manage": "Set the email addresses and numbers each brand sends from",
 };

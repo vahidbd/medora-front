@@ -993,7 +993,7 @@ export type paths = {
             path?: never;
             cookie?: never;
         };
-        /** Help centre articles, drafts too */
+        /** Published help centre articles; drafts too for support:manage */
         get: {
             parameters: {
                 query?: {
@@ -1232,7 +1232,7 @@ export type paths = {
         delete?: never;
         options?: never;
         head?: never;
-        /** Move an article, or change its address before it's first published */
+        /** Move an article, or change its slug before it's first published */
         patch: {
             parameters: {
                 query?: never;
@@ -1468,6 +1468,8 @@ export type paths = {
                     "application/json": {
                         /** @enum {string} */
                         confirm: "This article describes our service only. It gives no medical advice and names no medicine.";
+                        /** Format: uuid */
+                        versionId: string;
                     };
                 };
             };
@@ -3459,12 +3461,12 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            approvedAt: string;
                             body: string;
                             section: string;
                             slug: string;
                             summary: string;
                             title: string;
-                            updatedAt: string;
                         };
                     };
                 };
