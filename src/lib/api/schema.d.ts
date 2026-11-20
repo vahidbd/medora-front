@@ -153,10 +153,31 @@ export type paths = {
                                 number: string;
                                 /** Format: uuid */
                                 orderId: string | null;
+                                /** Format: date-time */
+                                paidAt: string | null;
                                 /** Format: uuid */
                                 patientId: string;
                                 /** Format: uuid */
                                 paymentAccountId: string;
+                                payments: {
+                                    amountCents: number;
+                                    attempt: number;
+                                    card: {
+                                        brand: string;
+                                        last4: string;
+                                    } | null;
+                                    /** Format: date-time */
+                                    createdAt: string;
+                                    failureCode: string | null;
+                                    /** Format: uuid */
+                                    paymentId: string;
+                                    /** Format: date-time */
+                                    refundedAt: string | null;
+                                    /** Format: date-time */
+                                    settledAt: string | null;
+                                    /** @enum {string} */
+                                    status: "pending" | "succeeded" | "failed" | "refunding" | "refunded";
+                                }[];
                                 period: {
                                     /** Format: date */
                                     endsOn: string;
@@ -166,10 +187,12 @@ export type paths = {
                                 /** Format: uuid */
                                 priceId: string;
                                 /** @enum {string} */
-                                status: "open";
+                                status: "open" | "paid" | "past_due" | "void";
                                 /** Format: uuid */
                                 subscriptionId: string;
                                 totalCents: number;
+                                /** Format: date-time */
+                                voidedAt: string | null;
                             }[];
                         };
                     };
@@ -233,10 +256,31 @@ export type paths = {
                             number: string;
                             /** Format: uuid */
                             orderId: string | null;
+                            /** Format: date-time */
+                            paidAt: string | null;
                             /** Format: uuid */
                             patientId: string;
                             /** Format: uuid */
                             paymentAccountId: string;
+                            payments: {
+                                amountCents: number;
+                                attempt: number;
+                                card: {
+                                    brand: string;
+                                    last4: string;
+                                } | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                failureCode: string | null;
+                                /** Format: uuid */
+                                paymentId: string;
+                                /** Format: date-time */
+                                refundedAt: string | null;
+                                /** Format: date-time */
+                                settledAt: string | null;
+                                /** @enum {string} */
+                                status: "pending" | "succeeded" | "failed" | "refunding" | "refunded";
+                            }[];
                             period: {
                                 /** Format: date */
                                 endsOn: string;
@@ -246,10 +290,12 @@ export type paths = {
                             /** Format: uuid */
                             priceId: string;
                             /** @enum {string} */
-                            status: "open";
+                            status: "open" | "paid" | "past_due" | "void";
                             /** Format: uuid */
                             subscriptionId: string;
                             totalCents: number;
+                            /** Format: date-time */
+                            voidedAt: string | null;
                         };
                     };
                 };
@@ -1432,7 +1478,7 @@ export type paths = {
                                     /** Format: date-time */
                                     checkedAt: string;
                                     /** @enum {string} */
-                                    reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                    reason: "awaiting_clinician" | "no_order" | "no_current_script" | "product_blocked" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
                                 } | null;
                                 /** @enum {string} */
                                 status: "pending" | "active" | "paused" | "cancelled";
@@ -1511,7 +1557,7 @@ export type paths = {
                                 /** Format: date-time */
                                 checkedAt: string;
                                 /** @enum {string} */
-                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "product_blocked" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
                             } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
@@ -1600,7 +1646,7 @@ export type paths = {
                                 /** Format: date-time */
                                 checkedAt: string;
                                 /** @enum {string} */
-                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "product_blocked" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
                             } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
@@ -1685,7 +1731,7 @@ export type paths = {
                                 /** Format: date-time */
                                 checkedAt: string;
                                 /** @enum {string} */
-                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "product_blocked" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
                             } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
@@ -1763,7 +1809,7 @@ export type paths = {
                                 /** Format: date-time */
                                 checkedAt: string;
                                 /** @enum {string} */
-                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "product_blocked" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
                             } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
@@ -1841,7 +1887,7 @@ export type paths = {
                                 /** Format: date-time */
                                 checkedAt: string;
                                 /** @enum {string} */
-                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "product_blocked" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
                             } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";
@@ -1919,7 +1965,7 @@ export type paths = {
                                 /** Format: date-time */
                                 checkedAt: string;
                                 /** @enum {string} */
-                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
+                                reason: "awaiting_clinician" | "no_order" | "no_current_script" | "product_blocked" | "awaiting_pharmacist" | "cannot_dispense" | "no_medicine_fee" | "other";
                             } | null;
                             /** @enum {string} */
                             status: "pending" | "active" | "paused" | "cancelled";

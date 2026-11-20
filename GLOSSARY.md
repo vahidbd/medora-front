@@ -49,6 +49,8 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | What a fee is for: consult, program, medicine or shipping | **Fee kind** | fee type, category |
 | The part of a bundled medicine price that belongs to the partner pharmacy | **Pharmacy share** | cost, wholesale price |
 | The tax invoice for what a patient owes | **Invoice** | bill, statement |
+| An invoice whose charge failed, or with no card to charge, and still owed | **Past due** | overdue, failed, unpaid |
+| An issued invoice that no longer stands: it keeps its number and nothing is owed on it | **Void** | cancelled, deleted, written off |
 | One attempt to take money for an invoice | **Payment** | charge, transaction |
 | Money given back to a patient | **Refund** | reversal, chargeback |
 | An amount held for a patient, used against later invoices | **Credit** | voucher, store credit |
