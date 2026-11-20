@@ -80,7 +80,9 @@ Files, tables, checks.
 | [0032](0032-one-word-per-thing-from-database-to-screen.md) | One word per thing, from the database to the screen | Proposed |
 | [0033](0033-before-the-first-patient.md) | What must be true before the first patient | Proposed |
 | [0034](0034-the-core-before-breadth.md) | The core before breadth; each feature ships whole | Proposed |
+| [0160](0160-each-tenant-is-paid-into-its-own-processor-accounts.md) | Each tenant is paid into its own processor accounts | Proposed |
 
 ## Timeline
 
 - **20 Nov 2026**: 0001 to 0034, the founding set, written with the first commit of each repo. 0001, 0002, 0004, 0005, 0011, 0013 and 0019 to 0023 were settled by the product owner's answers that day; the rest are Proposed until the foundation pull requests are approved.
+- **20 Nov 2026**: 0160, payment accounts: each tenant is paid into its own processor accounts, with live payment keys only in production.
