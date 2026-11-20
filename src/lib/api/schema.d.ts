@@ -2482,6 +2482,8 @@ export type paths = {
                     content: {
                         "application/json": {
                             consults: {
+                                /** Format: uuid */
+                                brandId: string;
                                 /** @enum {string|null} */
                                 cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
                                 /** Format: uuid */
@@ -2522,6 +2524,8 @@ export type paths = {
                 content: {
                     "application/json": {
                         /** Format: uuid */
+                        brandId: string;
+                        /** Format: uuid */
                         clinicianUserId?: string;
                         /** @enum {string} */
                         mode: "phone" | "video";
@@ -2542,6 +2546,8 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
                             /** @enum {string|null} */
                             cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
                             /** Format: uuid */
@@ -2600,6 +2606,8 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
                             /** @enum {string|null} */
                             cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
                             /** Format: uuid */
@@ -2671,6 +2679,8 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
                             /** @enum {string|null} */
                             cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
                             /** Format: uuid */
@@ -2731,6 +2741,8 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
                             /** @enum {string|null} */
                             cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
                             /** Format: uuid */
@@ -2791,6 +2803,8 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
                             /** @enum {string|null} */
                             cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
                             /** Format: uuid */
@@ -2864,6 +2878,8 @@ export type paths = {
                     };
                     content: {
                         "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
                             /** @enum {string|null} */
                             cancellationReason: "patient_request" | "clinician_unavailable" | "rescheduled" | "booked_in_error" | "other" | null;
                             /** Format: uuid */
@@ -3435,6 +3451,8 @@ export type paths = {
             requestBody: {
                 content: {
                     "application/json": {
+                        /** Format: uuid */
+                        brandId: string;
                         /** @enum {string} */
                         mode: "phone" | "video";
                         /** Format: uuid */
