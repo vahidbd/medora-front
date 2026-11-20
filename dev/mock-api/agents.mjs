@@ -38,7 +38,7 @@ const TOOLS = {
     tool("get_care_plan", false, "approve", "EMR and consults"),
     tool("send_template_message", true, "auto", "support and CRM"),
     tool("list_consult_times", false, "approve", "EMR and consults"),
-    tool("book_review_consult", true, "auto", "EMR and consults"),
+    tool("book_consult", true, "auto", "EMR and consults"),
   ],
   clinical_copilot: [
     tool("get_intake_answers", false, "approve", "intake and protocol engine"),

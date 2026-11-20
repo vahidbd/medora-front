@@ -54,7 +54,7 @@ test("an owner switches the intake agent on, names it and lets it book consults 
   await expect(sheet.getByRole("button", { name: "Save" })).toBeDisabled();
   await sheet.getByRole("switch").click();
   await sheet.getByLabel("Name patients see").fill("Ivy");
-  await sheet.getByRole("checkbox", { name: /Book the patient's first consult/ }).click();
+  await sheet.getByRole("checkbox", { name: /Book the patient's consult/ }).click();
   await expect(sheet.getByText("Runs without approval.")).toBeVisible();
   await sheet.getByRole("button", { name: "Save" }).click();
   await expect(sheet).toBeHidden();
@@ -62,7 +62,7 @@ test("an owner switches the intake agent on, names it and lets it book consults 
   await expect(row(page, "Agents", /Intake agent/)).toContainText("Patients see the name Ivy");
 
   await page.getByRole("button", { name: "Change Intake agent" }).click();
-  await expect(page.getByRole("dialog", { name: "Intake agent" }).getByRole("checkbox", { name: /Book the patient's first consult/ })).toBeChecked();
+  await expect(page.getByRole("dialog", { name: "Intake agent" }).getByRole("checkbox", { name: /Book the patient's consult/ })).toBeChecked();
   expect(errors).toEqual([]);
 });
 
@@ -95,8 +95,8 @@ test("an owner approves a refund with a change and rejects a booking with a reas
   await expect(page.getByText("Approved and done")).toBeVisible();
   await expect(row(page, waiting, /Refund an order/)).toHaveCount(0);
 
-  await row(page, waiting, /Book the patient's first consult/).getByRole("button", { name: /^Review/ }).click();
-  await page.getByRole("dialog", { name: "Book the patient's first consult" }).getByRole("button", { name: "Reject" }).click();
+  await row(page, waiting, /Book the patient's consult/).getByRole("button", { name: /^Review/ }).click();
+  await page.getByRole("dialog", { name: "Book the patient's consult" }).getByRole("button", { name: "Reject" }).click();
   const reject = page.getByRole("dialog", { name: "Reject this proposal?" });
   await reject.getByRole("radio", { name: "Wrong details" }).click();
   await reject.getByRole("button", { name: "Reject proposal" }).click();
@@ -105,7 +105,7 @@ test("an owner approves a refund with a change and rejects a booking with a reas
   await page.getByRole("tab", { name: "Decided" }).click();
   const decided = "Decided proposals";
   await expect(row(page, decided, /Refund an order/).first()).toContainText("Done");
-  await expect(row(page, decided, /Book the patient's first consult/).first()).toContainText(/Rejected|Done/);
+  await expect(row(page, decided, /Book the patient's consult/).first()).toContainText(/Rejected|Done/);
   await row(page, decided, /Refund an order/).first().getByRole("button", { name: /^See/ }).click();
   const seen = page.getByRole("dialog", { name: "Refund an order" });
   await expect(seen).toContainText("Edited before approving");
