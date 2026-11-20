@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { House, Settings, ShieldAlert, ShieldCheck, UsersRound } from "lucide-react";
+import { Activity, Bot, House, Inbox, Settings, ShieldAlert, ShieldCheck, UsersRound } from "lucide-react";
 import type { Permission } from "@/lib/api/types";
 
 export type NavItem = {
@@ -41,6 +41,13 @@ export const navigation: NavGroup[] = [
     items: [{ title: "Home", href: "/home", icon: House }],
   },
   {
+    // Every staff member has the inbox, and sees only what they could approve (docs/decisions/agents.md AGT4).
+    label: "Approvals",
+    icon: Inbox,
+    topLevel: true,
+    items: [{ title: "Approvals", href: "/approvals", icon: Inbox, keywords: ["Approval cards", "Proposals", "Agents"] }],
+  },
+  {
     label: "Workspace",
     icon: Settings,
     gapBefore: true,
@@ -48,6 +55,8 @@ export const navigation: NavGroup[] = [
       { title: "Staff", href: "/staff", icon: UsersRound, permission: "staff:read", keywords: ["Members", "Team", "Invite"] },
       { title: "Roles", href: "/roles", icon: ShieldCheck, permission: "staff:read", keywords: ["Permissions"] },
       { title: "Break-glass", href: "/break-glass", icon: ShieldAlert, permission: "break_glass:review", keywords: ["Reviews"] },
+      { title: "Agents", href: "/agents", icon: Bot, permission: "agents:read", keywords: ["AI", "Spend cap", "Pause"] },
+      { title: "Agent runs", href: "/agent-runs", icon: Activity, permission: "agents:read", keywords: ["AI", "Cost", "Transcripts"] },
     ],
   },
 ];
