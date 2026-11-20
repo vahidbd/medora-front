@@ -3,6 +3,7 @@
 import { useId, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ApiError } from "@/lib/api/client";
 import { patientKey } from "@/lib/api/patient";
@@ -16,6 +17,7 @@ import { parseTypedDate } from "@/components/ui/date-field";
 import { useBrand } from "@/components/patient/brand-context";
 import { CardLoading, LoadFailed } from "@/components/patient/states";
 import { IntakeSteps } from "./intake-steps";
+import { SignedInStart } from "./signed-in-start";
 
 /**
  * A program's intake before an account (docs/decisions/intake.md INT5 in
@@ -23,13 +25,21 @@ import { IntakeSteps } from "./intake-steps";
  * confirmation and the date of birth; then the steps; then an account to
  * send the answers to a clinician. An intake this browser already holds for
  * the program is picked up where it was left (JOIN7). Every call goes
- * through /api/start/*, which holds the resume token (ADR 0280).
+ * through /api/start/*, which holds the resume token (ADR 0280). Signed in,
+ * the same page is the patient's own intake (SignedInStart).
  */
 
 /** Why a held intake can't be picked up: nothing to come back to (JOIN4). */
 const GONE = new Set(["unclaimed", "expired", "version_withdrawn"]);
 
 export function StartFlow({ programId, screen, heldIntakeId }: { programId: string; screen: IntakeStartScreen; heldIntakeId: string | null }) {
+  const { isLoaded, isSignedIn } = useAuth();
+  if (!isLoaded) return <CardLoading label="Loading" />;
+  if (isSignedIn) return <SignedInStart programId={programId} screen={screen} />;
+  return <AnonymousStart programId={programId} screen={screen} heldIntakeId={heldIntakeId} />;
+}
+
+function AnonymousStart({ programId, screen, heldIntakeId }: { programId: string; screen: IntakeStartScreen; heldIntakeId: string | null }) {
   const { host } = useBrand();
   const queryClient = useQueryClient();
   const [intakeId, setIntakeId] = useState(heldIntakeId);

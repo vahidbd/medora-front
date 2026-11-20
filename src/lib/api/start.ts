@@ -1,5 +1,5 @@
 import { request, requestAt } from "./client";
-import type { AccountInput, AnonymousIntakeStart, IntakeAnswers, IntakeClaimed, IntakeView, PatientIntakeList, PatientMe } from "./types";
+import type { AccountInput, AnonymousIntakeStart, IntakeAnswers, IntakeClaimed, IntakeView, PatientConsents, PatientIntakeList, PatientMe } from "./types";
 
 /*
  * The start flow's calls (ADR 0280, docs/decisions/patient-start.md).
@@ -27,6 +27,12 @@ export const startApi = {
   createAccount: (body: AccountDetails) => requestAt<PatientMe>("/api/start/account", { method: "POST", body }),
   /** Make every intake this browser holds the signed-in patient's own (INT6). */
   claim: () => requestAt<IntakeClaimed>("/api/start/claim", { method: "POST", body: {} }),
+};
+
+/** The patient's consents: what they have agreed to, and the current text of each (IDN12, IDN13). */
+export const consentApi = {
+  list: () => request<PatientConsents>("/patient/consents"),
+  agree: (documentId: string) => request<PatientConsents>("/patient/consents", { method: "POST", body: { documentId } }),
 };
 
 export const patientIntakeApi = {

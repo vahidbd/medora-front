@@ -5,9 +5,11 @@
  *
  * Brands, patients and programs are made up. The preview patient session
  * comes from the mock Clerk as a bearer `mock-patient-<kind>-<sid>`:
- * "patient" has a record in both demo tenants, "new" has none yet. Each
- * session confirms the date of birth once, as the API asks (ADR 0100).
+ * "patient" has a record in both demo tenants, "new" has none until it
+ * creates one (patient-intake.mjs), which lasts as long as that session.
+ * Each session confirms the date of birth once, as the API asks (ADR 0100).
  */
+import { careConsentsNeeded, seedAgreed } from "./consents.mjs";
 
 const TENANT_HEADER = "x-medora-tenant";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -81,6 +83,10 @@ const PATIENTS = new Map([
 ]);
 
 const confirmed = new Set();
+/** Accounts the "new" sessions created, by session. */
+export const accounts = new Map();
+/** Creating an account confirms the session's date of birth, as typing it there does in the API (IDN3). */
+export const confirmSession = (session) => confirmed.add(session);
 /** Notification preferences by session, so tests side by side don't share them; no entry means the defaults. */
 const preferences = new Map();
 const tries = new Map();
@@ -110,8 +116,9 @@ export function patientOf(req, res, fail, access) {
     return null;
   }
   const [, kind, sid] = token;
-  const record = kind === "patient" ? PATIENTS.get(tenantId) : null;
   const session = `${tenantId}:${sid}`;
+  const record = kind === "patient" ? PATIENTS.get(tenantId) : (accounts.get(session) ?? null);
+  if (kind === "patient") seedAgreed(session);
   if (access === "patient" && !record) {
     fail(res, 403, "no_patient_record", "Create your account first");
     return null;
@@ -140,7 +147,7 @@ export function patientRoutes({ send, fail, readJson }) {
       /^\/v1\/patient\/me$/,
       (req, res) => {
         const patient = patientOf(req, res, fail, "patient");
-        if (patient) send(res, 200, patient.record);
+        if (patient) send(res, 200, { ...patient.record, consentsNeeded: careConsentsNeeded(patient.session) });
       },
     ],
     [

@@ -11,6 +11,7 @@
  * the urgent-help message. Intakes are kept in memory until the mock stops.
  */
 import { randomBytes, randomUUID } from "node:crypto";
+import { PRIVACY } from "./consents.mjs";
 import { BAD_REQUEST, isObject } from "./http.mjs";
 import { HARBOUR } from "./patient.mjs";
 
@@ -19,16 +20,6 @@ const TOKEN_HEADER = "x-medora-intake-token";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const KESTREL = "30000000-0000-4000-8000-000000000001";
 
-export const PRIVACY = {
-  documentId: "70000000-0000-4000-8000-000000000001",
-  version: 3,
-  title: "Privacy and your health information",
-  body: [
-    "Kestrel Health (demo) collects the answers you give here, including information about your health, so a clinician can decide whether our care suits you and, if it does, provide it.",
-    "We keep your answers on this device for 14 days so you can come back to them. If you don't create an account, we delete them after that.",
-    "We share your information only with the clinicians and pharmacies involved in your care, and never for advertising. You can ask for a copy of what we hold, or ask us to correct it, at any time.",
-  ].join("\n\n"),
-};
 
 const WEIGHT = "50000000-0000-4000-8000-000000000001";
 const SLEEP = "50000000-0000-4000-8000-000000000002";
@@ -120,10 +111,14 @@ const PROGRAMS = [
   },
 ];
 
-/** Intakes by id; the token is the mock's only holder, as its hash is the API's. */
+/**
+ * Intakes by id. Before an account the token is an intake's only holder, as
+ * its hash is the API's; a claim clears it and sets the owner, the patient
+ * session that claimed it (patient-intake.mjs), so each sign-in starts afresh.
+ */
 export const intakes = new Map();
 
-function tenantOf(req, res, fail) {
+export function tenantOf(req, res, fail) {
   const tenantId = req.headers[TENANT_HEADER];
   if (typeof tenantId !== "string" || !UUID.test(tenantId)) {
     fail(res, 400, "tenant_required", `${TENANT_HEADER} must be a tenant id`);
@@ -133,7 +128,7 @@ function tenantOf(req, res, fail) {
 }
 
 /** Larkspur is paused and Coastal's tenant has no open program, as the API's accepting check says. */
-function acceptingRefusal(res, fail, brandId) {
+export function acceptingRefusal(res, fail, brandId) {
   if (brandId !== KESTREL) {
     fail(res, 409, "brand_not_accepting", "This service isn't taking new patients right now");
     return true;
@@ -141,13 +136,13 @@ function acceptingRefusal(res, fail, brandId) {
   return false;
 }
 
-function ageOn(dateOfBirth, today) {
+export function ageOn(dateOfBirth, today) {
   const [y, m, d] = dateOfBirth.split("-").map(Number);
   const [ty, tm, td] = today.split("-").map(Number);
   return ty - y - (tm < m || (tm === m && td < d) ? 1 : 0);
 }
 
-const sydneyToday = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Sydney" }).format(new Date());
+export const sydneyToday = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Australia/Sydney" }).format(new Date());
 
 export function programById(programId) {
   return PROGRAMS.find((p) => p.programId === programId) ?? null;
@@ -256,7 +251,8 @@ export function intakeRoutes({ send, fail, readJson }) {
         const program = programById(programId);
         if (!program || program.tenantId !== tenantId) return fail(res, 404, "not_found", "Program not found");
         if (acceptingRefusal(res, fail, program.brandId)) return;
-        send(res, 200, { programId, programName: program.name, privacyNotice: PRIVACY });
+        const { documentId, version, title, body } = PRIVACY;
+        send(res, 200, { programId, programName: program.name, privacyNotice: { documentId, version, title, body } });
       },
     ],
     [
@@ -280,7 +276,7 @@ export function intakeRoutes({ send, fail, readJson }) {
           tenantId,
           programId: program.programId,
           token: randomBytes(32).toString("base64url"),
-          patientSession: null,
+          owner: null,
           dateOfBirth: body.dateOfBirth,
           status: underAge ? "ended" : "in_progress",
           endedReason: underAge ? "under_age" : null,

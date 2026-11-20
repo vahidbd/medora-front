@@ -59,3 +59,32 @@ Decided by: stand-in (Fable 5.2), to confirm with Vahid
 Decision: each step is saved when the person continues, and the screens say "Your answers are saved as you go, on this device, for 14 days". There is no save-and-exit button, and no resume link by email or text yet.
 Why: nothing is lost by leaving, so a button would only suggest otherwise. The line is also the honest notice for a shared device. A resume link (INT-06) is P1 and needs marketing consent first.
 Decided by: stand-in (Fable 5.2), to confirm with Vahid
+
+### JOIN11. The account is made on one "About you" screen, after signing in
+
+Decision: a person signed in without an account in this tenant gives their given and family names as on their ID, a preferred name if they want one, their date of birth, their sex with the reason it is asked (with the name and date of birth it finds their IHI, IDN19), and a mobile if they want texts. The email is the one they signed in with. The date of birth is typed again, never filled in from the intake. There is no marketing choice here. Under 18 gets the adults-only screen, and a paused brand the closed one.
+Why: the identity check matches the legal names (IDN16). A date typed twice is what lets the API notice an intake that belongs to someone else (INT17). Marketing consent is never a condition of care (IDN12).
+Decided by: stand-in (Fable 5.2), to confirm with Vahid
+
+### JOIN12. What a browser started is claimed as soon as the patient is known
+
+Decision: once a signed-in patient's date of birth is confirmed, every intake the browser holds is claimed. This happens on every signed-in page load while the cookie is held, as well as at account creation (JOIN3). There is no way to leave one out and no "discard". A claim that fails holds up only the start page, which offers Try again.
+Why: INT6. An opt-out would let a person answer until they pass, and the prescriber sees every intake. An intake claimed with another person's date of birth can't be opened by this patient (INT17), so a shared device shows nobody else's answers.
+Decided by: stand-in (Fable 5.2), to confirm with Vahid
+
+### JOIN13. The care consents come on their own screen, in full and unticked
+
+Decision: when the API says a care consent is needed (the privacy notice or the telehealth terms, IDN13), the start page shows each one's full current text with its own unticked box before the intake goes on. This happens straight after the account is made and again whenever a new version is published. Claiming an intake records the privacy notice it was started under, so after answering first a new patient usually sees only the terms.
+Why: the stand-in wanted the terms on the account screen. They come one screen later because the API shows a patient's consents only once the account exists, and the same screen then serves a new version for an existing patient.
+Decided by: stand-in (Fable 5.2), adjusted by us, to confirm with Vahid
+
+### JOIN14. A patient checks their answers, then sends them
+
+Decision: after the last step a signed-in patient sees their answers step by step, each step with Change, and one "Send to a clinician" button. The screen warns that a change can bring back later questions. Sending can still end in a hard stop, shown as JOIN8. The sent screen promises no time, says the care team will be in touch, and carries the 000 line.
+Why: the PRD's review before submit, and nothing promised that booking can't yet keep (APP6, APP12).
+Decided by: stand-in (Fable 5.2), to confirm with Vahid
+
+### JOIN15. A signed-in patient's new intake starts only when they choose Start
+
+Decision: a signed-in patient's intake in progress for the program opens where they left off. With none in progress, the page offers Start, and says so when they have already sent answers for that program. Opening the page never starts an intake on its own.
+Why: an intake is a clinical record with an audit trail, so a page view or a reload after sending must not make one.

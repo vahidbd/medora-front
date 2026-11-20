@@ -109,3 +109,7 @@ export type IntakeClaimed = Reply<"/v1/patient/intakes/claim", "post">;
 /** Creating a patient's account (POST /v1/patient/account), which names the brand (IDN20). */
 export type AccountInput = RequestBody<"/v1/patient/account", "post">;
 export type Sex = AccountInput["sex"];
+/** A patient's consents (IDN12 to IDN14), each with the tenant's current document. */
+export type PatientConsents = Reply<"/v1/patient/consents", "get">;
+export type ConsentState = PatientConsents["consents"][number];
+export type ConsentDocument = NonNullable<ConsentState["document"]>;
