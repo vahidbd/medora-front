@@ -167,7 +167,8 @@ function EarlierSection({ summary }: { summary: IntakeSummary }) {
  */
 export function IntakeSummaryPage({ patientId, intakeId }: { patientId: string; intakeId: string }) {
   const { current } = useTenant();
-  const summary = useQuery({ queryKey: ["intake", current.tenantId, intakeId], queryFn: () => intakesApi.summary(current.tenantId, intakeId) });
+  // No automatic retry: a refusal or a missing intake won't change by asking again, and Try again is on every failure.
+  const summary = useQuery({ queryKey: ["intake", current.tenantId, intakeId], queryFn: () => intakesApi.summary(current.tenantId, intakeId), retry: false });
 
   if (summary.isPending) return <RecordPageSkeleton label="Loading intake summary" />;
   const error = summary.error instanceof ApiError ? summary.error : null;

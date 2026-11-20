@@ -18,7 +18,7 @@ function collectErrors(page: Page): string[] {
 }
 
 async function openBreakGlass(page: Page) {
-  await page.getByRole("button", { name: "Break-glass" }).click();
+  await page.getByRole("button", { name: "Break-glass", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "Open break-glass" });
   await dialog.getByLabel("Reason").fill("Covering for the medical director today");
   await dialog.getByRole("button", { name: "Open break-glass" }).click();
@@ -27,7 +27,7 @@ async function openBreakGlass(page: Page) {
 
 async function endBreakGlass(page: Page) {
   await page.getByRole("button", { name: "End break-glass" }).click();
-  await expect(page.getByRole("button", { name: "Break-glass" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Break-glass", exact: true })).toBeVisible();
 }
 
 const SUMMARY = "/patients/90000000-0000-4000-8000-000000000001/intakes/92000000-0000-4000-8000-000000000001";
