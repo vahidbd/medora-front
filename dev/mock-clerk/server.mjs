@@ -1,10 +1,14 @@
 /**
  * Preview-mode stand-in for `@clerk/nextjs/server`.
  *
- * Aliased in next.config.ts only when MEDORA_PREVIEW=1. `auth()` always
- * returns a session whose token the mock API accepts, and the middleware
- * runs the app's own handler (the content security policy) and nothing else.
+ * Aliased in next.config.ts only when MEDORA_PREVIEW=1. On the console,
+ * `auth()` always returns the preview staff member's session. On a brand's
+ * patient host (the proxy has set x-medora-brand-host) it reads the patient
+ * session cookie the client stand-in sets (mock-clerk/nextjs.mjs): signed
+ * out without it, otherwise a patient token the mock API knows. The
+ * middleware runs the app's own handler and nothing else.
  */
+import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
 
 const USER_ID = "user_preview_owner";
@@ -27,8 +31,33 @@ const AUTH = {
   redirectToSignIn: () => NextResponse.redirect("/home"),
 };
 
+const PATIENT_COOKIE = "medora_preview_patient";
+
+function patientAuth(session) {
+  const [kind, sid] = session?.split(".") ?? [];
+  const valid = (kind === "patient" || kind === "new") && /^[a-z0-9]{1,16}$/.test(sid ?? "");
+  const userId = valid ? `user_preview_${kind}` : null;
+  const getPatientToken = async () => (valid ? `mock-patient-${kind}-${sid}` : null);
+  return {
+    ...AUTH,
+    userId,
+    sessionId: valid ? `sess_${sid}` : null,
+    sessionClaims: valid ? { sub: userId, sid: `sess_${sid}` } : null,
+    isAuthenticated: valid,
+    has: () => valid,
+    getToken: getPatientToken,
+  };
+}
+
 export async function auth() {
-  return AUTH;
+  let brandHost = null;
+  try {
+    brandHost = (await headers()).get("x-medora-brand-host");
+  } catch {
+    // Outside a request (the proxy's own handler): the staff session.
+  }
+  if (!brandHost) return AUTH;
+  return patientAuth((await cookies()).get(PATIENT_COOKIE)?.value);
 }
 auth.protect = async () => AUTH;
 

@@ -27,6 +27,26 @@ export function unsafeSettings(env: Env): string[] {
     problems.push(`CLERK_SECRET_KEY must be a ${live ? "sk_live_" : "Clerk"} key.`);
   }
 
+  // The patient instance (ADR 0100): its own keys, never the staff instance's.
+  const patientPublishable = env.PATIENT_CLERK_PUBLISHABLE_KEY ?? "";
+  const patientSecret = env.PATIENT_CLERK_SECRET_KEY ?? "";
+  if (live ? !patientPublishable.startsWith("pk_live_") : !/^pk_(test|live)_/.test(patientPublishable)) {
+    problems.push(`PATIENT_CLERK_PUBLISHABLE_KEY must be a ${live ? "pk_live_" : "Clerk"} key for the patient instance.`);
+  } else if (patientPublishable === publishable) {
+    problems.push("PATIENT_CLERK_PUBLISHABLE_KEY is the staff instance's key: patients sign in on their own instance.");
+  }
+  if (live ? !patientSecret.startsWith("sk_live_") : !/^sk_(test|live)_/.test(patientSecret)) {
+    problems.push(`PATIENT_CLERK_SECRET_KEY must be a ${live ? "sk_live_" : "Clerk"} key for the patient instance.`);
+  } else if (patientSecret === secret) {
+    problems.push("PATIENT_CLERK_SECRET_KEY is the staff instance's key: patients sign in on their own instance.");
+  }
+  // Clerk carries the patient instance's secret between the proxy and the page encrypted with this.
+  if ((env.CLERK_ENCRYPTION_KEY?.trim().length ?? 0) < 32) problems.push("CLERK_ENCRYPTION_KEY must be at least 32 characters.");
+  // Every host not named here is a brand's patient host (ADR 0180), so the console's own must be named.
+  if (!/^\s*[a-z0-9.-]+(\s*,\s*[a-z0-9.-]+)*\s*$/i.test(env.CONSOLE_HOSTS ?? "")) {
+    problems.push("CONSOLE_HOSTS must list the console's hosts, separated by commas.");
+  }
+
   if ((env.FORWARDED_IP_SECRET?.trim().length ?? 0) < 32) {
     problems.push("FORWARDED_IP_SECRET must be at least 32 characters, the same value as the API's.");
   }

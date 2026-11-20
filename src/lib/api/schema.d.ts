@@ -142,7 +142,7 @@ export type paths = {
                                 actorId: string | null;
                                 actorName: string | null;
                                 /** @enum {string} */
-                                actorType: "person" | "agent" | "system";
+                                actorType: "person" | "patient" | "agent" | "system";
                                 /** Format: date-time */
                                 at: string;
                                 details: {
@@ -217,7 +217,7 @@ export type paths = {
                                 actorId: string | null;
                                 actorName: string | null;
                                 /** @enum {string} */
-                                actorType: "person" | "agent" | "system";
+                                actorType: "person" | "patient" | "agent" | "system";
                                 /** Format: date-time */
                                 at: string;
                                 details: {
@@ -1089,6 +1089,177 @@ export type paths = {
         };
         trace?: never;
     };
+    "/v1/consent-documents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Every published version of the tenant’s consent documents */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            documents: {
+                                body: string;
+                                /** Format: uuid */
+                                documentId: string;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                /** Format: date-time */
+                                publishedAt: string;
+                                title: string;
+                                version: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Publish a new version of a consent document */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                        /** @enum {string} */
+                        kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                        title: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            body: string;
+                            /** Format: uuid */
+                            documentId: string;
+                            /** @enum {string} */
+                            kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                            /** Format: date-time */
+                            publishedAt: string;
+                            title: string;
+                            version: number;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/intakes/{intakeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A finished intake summarised for the prescriber: answers, red flags and earlier hard stops */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            dateOfBirthDiffers: boolean;
+                            derived: {
+                                key: string;
+                                label: string;
+                                unit: string | null;
+                                value: number | null;
+                            }[];
+                            earlierIneligible: {
+                                /** Format: uuid */
+                                intakeId: string;
+                                rule: string;
+                                /** Format: date-time */
+                                submittedAt: string;
+                            }[];
+                            /** Format: uuid */
+                            intakeId: string;
+                            items: {
+                                answer: string;
+                                question: string;
+                                questionKey: string;
+                                redFlag: boolean;
+                            }[];
+                            /** @enum {string} */
+                            outcome: "clear" | "red_flags" | "ineligible";
+                            /** Format: uuid */
+                            patientId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            protocolName: string;
+                            protocolVersion: number;
+                            redFlags: {
+                                message: string;
+                                rule: string;
+                            }[];
+                            stale: boolean;
+                            /** @enum {string} */
+                            status: "completed" | "ineligible";
+                            stop: {
+                                message: string;
+                                rule: string;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string;
+                            versionWithdrawn: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/me": {
         parameters: {
             query?: never;
@@ -1130,7 +1301,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -1194,6 +1365,2063 @@ export type paths = {
         };
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Create the signed-in patient’s account in this tenant */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        brandId: string;
+                        dateOfBirth: string;
+                        email?: string;
+                        familyName: string;
+                        givenName: string;
+                        mobile?: string;
+                        preferredName?: string | null;
+                        /** @enum {string} */
+                        sex: "female" | "male" | "intersex" | "not_stated";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/check-ins": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s check-ins, newest first */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            checkIns: {
+                                /** Format: uuid */
+                                checkInId: string;
+                                feeling: number;
+                                measurements: {
+                                    /** Format: uuid */
+                                    checkInId: string | null;
+                                    /** @enum {string} */
+                                    kind: "weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate";
+                                    /** Format: date-time */
+                                    measuredAt: string;
+                                    /** Format: uuid */
+                                    measurementId: string;
+                                    /** @enum {string} */
+                                    recordedBy: "patient" | "care_team";
+                                    /** @enum {string} */
+                                    unit: "kg" | "cm" | "mmHg" | "bpm";
+                                    value: number;
+                                }[];
+                                /** @enum {string} */
+                                missedDoses: "none" | "some" | "most";
+                                sideEffect: {
+                                    /** Format: uuid */
+                                    checkInId: string | null;
+                                    description: string;
+                                    /** Format: date-time */
+                                    reportedAt: string;
+                                    /** @enum {string} */
+                                    reportedBy: "patient" | "care_team";
+                                    /** @enum {string} */
+                                    severity: "mild" | "moderate" | "severe";
+                                    /** Format: uuid */
+                                    sideEffectId: string;
+                                    startedOn: string | null;
+                                } | null;
+                                /** Format: date-time */
+                                submittedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Submit a check-in */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        feeling: number;
+                        /** @enum {string} */
+                        missedDoses: "none" | "some" | "most";
+                        readings?: {
+                            /** @enum {string} */
+                            kind: "weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate";
+                            value: number;
+                        }[];
+                        sideEffect?: {
+                            description: string;
+                            /** @enum {string} */
+                            severity: "mild" | "moderate" | "severe";
+                            startedOn?: string | null;
+                        } | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            checkInId: string;
+                            feeling: number;
+                            measurements: {
+                                /** Format: uuid */
+                                checkInId: string | null;
+                                /** @enum {string} */
+                                kind: "weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate";
+                                /** Format: date-time */
+                                measuredAt: string;
+                                /** Format: uuid */
+                                measurementId: string;
+                                /** @enum {string} */
+                                recordedBy: "patient" | "care_team";
+                                /** @enum {string} */
+                                unit: "kg" | "cm" | "mmHg" | "bpm";
+                                value: number;
+                            }[];
+                            /** @enum {string} */
+                            missedDoses: "none" | "some" | "most";
+                            sideEffect: {
+                                /** Format: uuid */
+                                checkInId: string | null;
+                                description: string;
+                                /** Format: date-time */
+                                reportedAt: string;
+                                /** @enum {string} */
+                                reportedBy: "patient" | "care_team";
+                                /** @enum {string} */
+                                severity: "mild" | "moderate" | "severe";
+                                /** Format: uuid */
+                                sideEffectId: string;
+                                startedOn: string | null;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/confirm-date-of-birth": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm the date of birth on a new sign-in */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        dateOfBirth: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** @enum {boolean} */
+                            confirmed: true;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s consents, with the current text of each */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Agree to the current version of a consent document */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        documentId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/identity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Where the signed-in patient’s identity check stands */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attemptsLeft: number;
+                            checks: {
+                                /** Format: date-time */
+                                at: string;
+                                /** Format: uuid */
+                                checkedBy: string | null;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                                /** @enum {string} */
+                                outcome: "verified" | "not_matched" | "unavailable";
+                            }[];
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            ihi: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                found: boolean;
+                                /** @enum {string|null} */
+                                recordStatus: "verified" | "unverified" | "provisional" | null;
+                                /** @enum {string|null} */
+                                status: "active" | "deceased" | "retired" | "expired" | "resolved" | null;
+                            } | null;
+                            verification: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/identity-check": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Check the signed-in patient’s identity against one document */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        cardNumber: string;
+                        /** @enum {string} */
+                        documentType: "driver_licence";
+                        licenceNumber: string;
+                        /** @enum {string} */
+                        state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                    } | {
+                        /** @enum {string} */
+                        documentType: "passport";
+                        passportNumber: string;
+                    } | {
+                        /** @enum {string} */
+                        documentType: "medicare_card";
+                        irn: string;
+                        number: string;
+                        validTo: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attemptsLeft: number;
+                            checks: {
+                                /** Format: date-time */
+                                at: string;
+                                /** Format: uuid */
+                                checkedBy: string | null;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                                /** @enum {string} */
+                                outcome: "verified" | "not_matched" | "unavailable";
+                            }[];
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            ihi: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                found: boolean;
+                                /** @enum {string|null} */
+                                recordStatus: "verified" | "unverified" | "provisional" | null;
+                                /** @enum {string|null} */
+                                status: "active" | "deceased" | "retired" | "expired" | "resolved" | null;
+                            } | null;
+                            verification: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s intakes */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            intakes: {
+                                /** Format: date-time */
+                                endedAt: string | null;
+                                /** @enum {string|null} */
+                                endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                                /** Format: uuid */
+                                intakeId: string;
+                                /** Format: uuid */
+                                programId: string;
+                                programName: string;
+                                /** Format: date-time */
+                                startedAt: string;
+                                /** @enum {string} */
+                                status: "in_progress" | "completed" | "ineligible" | "ended";
+                                /** Format: date-time */
+                                submittedAt: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Start an intake, or pick up the one in progress for that program */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        programId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/{intakeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One of the signed-in patient’s intakes, with its answers */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/{intakeId}/steps/{stepKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Answer one step of an intake */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                    stepKey: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        answers: {
+                            [key: string]: unknown;
+                        };
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/{intakeId}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send a finished intake to the prescriber */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/intakes/claim": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Make the intakes started in this browser the patient’s own */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        tokens: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            claimed: string[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s own details */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change the signed-in patient’s own details */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        address?: {
+                            line1: string;
+                            line2?: string | null;
+                            postcode: string;
+                            /** @enum {string} */
+                            state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                            suburb: string;
+                        };
+                        dateOfBirth?: string;
+                        familyName?: string;
+                        givenName?: string;
+                        medicare?: {
+                            irn: string | null;
+                            number: string;
+                            validTo: string | null;
+                        } | null;
+                        mobile?: string;
+                        preferredName?: string | null;
+                        /** @enum {string} */
+                        sex?: "female" | "male" | "intersex" | "not_stated";
+                        timeZone?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                                suburb: string;
+                            } | null;
+                            consentsNeeded: string[];
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            programs: {
+                                checkInEveryDays: number | null;
+                                measurements: string[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/patient/measurements": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The signed-in patient’s measurements, newest first */
+        get: {
+            parameters: {
+                query?: {
+                    kind?: "weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            measurements: {
+                                /** Format: uuid */
+                                checkInId: string | null;
+                                /** @enum {string} */
+                                kind: "weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate";
+                                /** Format: date-time */
+                                measuredAt: string;
+                                /** Format: uuid */
+                                measurementId: string;
+                                /** @enum {string} */
+                                recordedBy: "patient" | "care_team";
+                                /** @enum {string} */
+                                unit: "kg" | "cm" | "mmHg" | "bpm";
+                                value: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Record readings the patient took */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: date-time */
+                        measuredAt?: string;
+                        readings: {
+                            /** @enum {string} */
+                            kind: "weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate";
+                            value: number;
+                        }[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            measurements: {
+                                /** Format: uuid */
+                                checkInId: string | null;
+                                /** @enum {string} */
+                                kind: "weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate";
+                                /** Format: date-time */
+                                measuredAt: string;
+                                /** Format: uuid */
+                                measurementId: string;
+                                /** @enum {string} */
+                                recordedBy: "patient" | "care_team";
+                                /** @enum {string} */
+                                unit: "kg" | "cm" | "mmHg" | "bpm";
+                                value: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/notification-preferences": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** How the signed-in patient wants to hear from their care */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            reminders: boolean;
+                            sms: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        /** Change how the signed-in patient hears from their care */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reminders: boolean;
+                        sms: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            reminders: boolean;
+                            sms: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patient/side-effects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The side effects the signed-in patient has reported */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            sideEffects: {
+                                /** Format: uuid */
+                                checkInId: string | null;
+                                description: string;
+                                /** Format: date-time */
+                                reportedAt: string;
+                                /** @enum {string} */
+                                reportedBy: "patient" | "care_team";
+                                /** @enum {string} */
+                                severity: "mild" | "moderate" | "severe";
+                                /** Format: uuid */
+                                sideEffectId: string;
+                                startedOn: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Report a side effect */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        description: string;
+                        /** @enum {string} */
+                        severity: "mild" | "moderate" | "severe";
+                        startedOn?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            checkInId: string | null;
+                            description: string;
+                            /** Format: date-time */
+                            reportedAt: string;
+                            /** @enum {string} */
+                            reportedBy: "patient" | "care_team";
+                            /** @enum {string} */
+                            severity: "mild" | "moderate" | "severe";
+                            /** Format: uuid */
+                            sideEffectId: string;
+                            startedOn: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's patients, newest first or matching a search */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                    search?: string;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            patients: {
+                                /** Format: date-time */
+                                createdAt: string;
+                                dateOfBirth: string;
+                                displayName: string;
+                                familyName: string;
+                                givenName: string;
+                                /** @enum {string} */
+                                identityStatus: "unverified" | "verified" | "failed";
+                                /** Format: uuid */
+                                patientId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient's identity and contact details */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            address: {
+                                line1: string;
+                                line2: string | null;
+                                postcode: string;
+                                /** @enum {string} */
+                                state: "NSW" | "VIC" | "QLD" | "WA" | "SA" | "TAS" | "ACT" | "NT";
+                                suburb: string;
+                            } | null;
+                            /** Format: date-time */
+                            createdAt: string;
+                            dateOfBirth: string;
+                            displayName: string;
+                            email: string | null;
+                            familyName: string;
+                            givenName: string;
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            medicare: {
+                                irn: string | null;
+                                masked: string;
+                                validTo: string | null;
+                            } | null;
+                            mobile: string | null;
+                            /** Format: uuid */
+                            patientId: string;
+                            preferredName: string | null;
+                            /** @enum {string} */
+                            sex: "female" | "male" | "intersex" | "not_stated";
+                            timeZone: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/consents": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient’s consents */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Record a consent decision a patient made by phone or in person */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        channel: "phone" | "in_person";
+                        /** @enum {string} */
+                        decision: "given" | "withdrawn";
+                        /** Format: uuid */
+                        documentId: string;
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            consents: {
+                                decidedVersion: number | null;
+                                /** @enum {string|null} */
+                                decision: "given" | "withdrawn" | null;
+                                document: {
+                                    body: string;
+                                    /** Format: uuid */
+                                    documentId: string;
+                                    /** @enum {string} */
+                                    kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                    /** Format: date-time */
+                                    publishedAt: string;
+                                    title: string;
+                                    version: number;
+                                } | null;
+                                /** @enum {string} */
+                                kind: "privacy" | "telehealth_terms" | "identity_check" | "pharmacy_sharing";
+                                needed: boolean;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/identity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient’s identity checks and IHI status */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attemptsLeft: number;
+                            checks: {
+                                /** Format: date-time */
+                                at: string;
+                                /** Format: uuid */
+                                checkedBy: string | null;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                                /** @enum {string} */
+                                outcome: "verified" | "not_matched" | "unavailable";
+                            }[];
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            ihi: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                found: boolean;
+                                /** @enum {string|null} */
+                                recordStatus: "verified" | "unverified" | "provisional" | null;
+                                /** @enum {string|null} */
+                                status: "active" | "deceased" | "retired" | "expired" | "resolved" | null;
+                            } | null;
+                            verification: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/identity/manual": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Record that a staff member sighted the patient’s identity document */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        documentType: "driver_licence" | "passport" | "medicare_card";
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attemptsLeft: number;
+                            checks: {
+                                /** Format: date-time */
+                                at: string;
+                                /** Format: uuid */
+                                checkedBy: string | null;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                                /** @enum {string} */
+                                outcome: "verified" | "not_matched" | "unavailable";
+                            }[];
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            ihi: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                found: boolean;
+                                /** @enum {string|null} */
+                                recordStatus: "verified" | "unverified" | "provisional" | null;
+                                /** @enum {string|null} */
+                                status: "active" | "deceased" | "retired" | "expired" | "resolved" | null;
+                            } | null;
+                            verification: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/identity/reopen": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Let a patient whose online checks didn’t match try again */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attemptsLeft: number;
+                            checks: {
+                                /** Format: date-time */
+                                at: string;
+                                /** Format: uuid */
+                                checkedBy: string | null;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                                /** @enum {string} */
+                                outcome: "verified" | "not_matched" | "unavailable";
+                            }[];
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            ihi: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                found: boolean;
+                                /** @enum {string|null} */
+                                recordStatus: "verified" | "unverified" | "provisional" | null;
+                                /** @enum {string|null} */
+                                status: "active" | "deceased" | "retired" | "expired" | "resolved" | null;
+                            } | null;
+                            verification: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/ihi-lookup": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Look up a verified patient’s IHI again */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attemptsLeft: number;
+                            checks: {
+                                /** Format: date-time */
+                                at: string;
+                                /** Format: uuid */
+                                checkedBy: string | null;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                                /** @enum {string} */
+                                outcome: "verified" | "not_matched" | "unavailable";
+                            }[];
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            ihi: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                found: boolean;
+                                /** @enum {string|null} */
+                                recordStatus: "verified" | "unverified" | "provisional" | null;
+                                /** @enum {string|null} */
+                                status: "active" | "deceased" | "retired" | "expired" | "resolved" | null;
+                            } | null;
+                            verification: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/intakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A patient’s intakes and where each stands, without answers */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            intakes: {
+                                /** Format: date-time */
+                                endedAt: string | null;
+                                /** @enum {string|null} */
+                                endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                                /** Format: uuid */
+                                intakeId: string;
+                                /** Format: uuid */
+                                programId: string;
+                                programName: string;
+                                /** Format: date-time */
+                                startedAt: string;
+                                /** @enum {string} */
+                                status: "in_progress" | "completed" | "ineligible" | "ended";
+                                /** Format: date-time */
+                                submittedAt: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/patients/{patientId}/legal-details": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Correct a patient’s legal name, date of birth or sex, which needs a new identity check */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    patientId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        dateOfBirth?: string;
+                        familyName?: string;
+                        givenName?: string;
+                        reason: string;
+                        /** @enum {string} */
+                        sex?: "female" | "male" | "intersex" | "not_stated";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attemptsLeft: number;
+                            checks: {
+                                /** Format: date-time */
+                                at: string;
+                                /** Format: uuid */
+                                checkedBy: string | null;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                                /** @enum {string} */
+                                outcome: "verified" | "not_matched" | "unavailable";
+                            }[];
+                            /** @enum {string} */
+                            identityStatus: "unverified" | "verified" | "failed";
+                            ihi: {
+                                /** Format: date-time */
+                                checkedAt: string;
+                                found: boolean;
+                                /** @enum {string|null} */
+                                recordStatus: "verified" | "unverified" | "provisional" | null;
+                                /** @enum {string|null} */
+                                status: "active" | "deceased" | "retired" | "expired" | "resolved" | null;
+                            } | null;
+                            verification: {
+                                /** Format: date-time */
+                                at: string;
+                                /** @enum {string} */
+                                documentType: "driver_licence" | "passport" | "medicare_card";
+                                /** @enum {string} */
+                                method: "document" | "manual";
+                            } | null;
+                        };
+                    };
+                };
+            };
+        };
         delete?: never;
         options?: never;
         head?: never;
@@ -1958,6 +4186,774 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/programs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant’s programs */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            programs: {
+                                /** Format: uuid */
+                                brandId: string;
+                                checkInEveryDays: number | null;
+                                condition: string;
+                                measurements: ("weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate")[];
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                                /** Format: uuid */
+                                protocolId: string;
+                                /** @enum {string} */
+                                status: "draft" | "live" | "paused" | "retired";
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Add a program on a protocol, as a draft */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        brandId: string;
+                        /** @default null */
+                        checkInEveryDays?: number | null;
+                        /** @default [] */
+                        measurements?: ("weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate")[];
+                        name: string;
+                        /** Format: uuid */
+                        protocolId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            checkInEveryDays: number | null;
+                            condition: string;
+                            measurements: ("weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate")[];
+                            name: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused" | "retired";
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/programs/{programId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One program */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    programId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            checkInEveryDays: number | null;
+                            condition: string;
+                            measurements: ("weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate")[];
+                            name: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused" | "retired";
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Change a program, or take it live, pause or retire it */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    programId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        checkInEveryDays?: number | null;
+                        measurements?: ("weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate")[];
+                        name?: string;
+                        /** @enum {string} */
+                        status?: "draft" | "live" | "paused" | "retired";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            /** Format: uuid */
+                            brandId: string;
+                            checkInEveryDays: number | null;
+                            condition: string;
+                            measurements: ("weight" | "waist" | "height" | "blood_pressure_systolic" | "blood_pressure_diastolic" | "heart_rate")[];
+                            name: string;
+                            /** Format: uuid */
+                            programId: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "paused" | "retired";
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/v1/protocol-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The platform’s protocol templates a tenant can copy */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            templates: {
+                                clinicalReview: {
+                                    by: string;
+                                    on: string;
+                                } | null;
+                                condition: string;
+                                definition: {
+                                    [key: string]: unknown;
+                                };
+                                key: string;
+                                name: string;
+                                summary: string;
+                                version: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/protocols": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant’s protocols */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            protocols: {
+                                condition: string;
+                                draftVersion: number | null;
+                                liveVersion: number | null;
+                                name: string;
+                                /** Format: uuid */
+                                protocolId: string;
+                                template: {
+                                    key: string;
+                                    version: number;
+                                } | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Start a protocol from a template or a definition, as a draft */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        condition?: string;
+                        definition?: {
+                            [key: string]: unknown;
+                        };
+                        name: string;
+                        templateKey?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            condition: string;
+                            draftVersion: number | null;
+                            liveVersion: number | null;
+                            name: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            template: {
+                                key: string;
+                                version: number;
+                            } | null;
+                            versions: {
+                                /** Format: date-time */
+                                editedAt: string;
+                                /** Format: date-time */
+                                signedOffAt: string | null;
+                                /** Format: uuid */
+                                signedOffBy: string | null;
+                                /** @enum {string} */
+                                status: "draft" | "live" | "retired" | "withdrawn";
+                                version: number;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/protocols/{protocolId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A protocol and its versions */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    protocolId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            condition: string;
+                            draftVersion: number | null;
+                            liveVersion: number | null;
+                            name: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            template: {
+                                key: string;
+                                version: number;
+                            } | null;
+                            versions: {
+                                /** Format: date-time */
+                                editedAt: string;
+                                /** Format: date-time */
+                                signedOffAt: string | null;
+                                /** Format: uuid */
+                                signedOffBy: string | null;
+                                /** @enum {string} */
+                                status: "draft" | "live" | "retired" | "withdrawn";
+                                version: number;
+                                /** Format: uuid */
+                                versionId: string;
+                                /** Format: date-time */
+                                withdrawnAt: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/protocols/{protocolId}/draft": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Replace the draft’s questions and rules */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    protocolId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        definition: {
+                            [key: string]: unknown;
+                        };
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attestation: string | null;
+                            definition: {
+                                [key: string]: unknown;
+                            };
+                            /** Format: date-time */
+                            editedAt: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** Format: date-time */
+                            signedOffAt: string | null;
+                            /** Format: uuid */
+                            signedOffBy: string | null;
+                            signerRegistration: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired" | "withdrawn";
+                            version: number;
+                            /** Format: uuid */
+                            versionId: string;
+                            /** Format: date-time */
+                            withdrawnAt: string | null;
+                            withdrawnReason: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        /** Start the next version as a draft */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    protocolId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attestation: string | null;
+                            definition: {
+                                [key: string]: unknown;
+                            };
+                            /** Format: date-time */
+                            editedAt: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** Format: date-time */
+                            signedOffAt: string | null;
+                            /** Format: uuid */
+                            signedOffBy: string | null;
+                            signerRegistration: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired" | "withdrawn";
+                            version: number;
+                            /** Format: uuid */
+                            versionId: string;
+                            /** Format: date-time */
+                            withdrawnAt: string | null;
+                            withdrawnReason: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/protocols/{protocolId}/sign-off": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sign off the draft, which makes it live */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    protocolId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {boolean} */
+                        attest: true;
+                        registration: string;
+                        version: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attestation: string | null;
+                            definition: {
+                                [key: string]: unknown;
+                            };
+                            /** Format: date-time */
+                            editedAt: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** Format: date-time */
+                            signedOffAt: string | null;
+                            /** Format: uuid */
+                            signedOffBy: string | null;
+                            signerRegistration: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired" | "withdrawn";
+                            version: number;
+                            /** Format: uuid */
+                            versionId: string;
+                            /** Format: date-time */
+                            withdrawnAt: string | null;
+                            withdrawnReason: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/protocols/{protocolId}/versions/{version}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** One version of a protocol, with its questions and rules */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    protocolId: string;
+                    version: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attestation: string | null;
+                            definition: {
+                                [key: string]: unknown;
+                            };
+                            /** Format: date-time */
+                            editedAt: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** Format: date-time */
+                            signedOffAt: string | null;
+                            /** Format: uuid */
+                            signedOffBy: string | null;
+                            signerRegistration: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired" | "withdrawn";
+                            version: number;
+                            /** Format: uuid */
+                            versionId: string;
+                            /** Format: date-time */
+                            withdrawnAt: string | null;
+                            withdrawnReason: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/protocols/{protocolId}/withdraw": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Withdraw the live version for safety */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    protocolId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reason: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            attestation: string | null;
+                            definition: {
+                                [key: string]: unknown;
+                            };
+                            /** Format: date-time */
+                            editedAt: string;
+                            /** Format: uuid */
+                            protocolId: string;
+                            /** Format: date-time */
+                            signedOffAt: string | null;
+                            /** Format: uuid */
+                            signedOffBy: string | null;
+                            signerRegistration: string | null;
+                            /** @enum {string} */
+                            status: "draft" | "live" | "retired" | "withdrawn";
+                            version: number;
+                            /** Format: uuid */
+                            versionId: string;
+                            /** Format: date-time */
+                            withdrawnAt: string | null;
+                            withdrawnReason: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/brands/{brandId}/programs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The programs a person can start on a brand’s site */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    brandId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            programs: {
+                                condition: string;
+                                name: string;
+                                /** Format: uuid */
+                                programId: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/public/brands/by-host/{host}": {
         parameters: {
             query?: never;
@@ -2010,6 +5006,317 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/public/intakes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Start an intake before signing up. The resume token comes back once, in the x-medora-intake-token header, never in the body */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {boolean} */
+                        adult: true;
+                        dateOfBirth: string;
+                        /** Format: uuid */
+                        privacyDocumentId: string;
+                        /** Format: uuid */
+                        programId: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/intakes/{intakeId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** An intake started before signing up, with its answers */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/intakes/{intakeId}/steps/{stepKey}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Answer one step of an intake started before signing up */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    intakeId: string;
+                    stepKey: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        answers: {
+                            [key: string]: unknown;
+                        };
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            answers: {
+                                [key: string]: boolean | number | string | string[];
+                            };
+                            currentStep: string | null;
+                            /** @enum {string|null} */
+                            endedReason: "under_age" | "version_withdrawn" | "expired" | "unclaimed" | null;
+                            /** Format: uuid */
+                            intakeId: string;
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                            readyToSubmit: boolean;
+                            /** Format: date-time */
+                            startedAt: string;
+                            /** @enum {string} */
+                            status: "in_progress" | "completed" | "ineligible" | "ended";
+                            steps: {
+                                done: boolean;
+                                intro?: string;
+                                key: string;
+                                questions: {
+                                    help?: string;
+                                    key: string;
+                                    kind: string;
+                                    label: string;
+                                    max?: number;
+                                    min?: number;
+                                    options?: {
+                                        label: string;
+                                        value: string;
+                                    }[];
+                                    required: boolean;
+                                    unit?: string;
+                                }[];
+                                title: string;
+                            }[];
+                            stop: {
+                                message: string;
+                                urgentHelp: boolean;
+                            } | null;
+                            /** Format: date-time */
+                            submittedAt: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/public/programs/{programId}/intake-start": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** What the first screen of an intake shows: the program and the privacy notice */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    programId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            privacyNotice: {
+                                body: string;
+                                /** Format: uuid */
+                                documentId: string;
+                                title: string;
+                                version: number;
+                            };
+                            /** Format: uuid */
+                            programId: string;
+                            programName: string;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/roles": {
         parameters: {
             query?: never;
@@ -2043,13 +5350,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -2058,7 +5365,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             }[];
                         };
                     };
@@ -2081,7 +5388,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                     };
                 };
             };
@@ -2101,7 +5408,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -2168,7 +5475,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                     };
                 };
             };
@@ -2188,7 +5495,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "patients:read" | "patients:manage" | "consents:manage" | "patients:verify_identity" | "protocols:read" | "protocols:manage" | "protocols:sign_off" | "programs:manage" | "intakes:read" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };

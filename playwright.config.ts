@@ -22,7 +22,9 @@ export default defineConfig({
   webServer: process.env.PLAYWRIGHT_BASE_URL
     ? undefined
     : {
-        command: `node dev/preview.mjs start -p ${PORT} -H 127.0.0.1`,
+        // No -H 127.0.0.1: Next writes that address as localhost inside the proxy, so a server bound to it
+        // takes the patient app's rewrites for outside addresses (src/proxy.ts).
+        command: `node dev/preview.mjs start -p ${PORT}`,
         url: `${baseURL}/api/health/live`,
         reuseExistingServer: !process.env.CI,
         timeout: 60_000,

@@ -33,6 +33,9 @@ const env = {
   // Clerk is stubbed out; these keep any stray Clerk import from refusing to start.
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || "pk_test_preview",
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY || "sk_test_preview",
+  // The patient instance (ADR 0100): the stand-in tells it apart by this key, so it is always this one.
+  PATIENT_CLERK_PUBLISHABLE_KEY: "pk_test_preview_patient",
+  PATIENT_CLERK_SECRET_KEY: "sk_test_preview_patient",
 };
 
 const require = createRequire(path.join(root, "package.json"));

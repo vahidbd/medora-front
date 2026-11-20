@@ -48,6 +48,30 @@ export type RoleUpdate = RequestBody<"/v1/roles/{roleId}", "patch">;
 /** Break-glass (ADR 0220): opened by the person, reviewed by someone else. */
 export type BreakGlassRecord = Reply<"/v1/break-glass", "get">["breakGlass"][number];
 
+/** A brand, as its public pages see it (GET /v1/public/brands/by-host/{host}). */
+export type PublicBrand = Reply<"/v1/public/brands/by-host/{host}", "get">;
+
+/** The signed-in patient, to this brand's tenant (GET /v1/patient/me). */
+export type PatientMe = Reply<"/v1/patient/me", "get">;
+export type PatientProgram = PatientMe["programs"][number];
+export type DateOfBirthConfirmation = RequestBody<"/v1/patient/confirm-date-of-birth", "post">;
+
+/** What a patient records between consults (docs/decisions/tracking.md in medora-backend). */
+export type Measurement = Reply<"/v1/patient/measurements", "get">["measurements"][number];
+export type MeasurementKind = Measurement["kind"];
+export type MeasurementUnit = Measurement["unit"];
+export type Reading = RequestBody<"/v1/patient/measurements", "post">["readings"][number];
+export type MeasurementsRecording = RequestBody<"/v1/patient/measurements", "post">;
+export type MeasurementsRecorded = Created<"/v1/patient/measurements", "post">;
+export type SideEffect = Reply<"/v1/patient/side-effects", "get">["sideEffects"][number];
+export type SideEffectSeverity = SideEffect["severity"];
+export type SideEffectReport = RequestBody<"/v1/patient/side-effects", "post">;
+export type CheckIn = Reply<"/v1/patient/check-ins", "get">["checkIns"][number];
+export type MissedDoses = CheckIn["missedDoses"];
+export type CheckInSubmission = RequestBody<"/v1/patient/check-ins", "post">;
+
+/** How a patient hears from their care (docs/decisions/notifications.md in medora-backend). */
+export type NotificationPreferences = Reply<"/v1/patient/notification-preferences", "get">;
 /** A tenant's set-up (docs/decisions/admin.md ADM14 to ADM20). */
 export type TenantSettings = Reply<"/v1/tenant", "get">;
 export type TenantSettingsChange = RequestBody<"/v1/tenant", "patch">;
