@@ -1,0 +1,17 @@
+# The product owner reviews changes to sign-in, the path to the API,
+# security headers, permissions, AI autonomy, security and delivery (ADR 0015).
+# Branch protection requires a code owner's review.
+
+/src/proxy.ts                  @vahidbd
+/src/lib/server/               @vahidbd
+/src/app/api/                  @vahidbd
+/src/instrumentation.ts        @vahidbd
+/src/lib/error-tracking/       @vahidbd
+/next.config.ts                @vahidbd
+/dev/mock-clerk/               @vahidbd
+/docs/adr/                     @vahidbd
+/AGENTS.md                     @vahidbd
+/.github/                      @vahidbd
+/scripts/blocked-names.json    @vahidbd
+/eslint.config.mjs             @vahidbd
+/Dockerfile                    @vahidbd
