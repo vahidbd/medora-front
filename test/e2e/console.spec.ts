@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 /**
  * The staff console in preview mode: signed in as the preview owner, with
- * two made-up tenants from the mock API (dev/mock-api/server.mjs).
+ * made-up tenants from the mock API (dev/mock-api/server.mjs).
  */
 
 /** Console errors, which include every content security policy refusal. */

@@ -19,21 +19,21 @@ export const STARTING_ROLES = [
   "compliance",
 ];
 export const CLINICAL_ROLES = new Set(["prescriber", "clinician", "medical_director"]);
-export const PERMISSIONS = ["staff:read", "staff:manage", "roles:manage", "break_glass:review"];
-export const PERMISSION_ZONES = Object.fromEntries(PERMISSIONS.map((key) => [key, "platform"]));
+export const PERMISSIONS = ["staff:read", "staff:manage", "roles:manage", "break_glass:review", "agents:read", "agents:manage", "agents:transcripts"];
+export const PERMISSION_ZONES = { ...Object.fromEntries(PERMISSIONS.map((key) => [key, "platform"])), "agents:transcripts": "clinical" };
 
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
 export const ROLE_PERMISSIONS = {
   owner: [...PERMISSIONS],
-  admin: ["staff:read", "staff:manage", "roles:manage"],
-  medical_director: ["staff:read", "break_glass:review"],
-  prescriber: ["staff:read"],
-  clinician: ["staff:read"],
+  admin: ["staff:read", "staff:manage", "roles:manage", "agents:read"],
+  medical_director: ["staff:read", "break_glass:review", "agents:read", "agents:transcripts"],
+  prescriber: ["staff:read", "agents:transcripts"],
+  clinician: ["staff:read", "agents:transcripts"],
   support: ["staff:read"],
-  finance: ["staff:read"],
+  finance: ["staff:read", "agents:read"],
   operations: ["staff:read"],
   marketing: ["staff:read"],
-  compliance: ["staff:read"],
+  compliance: ["staff:read", "agents:read"],
 };
 
 // The preview person. The mock Clerk session (dev/mock-clerk) is the same person.
@@ -42,8 +42,9 @@ export const ME = { userId: "00000000-0000-4000-8000-000000000001", email: "owne
 export const TENANTS = [
   { tenantId: "10000000-0000-4000-8000-000000000001", tenantName: "Harbour Health (demo)" },
   { tenantId: "10000000-0000-4000-8000-000000000002", tenantName: "Coastal Skin (demo)" },
+  { tenantId: "10000000-0000-4000-8000-000000000003", tenantName: "Northside Clinic (demo)" },
 ];
-const [harbour, coastal] = TENANTS.map((t) => t.tenantId);
+const [harbour, coastal, northside] = TENANTS.map((t) => t.tenantId);
 
 const DAY = 24 * 60 * 60 * 1000;
 export const daysFromNow = (days) => new Date(Date.now() + days * DAY).toISOString();
@@ -108,12 +109,16 @@ export const memberships = [
   member(coastal, ME.userId, ME.email, ME.displayName, "clinician"),
   member(coastal, person(7), "morgan.brooks@example.test", "Morgan Brooks", "owner"),
   member(coastal, person(8), "taylor.reid@example.test", "Taylor Reid", "clinician"),
+  // A clinical role that reads agent transcripts without break-glass (docs/decisions/agents.md AGT4).
+  member(northside, ME.userId, ME.email, ME.displayName, "medical_director"),
+  member(northside, person(14), "alexis.ford@example.test", "Alexis Ford", "owner"),
 ];
 
 /**
- * Break-glass. No clinical permission exists yet, so the real API offers
- * break-glass to nobody until a module adds one. Preview pretends the
- * owner's role at Harbour holds one, so its screens can be seen and tested.
+ * Break-glass. The real API offers it to a non-clinical role that holds a
+ * clinical permission (an owner, through agents:transcripts). Preview
+ * offers it only to the owner at Harbour, so its screens can be seen and
+ * tested in one tenant and left out of the other.
  */
 export const PRETEND_BREAK_GLASS = new Set([`${harbour}:owner`]);
 
