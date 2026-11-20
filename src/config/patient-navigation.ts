@@ -1,4 +1,4 @@
-import { House, UserRound, type LucideIcon } from "lucide-react";
+import { House, ChartLine, UserRound, type LucideIcon } from "lucide-react";
 
 /**
  * The patient app's areas, in order (docs/decisions/patient-app.md APP6):
@@ -16,6 +16,7 @@ export interface PatientNavItem {
 
 export const patientNavigation: readonly PatientNavItem[] = [
   { key: "home", label: "Home", href: "/home", icon: House },
+  { key: "progress", label: "Progress", href: "/progress", icon: ChartLine },
   { key: "account", label: "Account", href: "/account", icon: UserRound },
 ];
 

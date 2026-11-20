@@ -2,6 +2,7 @@
 
 import { LifeBuoy, Phone } from "lucide-react";
 import { useBrand } from "@/components/patient/brand-context";
+import { LatestMeasurementsCard, NextCheckInCard } from "@/components/patient/home-cards";
 import { useSignedInPatient } from "@/components/patient/use-patient";
 import { greetingFor } from "@/lib/patient-time";
 
@@ -13,14 +14,17 @@ import { greetingFor } from "@/lib/patient-time";
 export function PatientHomePage() {
   const me = useSignedInPatient();
   const brand = useBrand();
+  const timeZone = me.timeZone ?? brand.timeZone;
   return (
     <div className="pt-page">
       <div className="pt-head">
         <h1 className="pt-title">
-          {greetingFor(new Date(), me.timeZone ?? brand.timeZone)}, {me.preferredName ?? me.givenName}
+          {greetingFor(new Date(), timeZone)}, {me.preferredName ?? me.givenName}
         </h1>
         <p className="pt-lede">Here&apos;s what&apos;s next in your care with {brand.name}.</p>
       </div>
+      <NextCheckInCard me={me} timeZone={timeZone} />
+      <LatestMeasurementsCard me={me} timeZone={timeZone} />
       <HelpCard />
     </div>
   );

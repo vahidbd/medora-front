@@ -53,3 +53,20 @@ Decided by: stand-in (Fable 5.2), to confirm with Vahid
 
 Decision: when the patient app needs a route that isn't in the API's contract yet, its shape is copied by hand in one place, with a note naming the route, and checked where it crosses into the page. The change that picks the route up from the contract deletes the copy. None is left: the public brand route was the first, and its type now comes from the contract; `src/lib/brand.ts` keeps only the check of a brand where it crosses into the page.
 Why: the patient app can be built beside the work it depends on without a second, drifting definition of the same shape.
+
+### APP10. Progress is one card per measurement, each with its own chart
+
+Decision: Progress shows the kinds of measurement the patient's programs name, and any already recorded for them, one card each: the latest reading, the change since the first in words that don't judge ("Down 2.2 kg since 23 Oct"), a line chart of that one kind, and every reading as a table behind "See every reading". The chart is a single series in the first chart colour, never the brand's, on one axis with a hairline grid; a crosshair and tooltip follow the pointer, and the arrow keys walk the readings with the same readout. Blood pressure's two numbers are two cards. When no program names a kind, Progress says there is nothing to measure yet.
+Why: one series needs no legend and reads the same on every brand; whether a change is good is the care team's to say, not the screen's. Every value stays reachable without a pointer.
+Decided by: stand-in (Fable 5.2), to confirm with Vahid
+
+### APP11. Readings are recorded in one form, and the API checks them
+
+Decision: one form takes every tracked kind; blank fields are left out, and the two blood pressure numbers go together or not at all. Readings are dated now, or noon on another day in the last 30 days where the patient is (`docs/decisions/tracking.md` TRK2 in medora-backend). The app checks only that a number was typed; the API checks each kind's range, and each of its refusals has one sentence here.
+Why: the ranges live in one place, the API, and a reading taken this morning and entered tonight lands on the right day.
+
+### APP12. Side effects and check-ins never read as an emergency service
+
+Decision: reporting a side effect, alone or in a check-in, says first that a report reaches no one straight away and to call 000 or go to an emergency department for help now; choosing Severe, and sending a severe report, says it again as a danger notice. A check-in (`/progress/check-in`) asks about missed doses (none, a few, most) and how the patient feels on five named steps from "Very unwell" to "Very good", with optional readings and one optional side effect, sent together. Home shows when the next check-in is due, from the programs' cadence on the patient's calendar (TRK6), and the latest reading of each kind.
+Why: a patient must never think a form is how to get urgent help (TRK4). Named steps read the same to everyone, where a bare 1 to 5 doesn't.
+Decided by: stand-in (Fable 5.2), to confirm with Vahid

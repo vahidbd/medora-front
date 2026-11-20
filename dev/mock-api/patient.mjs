@@ -6,7 +6,7 @@
  * Brands, patients and programs are made up. The preview patient session
  * comes from the mock Clerk as a bearer `mock-patient-<kind>-<sid>`:
  * "patient" has a record in both demo tenants, "new" has none yet. Each
- * session confirms the date of birth once, as the API asks (ADR 0035).
+ * session confirms the date of birth once, as the API asks (ADR 0100).
  */
 
 const TENANT_HEADER = "x-medora-tenant";
@@ -48,7 +48,7 @@ const BRANDS = [
   },
 ];
 
-/** Jamie Taylor is made up. One record per tenant (ADR 0035), each with its own id. */
+/** Jamie Taylor is made up. One record per tenant (ADR 0100), each with its own id. */
 function jamie(patientId, programs) {
   return {
     patientId,
@@ -92,7 +92,7 @@ export function brandByHost(host) {
  * needs only a token in a tenant; "patient" also needs the record and this
  * session's date of birth check (the API's own order of refusals).
  */
-function patientOf(req, res, fail, access) {
+export function patientOf(req, res, fail, access) {
   const token = PATIENT_TOKEN.exec(req.headers.authorization ?? "");
   if (!token) {
     fail(res, 401, "unauthorized", "Your sign-in has expired or is not valid. Sign in again.");

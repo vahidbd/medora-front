@@ -129,3 +129,70 @@
 .pt-choice { display: inline-flex; align-items: center; gap: var(--space-8); min-height: var(--h-control); padding: 0 var(--space-14) 0 var(--space-12); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); font-size: var(--fs-ui); color: var(--foreground); cursor: pointer; }
 .pt-choice svg { width: var(--icon); height: var(--icon); color: var(--icon-color); }
 .pt-choice:has([data-checked]) { border-color: var(--primary); }
+
+/* ------------------------------------------------------------------ */
+/* Progress and check-ins                                               */
+/* ------------------------------------------------------------------ */
+
+.pt-head-row { flex-direction: row; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-16); }
+.pt-stat { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-2); text-align: right; }
+.pt-stat strong { font-size: var(--fs-heading); font-weight: 600; color: var(--heading); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pt-stat span { font-size: var(--fs-caption); color: var(--muted-foreground); }
+.pt-cardlink { display: inline-flex; align-items: center; gap: var(--space-4); font-size: var(--fs-ui); font-weight: 500; color: var(--foreground); text-decoration: none; border-radius: var(--radius-xs); white-space: nowrap; }
+.pt-cardlink:hover { text-decoration: underline; text-underline-offset: 3px; }
+.pt-cardlink:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.pt-cardlink svg { width: var(--icon); height: var(--icon); color: var(--icon-color); }
+.pt-success { font-size: var(--fs-ui); line-height: var(--lh-body); color: var(--status-success-fg); }
+.pt-sent { display: flex; flex-direction: column; gap: var(--space-10); }
+.pt-subform { display: flex; flex-direction: column; gap: var(--stack-fields); padding-top: var(--space-16); border-top: 1px solid var(--border); }
+.pt-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.pt-loading { display: flex; flex-direction: column; gap: var(--space-12); }
+.pt-skel-line { width: 40%; height: 14px; }
+.pt-skel-block { width: 100%; height: 96px; }
+
+/* The chart: one series in the first chart colour on a hairline grid; text in text tokens. */
+.pt-chart { position: relative; min-height: 200px; border-radius: var(--radius-sm); touch-action: pan-y; }
+.pt-chart:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.pt-chart svg { display: block; overflow: visible; }
+.pt-chart-space { height: 200px; }
+.pt-chart-grid { stroke: var(--border); stroke-width: 1; shape-rendering: crispEdges; }
+.pt-chart-tick { fill: var(--muted-foreground); font-size: var(--fs-caption); font-variant-numeric: tabular-nums; }
+.pt-chart-line { fill: none; stroke: var(--chart-1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.pt-chart-dot { fill: var(--chart-1); stroke: var(--card); stroke-width: 2; }
+.pt-chart-crosshair { stroke: var(--border-strong); stroke-width: 1; shape-rendering: crispEdges; }
+.pt-chart-tip { position: absolute; top: 0; z-index: 1; display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-6) var(--space-10); background: var(--popover); border-radius: var(--radius-sm); box-shadow: 0 0 0 1px var(--border), var(--shadow-tip); font-size: var(--fs-caption); color: var(--muted-foreground); white-space: nowrap; pointer-events: none; transform: translateX(-50%); }
+.pt-chart-tip strong { font-size: var(--fs-body); font-weight: 600; color: var(--heading); font-variant-numeric: tabular-nums; }
+.pt-chart-tip.is-start { transform: none; }
+.pt-chart-tip.is-end { transform: translateX(-100%); }
+
+/* Every reading, behind a disclosure under the chart. */
+.pt-details summary { width: fit-content; font-size: var(--fs-ui); font-weight: 500; color: var(--foreground); cursor: pointer; border-radius: var(--radius-xs); }
+.pt-details summary:focus-visible { outline: none; box-shadow: var(--halo-strong); }
+.pt-details[open] summary { margin-bottom: var(--space-12); }
+.pt-table td:not(:first-child), .pt-table th:not(:first-child) { white-space: nowrap; }
+
+/* A note that a report isn't an emergency service; louder when the side effect is severe. */
+.pt-note { display: flex; align-items: flex-start; gap: var(--space-10); font-size: var(--fs-ui); line-height: var(--lh-body); color: var(--secondary-foreground); }
+.pt-note svg { flex: none; width: var(--icon); height: var(--icon); margin-top: 2px; color: var(--icon-color); }
+.pt-note.is-danger { padding: var(--space-12) var(--space-14); border: 1px solid var(--status-danger-border); border-radius: var(--radius); background: var(--status-danger-bg); color: var(--status-danger-fg); }
+.pt-note.is-danger svg { color: var(--status-danger-fg); }
+.pt-note strong { font-weight: 600; }
+
+/* Choices with a line of explanation each, stacked. */
+.pt-options { display: flex; flex-direction: column; gap: var(--space-8); }
+.pt-option { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: start; gap: var(--space-10); padding: var(--space-10) var(--space-14) var(--space-10) var(--space-12); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); cursor: pointer; }
+.pt-option:has([data-checked]) { border-color: var(--primary); }
+.pt-option-text { display: flex; flex-direction: column; gap: var(--space-2); font-size: var(--fs-caption); color: var(--muted-foreground); }
+.pt-option-text strong { font-size: var(--fs-body); font-weight: 500; color: var(--foreground); }
+
+/* Readings: a field per kind, blood pressure's two side by side. */
+.pt-readings { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: var(--stack-fields) var(--space-16); }
+.pt-fieldset { display: flex; flex-direction: column; gap: var(--space-8); min-width: 0; margin: 0; padding: 0; border: 0; }
+.pt-readings .pt-fieldset { grid-column: 1 / -1; }
+.pt-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 180px)); gap: var(--space-16); }
+.pt-reading { width: 100%; }
+
+@media (max-width: 760px) {
+  .pt-head-row > .btn { width: 100%; }
+  .pt-card-head { flex-wrap: wrap; }
+}

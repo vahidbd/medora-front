@@ -1,48 +1,9 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { CODE, LARKSPUR, collectErrors, confirmDateOfBirth, fieldError, onBrandHosts, port, signIn } from "./patient-support";
 
-/**
- * The patient app in preview mode, on the mock API's made-up brands
- * (dev/mock-api/patient.mjs): Kestrel Health (demo), live, at
- * kestrel.localhost, and Larkspur Clinic (demo), paused, at
- * larkspur.localhost. The mock Clerk signs in jamie@example.test, or signs
- * up any other address, with the code 424242.
- */
+/** The patient app's frame: brand hosts, sign-in, the date of birth check, Home and Account. */
 
-const port = new URL(process.env.PLAYWRIGHT_BASE_URL || `http://127.0.0.1:${process.env.E2E_PORT || 3100}`).port;
-const KESTREL = `http://kestrel.localhost:${port}`;
-const LARKSPUR = `http://larkspur.localhost:${port}`;
-const CODE = "424242";
-
-// Every *.localhost name is this machine; the browser is told so, whatever the system resolver says.
-test.use({ baseURL: KESTREL, launchOptions: { args: ["--host-resolver-rules=MAP *.localhost 127.0.0.1"] } });
-
-function collectErrors(page: Page): string[] {
-  const errors: string[] = [];
-  page.on("console", (message) => {
-    if (message.type() === "error") errors.push(message.text());
-  });
-  page.on("pageerror", (error) => errors.push(error.message));
-  return errors;
-}
-
-/** A field's error, announced as an alert (Next's route announcer is the page's other alert). */
-const fieldError = (page: Page) => page.locator("p[role=alert]");
-
-async function signIn(page: Page, email = "jamie@example.test") {
-  await page.goto("/home");
-  await expect(page).toHaveURL(/\/sign-in\?next=%2Fhome$/);
-  await page.getByLabel("Email").fill(email);
-  await page.getByRole("button", { name: "Send code" }).click();
-  await expect(page.getByRole("heading", { name: "Check your email" })).toBeVisible();
-  await page.getByLabel("Code").fill(CODE);
-  await page.getByRole("button", { name: "Sign in" }).click();
-}
-
-async function confirmDateOfBirth(page: Page) {
-  await expect(page.getByRole("heading", { name: "Confirm your date of birth" })).toBeVisible();
-  await page.getByLabel("Date of birth").fill("14/05/1988");
-  await page.getByRole("button", { name: "Continue" }).click();
-}
+test.use(onBrandHosts);
 
 test("a brand's host is its patient app: its look, a nonce policy with no tracker, and nothing kept", async ({ page }) => {
   const errors = collectErrors(page);
