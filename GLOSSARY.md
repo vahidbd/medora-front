@@ -48,7 +48,13 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 
 | Thing | We call it | Never |
 | --- | --- | --- |
+| One request from a person, across every channel they use for it | **Ticket** | case, conversation, enquiry, issue |
 | One thing said to or by a person on any channel (email, SMS, chat, a logged call), in or out | **Message** | post, entry, communication |
+| A staff member's note on a ticket that the person never sees | **Comment** | internal note, note |
+| Where a ticket waits for staff: the support queue or the clinical queue | **Queue** | inbox (as a record), bucket, group |
+| Checking a person's message for words that need a clinician, a person or governance | **Triage** | screening, classification |
+| A mark on a ticket such as emergency, self-harm or possible complaint | **Flag** | tag, label |
+| Approved saved wording for a ticket reply | **Macro** | canned response, snippet, template (for replies) |
 | A brand's own email address or phone number on a channel, for service or for marketing | **Sender** | from address, sender id |
 
 ## Platform
