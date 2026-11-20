@@ -155,6 +155,8 @@ export type paths = {
                                 orderId: string | null;
                                 /** Format: date-time */
                                 paidAt: string | null;
+                                /** Format: date */
+                                pastDueOn: string | null;
                                 /** Format: uuid */
                                 patientId: string;
                                 /** Format: uuid */
@@ -173,6 +175,7 @@ export type paths = {
                                     paymentId: string;
                                     /** Format: date-time */
                                     refundedAt: string | null;
+                                    retry: number | null;
                                     /** Format: date-time */
                                     settledAt: string | null;
                                     /** @enum {string} */
@@ -186,6 +189,8 @@ export type paths = {
                                 } | null;
                                 /** Format: uuid */
                                 priceId: string;
+                                /** Format: date */
+                                retryDueOn: string | null;
                                 /** @enum {string} */
                                 status: "open" | "paid" | "past_due" | "void";
                                 /** Format: uuid */
@@ -258,6 +263,8 @@ export type paths = {
                             orderId: string | null;
                             /** Format: date-time */
                             paidAt: string | null;
+                            /** Format: date */
+                            pastDueOn: string | null;
                             /** Format: uuid */
                             patientId: string;
                             /** Format: uuid */
@@ -276,6 +283,7 @@ export type paths = {
                                 paymentId: string;
                                 /** Format: date-time */
                                 refundedAt: string | null;
+                                retry: number | null;
                                 /** Format: date-time */
                                 settledAt: string | null;
                                 /** @enum {string} */
@@ -289,6 +297,8 @@ export type paths = {
                             } | null;
                             /** Format: uuid */
                             priceId: string;
+                            /** Format: date */
+                            retryDueOn: string | null;
                             /** @enum {string} */
                             status: "open" | "paid" | "past_due" | "void";
                             /** Format: uuid */
@@ -1447,7 +1457,7 @@ export type paths = {
                         "application/json": {
                             subscriptions: {
                                 /** @enum {string|null} */
-                                cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                                cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "payment_failed" | "other" | null;
                                 cancelsAtPeriodEnd: boolean;
                                 /** Format: date-time */
                                 createdAt: string;
@@ -1526,7 +1536,7 @@ export type paths = {
                     content: {
                         "application/json": {
                             /** @enum {string|null} */
-                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "payment_failed" | "other" | null;
                             cancelsAtPeriodEnd: boolean;
                             /** Format: date-time */
                             createdAt: string;
@@ -1615,7 +1625,7 @@ export type paths = {
                     content: {
                         "application/json": {
                             /** @enum {string|null} */
-                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "payment_failed" | "other" | null;
                             cancelsAtPeriodEnd: boolean;
                             /** Format: date-time */
                             createdAt: string;
@@ -1700,7 +1710,7 @@ export type paths = {
                     content: {
                         "application/json": {
                             /** @enum {string|null} */
-                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "payment_failed" | "other" | null;
                             cancelsAtPeriodEnd: boolean;
                             /** Format: date-time */
                             createdAt: string;
@@ -1778,7 +1788,7 @@ export type paths = {
                     content: {
                         "application/json": {
                             /** @enum {string|null} */
-                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "payment_failed" | "other" | null;
                             cancelsAtPeriodEnd: boolean;
                             /** Format: date-time */
                             createdAt: string;
@@ -1856,7 +1866,7 @@ export type paths = {
                     content: {
                         "application/json": {
                             /** @enum {string|null} */
-                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "payment_failed" | "other" | null;
                             cancelsAtPeriodEnd: boolean;
                             /** Format: date-time */
                             createdAt: string;
@@ -1934,7 +1944,7 @@ export type paths = {
                     content: {
                         "application/json": {
                             /** @enum {string|null} */
-                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "other" | null;
+                            cancelReason: "patient_request" | "clinician_declined" | "staff_decision" | "payment_failed" | "other" | null;
                             cancelsAtPeriodEnd: boolean;
                             /** Format: date-time */
                             createdAt: string;
