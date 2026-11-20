@@ -1,0 +1,3 @@
+interface:
+  display_name: "Write ADR"
+  short_description: "Write or supersede an architecture decision record"
