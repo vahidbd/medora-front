@@ -33,5 +33,9 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "consents:manage": "Publish the tenant's consent documents",
   "tenant:manage": "Change the tenant's settings and companies",
   "brands:manage": "Set up brands and their domains",
+  "support:read": "See the support queue and its tickets",
+  "support:reply": "Reply to tickets, flag them and log calls",
+  "support:clinical": "Read and answer tickets in the clinical queue",
+  "support:manage": "Write and approve macros",
   "messaging:manage": "Set the email addresses and numbers each brand sends from",
 };
