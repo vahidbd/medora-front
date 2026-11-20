@@ -8,6 +8,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | --- | --- | --- |
 | A business that runs its care on Medora (a clinic, an operator) | **Tenant** | customer, client, org, account |
 | A name and look a tenant sells under; one tenant can have several | **Brand** | site, storefront, white label |
+| A legal entity under a tenant, with its own ABN; every brand belongs to one | **Company** | entity, legal entity, business |
+| A web address a brand's public pages answer on, such as app.brand.com.au | **Domain** | URL, site, web address |
+| What a tenant must have before it takes new patients: a company, a live brand, a medical director and a prescriber | **Onboarding checklist** | setup wizard, go-live list |
+| Medora's own team, who create tenants and verify domains, and see no tenant's data | **Platform staff** | super admin, Medora admin, staff (alone) |
 | A person receiving care | **Patient** | client, customer, user, member |
 | A person working for a tenant | **Staff member** | user, employee, agent |
 | A staff member who prescribes (doctor, nurse practitioner) | **Prescriber** | doctor (unless the role really is "doctor"), provider |
@@ -47,6 +51,13 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A clinical record of a consult or review | **Note** | encounter, chart entry |
 | A tenant's published text a patient agrees to, in numbered versions | **Consent document** | policy, form, terms (as a record) |
 | A patient's recorded decision on one version of a consent document | **Consent** | agreement, opt-in, acceptance |
+| Checking a patient is who they say, against a document | **Identity check** | KYC, ID verification, DVS check |
+| The national Individual Healthcare Identifier | **IHI** | health ID, healthcare number |
+| One numbered edition of a protocol: a draft, then live once signed off | **Protocol version** | revision, release |
+| A medical director's recorded approval that makes a protocol version live | **Sign-off** | approval, publish |
+| A platform protocol a tenant copies into a draft of its own | **Protocol template** | preset, starter |
+| A protocol rule that ends an intake because the person can't be treated on it | **Hard stop** | exclusion, knock-out, disqualifier |
+| A protocol rule that lets the intake go on and shows the prescriber something to look at | **Red flag** | warning, alert, caution |
 
 ## Platform
 
