@@ -640,8 +640,10 @@ function MainPanel({
   const Icon = item?.icon;
   const crumb = item ? (item.crumb ?? item.title) : null;
 
-  // The browser tab names the screen: "<record> · Staff · Medora".
-  const docTitle = [tail, crumb, "Medora"].filter(Boolean).join(" · ");
+  // The browser tab names the screen: "<record> · Staff · Medora". A
+  // patient's name stays out: browsers keep titles in their history
+  // (docs/decisions/patients.md IDN21).
+  const docTitle = [item?.privateRecords ? null : tail, crumb, "Medora"].filter(Boolean).join(" · ");
   useEffect(() => {
     document.title = docTitle;
   }, [docTitle]);

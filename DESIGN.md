@@ -53,9 +53,9 @@ from shadcn's Base UI set and fitted to the kit's classes the same way.
 
 - Sidebar 256 wide; 68 minimised; 68 + 232 when a group's rail is open.
   Blocks with a gap between them (the kit has no sidebar label): Home on
-  top, the work areas as they arrive, then Workspace (Staff, Roles,
+  top, the work areas as they arrive (Catalogue: Products), then Workspace (Staff, Roles,
   Break-glass, Brands, Companies, Settings) and, for platform staff only,
-  Platform (Tenants, Domains), each group opening its rail. Search is the search
+  Platform (Tenants, Domains, Block rules), each group opening its rail. Search is the search
   box at the top of the sidebar (⌘K), not a row. A screen the staff member
   has no permission for is not drawn (`config/navigation.ts`, `useCanSee`);
   the API still checks every call.
@@ -102,13 +102,29 @@ button on the right.
 or paging. They get one list engine (a toolbar row under the title: view
 picker, search, filters in a drawer, display options, the main action at
 the end; a pager at the foot), built once and used by every list, with its
-rules added here in the same pull request.
+rules added here in the same pull request. Until then, the Audit log
+uses the engine's pieces as the kit draws them: Filters (an outline button
+with the number set, icon only on a phone) beside the main action, the
+filters set as pills under the header (each with its own remove), the
+drawer holding one field per filter, and the pager at the foot of the
+card (what is showing, then newer and older).
 
-**Record pages** arrive with the first record (a patient, an order). They
-follow the kit's editor shape: header with back link, title, status badge,
-one line of facts and actions; a numbered section rail; sections that are
-for reading, each with an Edit button that opens a drawer. Their rules land
-here with them.
+**Record pages** (a clinician today; patients and orders next) follow the
+kit's editor shape, built once in `src/components/shared/record/`:
+
+- `RecordPage`: the person's avatar, the title, one status badge, a meta
+  line, and the header actions (at most one primary, then outline). The
+  topbar's last crumb names the record. A numbered rail ("On this page")
+  follows the section in view and folds away when the page is narrow.
+- `RecordSection`: a numbered card per rail entry, with one line under the
+  title. Sections are for reading: a facts table (`dl.facts`, "Not set" or a
+  quiet phrase when empty) or a flush table. Small outline buttons in the
+  head (Edit, Add) open an `EditDrawer`; a row's own actions sit in a "⋯"
+  menu at its end.
+- `EditDrawer`: the fields, Save off until the required ones are filled,
+  and the API's refusal shown in the drawer in its own words.
+- A pick from a fixed list is a `ChoiceSelect`, whose options give every
+  API value its words.
 
 **Public pages** a patient sees (sign-in, brand sites, the patient app) are
 built to their own rules: no tracking scripts and no third-party scripts

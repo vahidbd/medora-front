@@ -16,7 +16,6 @@ import {
   newId,
   PERMISSION_ZONES,
   PERMISSIONS,
-  PRETEND_BREAK_GLASS,
   ROLE_PERMISSIONS,
   signIns,
   STARTING_ROLES,
@@ -32,6 +31,11 @@ export const usable = (m) => m.status === "active" && !past(m.expiresAt);
 const customRoleOf = (m) => customRoles.find((r) => r.id === m.customRoleId) ?? null;
 const permissionsOf = (m) => (m.role === "custom" ? (customRoleOf(m)?.permissions ?? []) : ROLE_PERMISSIONS[m.role]);
 const openBreakGlass = (m) => breakGlass.find((b) => b.membershipId === m.membershipId && Date.parse(b.endsAt) > Date.now());
+const isClinical = (m) => (m.role === "custom" ? customRoleOf(m)?.clinical === true : CLINICAL_ROLES.has(m.role));
+/** As the API's needsBreakGlass: a role that isn't clinical but holds clinical permissions (ADM3). */
+const needsBreakGlass = (m) => !isClinical(m) && permissionsOf(m).some((key) => PERMISSION_ZONES[key] === "clinical");
+/** As the API's usablePermissions: clinical ones only for a clinical role or under break-glass. */
+const usablePermissionsOf = (m) => (isClinical(m) || openBreakGlass(m) ? permissionsOf(m) : permissionsOf(m).filter((key) => PERMISSION_ZONES[key] !== "clinical"));
 
 function staffMember(m) {
   const custom = customRoleOf(m);
@@ -64,6 +68,10 @@ export function tenantOf(req, res, permission) {
   }
   if (permission && !permissionsOf(mine).includes(permission)) {
     fail(res, 403, "forbidden", "You don't have permission to do that");
+    return null;
+  }
+  if (permission && !usablePermissionsOf(mine).includes(permission)) {
+    fail(res, 403, "break_glass_required", "This needs clinical access. Open break-glass first, with your reason.");
     return null;
   }
   return mine;
@@ -110,8 +118,8 @@ function me(req, res) {
           customRole: custom ? { id: custom.id, name: custom.name } : null,
           status: m.status,
           expiresAt: m.expiresAt,
-          permissions: [...permissionsOf(m)],
-          breakGlass: { available: PRETEND_BREAK_GLASS.has(`${m.tenantId}:${m.role}`), until: open ? open.endsAt : null },
+          permissions: [...usablePermissionsOf(m)],
+          breakGlass: { available: needsBreakGlass(m), until: open ? open.endsAt : null },
         };
       }),
   });
@@ -295,7 +303,7 @@ async function openOrClose(req, res, _params, method, pathname) {
   const body = await readJson(req);
   const reason = isObject(body) && typeof body.reason === "string" ? body.reason.trim() : "";
   if (reason.length < 10 || reason.length > 500) return fail(res, 400, "bad_request", BAD_REQUEST);
-  if (!PRETEND_BREAK_GLASS.has(`${mine.tenantId}:${mine.role}`)) {
+  if (!needsBreakGlass(mine)) {
     return fail(res, 409, "break_glass_not_needed", "Your role already has the access it needs, or has no clinical access to open");
   }
   const row = openBreakGlass(mine) ?? {

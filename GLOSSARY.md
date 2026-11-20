@@ -33,6 +33,10 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A packaged course of care a patient signs up for | **Program** | plan, subscription, package |
 | The clinical rules for a service: eligibility, questions, products, reviews | **Protocol** | pathway, flow, playbook |
 | The questions a patient answers before a consult | **Intake** | questionnaire, survey, form |
+| Something a tenant sells: a medicine, a device or a service, with its price | **Product** | item, SKU, line |
+| Every product a tenant sells | **Catalogue** | inventory, product list, store |
+| Medora's platform-wide rule that stops matching products being prescribed, ordered or charged, which no tenant can lift | **Block rule** | ban list, blacklist |
+| A product a block rule matches, or that its tenant blocked | **Blocked product** | banned product, disabled product |
 | A real-time video or phone appointment with a clinician | **Consult** | appointment (except when booking), session, call |
 | A prescription | **Script** | Rx, prescription (in code), order |
 | Writing a script (in Parchment) | **Prescribe** | order, issue |
@@ -63,6 +67,7 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | That second proof | **Second factor** | OTP, token |
 | One signed-in session, recorded with when, where from and on what device | **Sign-in** | login, session (on a screen) |
 | A row in `platform.audit_log` | **Audit entry** | log, history |
+| Every audit entry of one tenant, as people with `audit:read` read and export it | **Audit log** | activity log, audit trail, history |
 | A fact written to the outbox for others to react to | **Event** | message, notification, webhook |
 | An outside service's signed call to Medora saying something happened on its side (a call ended, a script was written) | **Webhook** | callback, hook, notification, event |
 | A setting that switches unfinished work on or off | **Feature flag** | toggle, switch |
