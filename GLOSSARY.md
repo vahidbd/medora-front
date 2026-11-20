@@ -40,6 +40,12 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | A tenant's published text a patient agrees to, in numbered versions | **Consent document** | policy, form, terms (as a record) |
 | A patient's recorded decision on one version of a consent document | **Consent** | agreement, opt-in, acceptance |
 
+## Support and messaging
+
+| Thing | We call it | Never |
+| --- | --- | --- |
+| One thing said to or by a person on any channel (email, SMS, chat, a logged call), in or out | **Message** | post, entry, communication |
+
 ## Platform
 
 | Thing | We call it | Never |
