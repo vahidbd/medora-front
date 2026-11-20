@@ -63,6 +63,14 @@ export function formatDateTime(value: string | Date | null | undefined): string 
   return `${formatDate(d)}, ${hh}:${mm}`;
 }
 
+/** "14:05". */
+export function formatTime(value: string | Date | null | undefined): string {
+  if (!value) return EMPTY;
+  const d = toDate(value);
+  if (Number.isNaN(d.getTime())) return String(value);
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+}
+
 export function formatFileSize(bytes: number | null | undefined): string {
   if (bytes == null) return EMPTY;
   if (bytes < 1024) return `${bytes} B`;

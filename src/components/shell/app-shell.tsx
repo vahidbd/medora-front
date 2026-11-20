@@ -11,7 +11,7 @@ import { useTenant } from "@/components/shell/tenant-context";
 import { useCanSee } from "@/components/shell/use-can-see";
 import { InitialsAvatar } from "@/components/shared/initials-avatar";
 import { formatDate, formatDateTime } from "@/lib/format";
-import { ROLE_LABELS } from "@/lib/roles";
+import { roleName } from "@/lib/roles";
 import { cn } from "@/lib/utils";
 import { CommandBar } from "@/components/shell/command-bar";
 import { BreadcrumbProvider, useBreadcrumbLabel } from "@/components/shell/breadcrumb-context";
@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { BrandMark } from "./brand-mark";
+import { BreakGlassControl } from "./break-glass";
 import "@/styles/sections/navigation.css";
 
 /**
@@ -558,7 +559,7 @@ function AccountMenu() {
             <InitialsAvatar name={name} size={32} />
             <span className="min-w-0 flex-1">
               <span className="sb-account-name block">{name}</span>
-              <span className="sb-account-sub block">{ROLE_LABELS[current.role]}</span>
+              <span className="sb-account-sub block">{roleName(current)}</span>
             </span>
             <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
           </button>
@@ -687,6 +688,7 @@ function MainPanel({
           )}
         </nav>
         <div className="topbar-actions">
+          <BreakGlassControl />
           <Clock />
         </div>
       </header>

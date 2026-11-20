@@ -14,9 +14,13 @@ npm run test:e2e         # the browser tests, against start:preview (build first
 | Route | Answer |
 | --- | --- |
 | `GET /health`, `GET /health/ready` | ok |
-| `GET /v1/me` | the preview person: owner of Harbour Health (demo), clinician at Coastal Skin (demo) |
-| `GET /v1/staff` | the tenant's made-up staff (needs `x-medora-tenant`) |
-| `PATCH /v1/staff/:membershipId` | changes a role or access, with the API's rules (`own_membership`, `last_owner`) |
+| `GET /v1/me`, `GET /v1/me/sign-ins` | the preview person: owner of Harbour Health (demo), clinician at Coastal Skin (demo), always with a second factor |
+| `GET /v1/staff`, `PATCH /v1/staff/:membershipId` | the tenant's made-up staff; changes with the API's rules (`own_membership`, `last_owner`, `cannot_grant`) |
+| `POST /v1/staff/invitations`, `POST` and `DELETE /v1/staff/:membershipId/invitation`, `GET /v1/staff/:membershipId/sign-ins` | invitations (always "sent") and sign-in history |
+| `GET`, `POST /v1/roles`, `PATCH` and `DELETE /v1/roles/:roleId` | starting roles and custom roles (`role_name_taken`, `own_role`, `role_in_use`) |
+| `POST /v1/break-glass`, `POST /v1/break-glass/close`, `GET /v1/break-glass`, `POST /v1/break-glass/:id/review` | break-glass and its reviews |
+
+The data is in `mock-api/people.mjs` and the routes in one file per area (`mock-api/staff.mjs`). One deliberate difference: no clinical permission exists yet, so the real API offers break-glass to nobody, but the mock offers it to Harbour's owner so its screens can be seen and tested.
 
 The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it here in the API's shape (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
 
