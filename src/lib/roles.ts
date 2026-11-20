@@ -57,6 +57,8 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
   "protocols:sign_off": "Sign off a protocol version",
   "programs:manage": "Set up and change programs",
   "intakes:read": "Read patients' intake answers",
+  "tenant:manage": "Change the tenant's details and settings",
+  "brands:manage": "Set up brands and their domains",
 };
 
 /** The data zone a permission opens (ADR 0036), as a heading in the role editor. */

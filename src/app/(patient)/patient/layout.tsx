@@ -8,7 +8,7 @@ import { BRAND_HEADER, brandFromHeader, type Brand } from "@/lib/brand";
 import { BRAND_HOST_HEADER, normaliseHost } from "@/lib/surface";
 
 /**
- * A brand's patient app (ADRs 0022, 0035, 0037). Reached only through the
+ * A brand's patient app (ADRs 0022, 0100, 0180). Reached only through the
  * proxy's rewrite on a brand's patient host, which also found the brand and
  * handed it over on the request; a request without it is not a patient
  * page. Every page here wears that brand and signs in on the patient Clerk

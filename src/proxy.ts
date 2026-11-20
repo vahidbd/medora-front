@@ -8,14 +8,14 @@ import { BRAND_HOST_HEADER, consoleHostsFrom, isPatientFilePath, normaliseHost, 
 /**
  * Every request starts here (Next 16 calls middleware "proxy").
  *
- * The host decides the surface (ADR 0037): the console's hosts get the staff
+ * The host decides the surface (ADR 0180): the console's hosts get the staff
  * console; any other host must be a brand's patient-app domain, and its
  * paths are rewritten into the patient app's tree (/home renders
  * /patient/home). The patient tree is never served at its own address, and
  * a console path never renders on a patient host.
  *
  * Clerk's handler makes auth() work in server code, with the patient
- * instance's keys on a patient host (ADR 0035). It authorises nothing by
+ * instance's keys on a patient host (ADR 0100). It authorises nothing by
  * itself: the relay refuses to forward a request without a session token,
  * and the API verifies that token on every call.
  *

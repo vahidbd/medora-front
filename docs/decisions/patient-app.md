@@ -1,6 +1,6 @@
 # The patient app
 
-Rulings for the patient app and portal (PRD section 11) and adherence basics (section 12). ADR 0037 sets how a brand's host becomes its patient app, ADR 0035 how patients sign in; ADRs 0005, 0017, 0022, 0023 and 0026 apply throughout. Rulings marked "Decided by: stand-in" were decided by the product owner's stand-in while the product owner was away, and are listed in the pull request to confirm.
+Rulings for the patient app and portal (PRD section 11) and adherence basics (section 12). ADR 0180 sets how a brand's host becomes its patient app, ADR 0100 how patients sign in; ADRs 0005, 0017, 0022, 0023 and 0026 apply throughout. Rulings marked "Decided by: stand-in" were decided by the product owner's stand-in while the product owner was away, and are listed in the pull request to confirm.
 
 ### APP1. Each host serves one surface, and a host that isn't a brand's serves nothing
 
@@ -40,7 +40,7 @@ Decided by: stand-in (Fable 5.2), to confirm with Vahid
 
 ### APP7. What stands between signing in and care
 
-Decision: the signed-in frame waits for the patient's own record (`GET /v1/patient/me`). With no session it goes to sign-in. With a session but no record (`no_patient_record`) it asks the patient to finish setting up, linking to `/start` on a live brand and saying a paused brand takes no new patients; it never sends them back to sign in, which would loop. Before the first page of each new sign-in it asks for the date of birth (`date_of_birth_needed`, ADR 0035); a wrong one says only that it doesn't match. An API that can't be reached says so, with Try again, and never looks like an empty account.
+Decision: the signed-in frame waits for the patient's own record (`GET /v1/patient/me`). With no session it goes to sign-in. With a session but no record (`no_patient_record`) it asks the patient to finish setting up, linking to `/start` on a live brand and saying a paused brand takes no new patients; it never sends them back to sign in, which would loop. Before the first page of each new sign-in it asks for the date of birth (`date_of_birth_needed`, ADR 0100); a wrong one says only that it doesn't match. An API that can't be reached says so, with Try again, and never looks like an empty account.
 Why: each refusal the API makes has one screen that explains it, and the check lives in the API, so no screen can skip it.
 
 ### APP8. A copy of the record and closing the account go through support, for now
@@ -51,5 +51,5 @@ Decided by: stand-in (Fable 5.2), to confirm with Vahid
 
 ### APP9. A route another part of Medora is still building is copied, and the copy goes when the contract has it
 
-Decision: when the patient app needs a route that isn't in the API's contract yet, its shape is copied by hand in one place, with a note naming the route, and checked where it crosses into the page. The change that picks the route up from the contract deletes the copy. Today that is the public brand route (`src/lib/brand.ts`).
+Decision: when the patient app needs a route that isn't in the API's contract yet, its shape is copied by hand in one place, with a note naming the route, and checked where it crosses into the page. The change that picks the route up from the contract deletes the copy. None is left: the public brand route was the first, and its type now comes from the contract; `src/lib/brand.ts` keeps only the check of a brand where it crosses into the page.
 Why: the patient app can be built beside the work it depends on without a second, drifting definition of the same shape.

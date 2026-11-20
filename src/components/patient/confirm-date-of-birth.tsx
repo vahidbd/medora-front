@@ -10,7 +10,7 @@ import { parseTypedDate } from "@/components/ui/date-field";
 import { useBrand } from "./brand-context";
 
 /**
- * The date of birth check on every new sign-in (ADR 0035): the API answers
+ * The date of birth check on every new sign-in (ADR 0100): the API answers
  * no other patient route until this session has passed it. The date is
  * sent once and kept nowhere here; a wrong one says only that it doesn't
  * match, and the API counts the tries.

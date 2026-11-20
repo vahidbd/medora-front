@@ -17,7 +17,7 @@ import "@/styles/sections/patient.css";
 /**
  * What has to be true before a patient sees their care: Clerk has a
  * session, the API knows them as a patient of this brand's tenant, and
- * this sign-in has confirmed their date of birth (ADR 0035).
+ * this sign-in has confirmed their date of birth (ADR 0100).
  *
  * No session goes to sign-in. A session the API has no patient record for
  * is a sign-up that hasn't finished (APP7): it is not sent back to sign

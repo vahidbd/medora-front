@@ -4,7 +4,7 @@
  *
  * Aliased in next.config.ts only when MEDORA_PREVIEW=1, so the app needs no
  * Clerk keys and no network. There are two instances, as in a deployment
- * (ADR 0035), told apart by the provider's publishable key:
+ * (ADR 0100), told apart by the provider's publishable key:
  *
  * - Staff: everyone is signed in as the preview staff member. Who that
  *   person is to Medora comes from the mock API's /v1/me.

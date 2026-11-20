@@ -1,4 +1,4 @@
-# 0037. Each host serves one surface: the console on its own hosts, a brand's patient app on the brand's
+# 0180. Each host serves one surface: the console on its own hosts, a brand's patient app on the brand's
 
 - Status: Proposed
 - Date: 20 Nov 2026
@@ -9,7 +9,7 @@
 
 ## Context
 
-One web deployment serves the staff console and every brand's patient app ([0018](0018-one-staff-console.md), [0022](0022-web-patient-app-first.md), [0023](0023-conditions-are-configuration.md)). Their paths collide (`/home`, `/sign-in`), and they must not mix: a patient page signs in on the patient instance ([0035](0035-patients-sign-in-on-their-own-instance.md)), carries no browser error tracking ([0026](0026-observability-from-the-first-deploy.md)) and must not be kept by anything in between, while a console page must never answer on a brand's domain. Each brand has its own domains, held as brand data. The platform's edge routes by the Host header, which a caller can't change once it arrives; forwarded host headers are the caller's to write.
+One web deployment serves the staff console and every brand's patient app ([0018](0018-one-staff-console.md), [0022](0022-web-patient-app-first.md), [0023](0023-conditions-are-configuration.md)). Their paths collide (`/home`, `/sign-in`), and they must not mix: a patient page signs in on the patient instance ([0100](0100-patients-sign-in-on-their-own-instance.md)), carries no browser error tracking ([0026](0026-observability-from-the-first-deploy.md)) and must not be kept by anything in between, while a console page must never answer on a brand's domain. Each brand has its own domains, held as brand data. The platform's edge routes by the Host header, which a caller can't change once it arrives; forwarded host headers are the caller's to write.
 
 ## Decision
 

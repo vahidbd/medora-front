@@ -32,5 +32,6 @@ Prefixes are unique across both repos, so this table lists both.
 | CAT | `catalogue.md` | both | Product catalogue and blocked items |
 | GOV | `governance.md` | both | Clinical governance: incidents, complaints, deadlines, retention, masking |
 | APP | `patient-app.md` | `medora-front` | The patient app: brand hosts, patient sign-in screens, the signed-in frame, Home and Account |
+| TRK | `tracking.md` | `medora-backend` | Measurements, side effects and check-ins a patient records |
 
 Add a row in both repos when you add a file. A prefix is two to four capital letters and is never reused.

@@ -11,7 +11,7 @@ import { clientIpHeaders } from "@/lib/server/client-ip";
  * /v1/<path> with the session token attached (ADR 0030). Only the headers
  * the API needs go up, and only the ones the page needs come back.
  *
- * The surface scopes it (ADR 0037): on a brand's patient host (the proxy
+ * The surface scopes it (ADR 0180): on a brand's patient host (the proxy
  * sets x-medora-brand-host, and only the proxy can) it reaches the API's
  * /v1/patient/* and nothing else, and nothing it returns may be kept. The
  * tenant there is the brand's, found from the host by this server; the

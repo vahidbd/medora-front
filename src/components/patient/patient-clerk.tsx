@@ -1,7 +1,7 @@
 import { ClerkProvider } from "@clerk/nextjs";
 
 /**
- * Clerk for patient pages, on the patient instance (ADR 0035): its own
+ * Clerk for patient pages, on the patient instance (ADR 0100): its own
  * keys, open sign-up by one-time code, never the staff instance. `dynamic`
  * renders it per request, so its script carries this response's nonce.
  * Patient pages load no browser error tracking (ADR 0026).
