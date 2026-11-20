@@ -4,7 +4,7 @@
  * today, with made-up tenants and staff (people.mjs), held in memory and
  * reset on every start. No dependencies, so it runs anywhere Node does.
  * Each area's routes live in their own file (staff.mjs, tenant-setup.mjs,
- * protocols.mjs, patients.mjs).
+ * catalogue.mjs, audit.mjs, protocols.mjs, patients.mjs).
  *
  * It answers the way the API does (contract/openapi.json in the backend):
  * the same shapes, the same error envelope, the tenant in the
@@ -14,6 +14,8 @@
  * Env: MOCK_API_PORT (default 4010).
  */
 import { createServer } from "node:http";
+import { auditRoutes } from "./audit.mjs";
+import { catalogueRoutes } from "./catalogue.mjs";
 import { fail, send } from "./http.mjs";
 import { patientRoutes } from "./patients.mjs";
 import { protocolRoutes } from "./protocols.mjs";
@@ -31,6 +33,8 @@ const routes = [
   ],
   ...staffRoutes,
   ...tenantSetupRoutes,
+  ...catalogueRoutes,
+  ...auditRoutes,
   ...protocolRoutes,
   ...patientRoutes,
 ];

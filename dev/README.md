@@ -25,8 +25,10 @@ npm run test:e2e         # the browser tests, against start:preview (build first
 | `POST /v1/brands/:brandId/domains`, `DELETE /v1/brands/:brandId/domains/:domainId` | a brand's domains (`host_invalid`, `host_taken`, `last_verified_domain`) |
 | `GET`, `POST /v1/platform/tenants`, `POST /v1/platform/tenants/:tenantId/owner-invitation` | platform staff's tenant list, a new tenant with an invited owner, and resending that invitation |
 | `GET /v1/platform/domains`, `POST /v1/platform/domains/:domainId/verify` | domains waiting for platform staff, and marking one verified |
+| `GET`, `POST /v1/products`, `GET`, `PATCH /v1/products/:productId`, `POST /v1/products/:productId/status`, `POST` and `DELETE /v1/products/:productId/block` | made-up products, archived and blocked, with the API's checks (`medicine_identity_required`, `not_a_medicine`, `artg_invalid`) |
+| `GET /v1/block-rules`, `POST /v1/platform/block-rules` | Medora's block rules (two preview rules: compounded and Schedule 8 medicines), and adding one (`rule_exists`, `rule_value_invalid`) |
 
-The data is in `mock-api/people.mjs` and `mock-api/tenant-setup.mjs`, and the routes in one file per area (`mock-api/staff.mjs`, `mock-api/tenant-setup.mjs`). Platform routes answer only while `ME.platformStaff` is true; set it to false in `people.mjs` to see the console as tenant staff only. One deliberate difference: no clinical permission exists yet, so the real API offers break-glass to nobody, but the mock offers it to Harbour's owner so its screens can be seen and tested.
+The data is in `mock-api/people.mjs`, `mock-api/tenant-setup.mjs`, `mock-api/catalogue.mjs` and `mock-api/audit.mjs`, and the routes in one file per area (`mock-api/staff.mjs`, `mock-api/tenant-setup.mjs`, `mock-api/catalogue.mjs`, `mock-api/audit.mjs`). Platform routes answer only while `ME.platformStaff` is true; set it to false in `people.mjs` to see the console as tenant staff only. One deliberate difference: no clinical permission exists yet, so the real API offers break-glass to nobody, but the mock offers it to Harbour's owner so its screens can be seen and tested.
 
 The mock keeps changes in memory until it stops. When a screen starts calling a new route, add it here in the API's shape (its contract is `medora-backend/contract/openapi.json`), with made-up data only.
 

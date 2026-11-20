@@ -105,3 +105,22 @@ export type PatientIntake = Reply<"/v1/patients/{patientId}/intakes", "get">["in
 export type IntakeStatus = PatientIntake["status"];
 export type IntakeEndReason = NonNullable<PatientIntake["endedReason"]>;
 export type IntakeSummary = Reply<"/v1/intakes/{intakeId}", "get">;
+
+// The catalogue and Medora's block rules (docs/decisions/catalogue.md CAT1 to CAT5).
+export type Product = Reply<"/v1/products", "get">["products"][number];
+export type ProductKind = Product["kind"];
+export type Schedule = NonNullable<Product["schedule"]>;
+export type Storage = Product["storage"];
+export type ProductStatus = Product["status"];
+export type ProductBlock = NonNullable<Product["blocked"]>;
+export type ProductInput = RequestBody<"/v1/products", "post">;
+export type ProductChange = RequestBody<"/v1/products/{productId}", "patch">;
+export type BlockRule = Reply<"/v1/block-rules", "get">["rules"][number];
+export type BlockRuleMatch = BlockRule["match"];
+export type BlockRuleInput = RequestBody<"/v1/platform/block-rules", "post">;
+
+/** The tenant's audit log (GET /v1/audit, POST /v1/audit/exports; docs/decisions/admin.md ADM25, ADM26). */
+export type AuditPage = Reply<"/v1/audit", "get">;
+export type AuditEntry = AuditPage["entries"][number];
+export type AuditFilter = RequestBody<"/v1/audit/exports", "post">;
+export type AuditExport = Reply<"/v1/audit/exports", "post">;

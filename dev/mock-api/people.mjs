@@ -36,6 +36,9 @@ export const PERMISSION_ZONES = {
   "intakes:read": "clinical",
   "tenant:manage": "platform",
   "brands:manage": "platform",
+  "catalogue:read": "operational",
+  "catalogue:manage": "operational",
+  "audit:read": "platform",
 };
 export const PERMISSIONS = Object.keys(PERMISSION_ZONES);
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
@@ -47,6 +50,9 @@ export const ROLE_PERMISSIONS = {
     "roles:manage",
     "tenant:manage",
     "brands:manage",
+    "catalogue:read",
+    "catalogue:manage",
+    "audit:read",
     "patients:read",
     "patients:manage",
     "consents:manage",
@@ -56,6 +62,8 @@ export const ROLE_PERMISSIONS = {
   medical_director: [
     "staff:read",
     "break_glass:review",
+    "catalogue:read",
+    "audit:read",
     "patients:read",
     "patients:verify_identity",
     "protocols:read",
@@ -64,13 +72,13 @@ export const ROLE_PERMISSIONS = {
     "programs:manage",
     "intakes:read",
   ],
-  prescriber: ["staff:read", "patients:read", "protocols:read", "intakes:read"],
-  clinician: ["staff:read", "patients:read", "protocols:read", "intakes:read"],
-  support: ["staff:read", "patients:read", "patients:manage"],
-  finance: ["staff:read"],
-  operations: ["staff:read"],
-  marketing: ["staff:read"],
-  compliance: ["staff:read"],
+  prescriber: ["staff:read", "catalogue:read", "patients:read", "protocols:read", "intakes:read"],
+  clinician: ["staff:read", "catalogue:read", "patients:read", "protocols:read", "intakes:read"],
+  support: ["staff:read", "catalogue:read", "patients:read", "patients:manage"],
+  finance: ["staff:read", "catalogue:read"],
+  operations: ["staff:read", "catalogue:read", "catalogue:manage"],
+  marketing: ["staff:read", "catalogue:read"],
+  compliance: ["staff:read", "catalogue:read", "audit:read"],
 };
 
 // The preview person. The mock Clerk session (dev/mock-clerk) is the same person.
