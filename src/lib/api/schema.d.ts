@@ -102,6 +102,120 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/ledger/accounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's ledger accounts and their balances */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            accounts: {
+                                /** Format: uuid */
+                                accountId: string;
+                                balanceCents: number;
+                                /** @enum {string} */
+                                currency: "AUD";
+                                /** @enum {string} */
+                                kind: "patient_receivable" | "patient_credit" | "processor_clearing" | "pharmacy_payable" | "revenue_consult" | "revenue_program" | "revenue_medicine" | "revenue_shipping" | "gst_collected";
+                                /** Format: uuid */
+                                partnerPharmacyId: string | null;
+                                /** Format: uuid */
+                                patientId: string | null;
+                                /** Format: uuid */
+                                paymentAccountId: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/ledger/accounts/{accountId}/entries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The newest entries on a ledger account, with every line of each */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                };
+                header?: never;
+                path: {
+                    accountId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            entries: {
+                                /** Format: uuid */
+                                entryId: string;
+                                /** @enum {string} */
+                                kind: "invoice_issued" | "payment_received" | "refund_paid" | "credit_granted" | "credit_applied" | "chargeback" | "reversal";
+                                lines: {
+                                    /** Format: uuid */
+                                    accountId: string;
+                                    /** @enum {string} */
+                                    accountKind: "patient_receivable" | "patient_credit" | "processor_clearing" | "pharmacy_payable" | "revenue_consult" | "revenue_program" | "revenue_medicine" | "revenue_shipping" | "gst_collected";
+                                    amountCents: number;
+                                    /** @enum {string|null} */
+                                    feeKind: "consult" | "program" | "medicine" | "shipping" | null;
+                                }[];
+                                /** Format: date-time */
+                                occurredAt: string;
+                                /** Format: date-time */
+                                postedAt: string;
+                                /** Format: uuid */
+                                reversesEntryId: string | null;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/me": {
         parameters: {
             query?: never;
@@ -130,7 +244,7 @@ export type paths = {
                             memberships: {
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "ledger:read")[];
                                 /** @enum {string} */
                                 role: "owner" | "clinician" | "support" | "finance";
                                 /** @enum {string} */

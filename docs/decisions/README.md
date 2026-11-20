@@ -28,5 +28,7 @@ Prefixes are unique across both repos, so this table lists both.
 | --- | --- | --- | --- |
 | FND | `foundation.md` | `medora-backend` | The platform foundation: tenancy, sign-in, audit, health checks |
 | CON | `console.md` | `medora-front` | The staff console: sign-in gate, tenant switch, shell, page security, preview mode |
+| JOB | `jobs.md` | `medora-backend` | The worker service: scheduled jobs, leases, outbox delivery |
+| BIL | `billing.md` | `medora-backend` and `medora-front` | Billing and payments: payment accounts, the ledger, subscriptions, invoices, refunds |
 
 Add a row in both repos when you add a file. A prefix is two to four capital letters and is never reused.
