@@ -1,4 +1,4 @@
-# 0037. Each tenant is paid into its own processor accounts
+# 0160. Each tenant is paid into its own processor accounts
 
 - Status: Proposed
 - Date: 20 Nov 2026
