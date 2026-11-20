@@ -83,6 +83,7 @@ Files, tables, checks.
 | [0100](0100-patients-sign-in-on-their-own-instance.md) | Patients sign in on their own sign-in instance, and hold one record per tenant | Proposed |
 | [0180](0180-each-host-serves-one-surface.md) | Each host serves one surface: the console on its own hosts, a brand's patient app on the brand's | Proposed |
 | [0220](0220-permissions-name-their-zone-and-staff-sign-in-with-two-steps.md) | Permissions name their data zone, clinical ones need a clinical role or break-glass, and every staff session has two steps | Proposed |
+| [0280](0280-the-patient-app-holds-intake-tokens-on-its-server.md) | An intake before an account goes through the patient app's own server, which holds its resume token in a host-only cookie | Proposed |
 
 ## Timeline
 
@@ -90,3 +91,4 @@ Files, tables, checks.
 - **20 Nov 2026**: 0100, patient sign-in, with the intake and identity work.
 - **20 Nov 2026**: 0180, the console and the patient app told apart by host, with the patient app.
 - **20 Nov 2026**: 0220, staff access: custom roles, break-glass and two steps for every staff session, from the admin build.
+- **20 Nov 2026**: 0280, the patient app's server holds the resume token of an intake started before an account, with the patient intake screens.

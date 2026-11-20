@@ -112,8 +112,8 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
       headers: { "cache-control": "no-store", "content-type": "text/plain", "retry-after": "30" },
     });
   }
-  // The relay's address is the same on both surfaces; only a page is the patient app's.
-  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/backend/")) return notFound();
+  // The relay's address is the same on both surfaces, and the start flow's server routes (ADR 0280) are a brand host's own; only a page is the patient app's.
+  if (pathname.startsWith("/api/") && !pathname.startsWith("/api/backend/") && !pathname.startsWith("/api/start/")) return notFound();
   return patientClerk(request, event);
 }
 
