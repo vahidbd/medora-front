@@ -83,3 +83,9 @@ export type ProductChange = RequestBody<"/v1/products/{productId}", "patch">;
 export type BlockRule = Reply<"/v1/block-rules", "get">["rules"][number];
 export type BlockRuleMatch = BlockRule["match"];
 export type BlockRuleInput = RequestBody<"/v1/platform/block-rules", "post">;
+
+/** The tenant's audit log (GET /v1/audit, POST /v1/audit/exports; docs/decisions/admin.md ADM25, ADM26). */
+export type AuditPage = Reply<"/v1/audit", "get">;
+export type AuditEntry = AuditPage["entries"][number];
+export type AuditFilter = RequestBody<"/v1/audit/exports", "post">;
+export type AuditExport = Reply<"/v1/audit/exports", "post">;

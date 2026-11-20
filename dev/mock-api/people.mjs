@@ -28,6 +28,7 @@ export const PERMISSIONS = [
   "brands:manage",
   "catalogue:read",
   "catalogue:manage",
+  "audit:read",
 ];
 export const PERMISSION_ZONES = Object.fromEntries(
   PERMISSIONS.map((key) => [key, key.startsWith("catalogue:") ? "operational" : "platform"]),
@@ -36,15 +37,15 @@ export const PERMISSION_ZONES = Object.fromEntries(
 /** As the API's ROLE_PERMISSIONS (src/lib/permissions.ts). */
 export const ROLE_PERMISSIONS = {
   owner: [...PERMISSIONS],
-  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage", "catalogue:read", "catalogue:manage"],
-  medical_director: ["staff:read", "break_glass:review", "catalogue:read"],
+  admin: ["staff:read", "staff:manage", "roles:manage", "tenant:manage", "brands:manage", "catalogue:read", "catalogue:manage", "audit:read"],
+  medical_director: ["staff:read", "break_glass:review", "catalogue:read", "audit:read"],
   prescriber: ["staff:read", "catalogue:read"],
   clinician: ["staff:read", "catalogue:read"],
   support: ["staff:read", "catalogue:read"],
   finance: ["staff:read", "catalogue:read"],
   operations: ["staff:read", "catalogue:read", "catalogue:manage"],
   marketing: ["staff:read", "catalogue:read"],
-  compliance: ["staff:read", "catalogue:read"],
+  compliance: ["staff:read", "catalogue:read", "audit:read"],
 };
 
 // The preview person. The mock Clerk session (dev/mock-clerk) is the same person.

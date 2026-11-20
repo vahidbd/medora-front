@@ -102,6 +102,146 @@ export type paths = {
         patch?: never;
         trace?: never;
     };
+    "/v1/audit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The tenant's audit log, newest first */
+        get: {
+            parameters: {
+                query?: {
+                    action?: string;
+                    actorId?: string;
+                    before?: string;
+                    from?: string;
+                    limit?: number;
+                    recordId?: string;
+                    recordTable?: string;
+                    to?: string;
+                    zone?: "clinical" | "operational" | "marketing" | "platform";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            entries: {
+                                action: string;
+                                /** Format: uuid */
+                                actorId: string | null;
+                                actorName: string | null;
+                                /** @enum {string} */
+                                actorType: "person" | "agent" | "system";
+                                /** Format: date-time */
+                                at: string;
+                                details: {
+                                    [key: string]: (string | number | boolean) | null;
+                                };
+                                entryId: string;
+                                recordId: string;
+                                recordTable: string;
+                                requestId: string | null;
+                                /** @enum {string} */
+                                zone: "clinical" | "operational" | "marketing" | "platform";
+                            }[];
+                            nextBefore: string | null;
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/audit/exports": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Every entry a filter matches, up to 5,000, recorded as an export */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        action?: string;
+                        /** Format: uuid */
+                        actorId?: string;
+                        /** Format: date-time */
+                        from?: string;
+                        recordId?: string;
+                        recordTable?: string;
+                        /** Format: date-time */
+                        to?: string;
+                        /** @enum {string} */
+                        zone?: "clinical" | "operational" | "marketing" | "platform";
+                    };
+                };
+            };
+            responses: {
+                /** @description Default Response */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            entries: {
+                                action: string;
+                                /** Format: uuid */
+                                actorId: string | null;
+                                actorName: string | null;
+                                /** @enum {string} */
+                                actorType: "person" | "agent" | "system";
+                                /** Format: date-time */
+                                at: string;
+                                details: {
+                                    [key: string]: (string | number | boolean) | null;
+                                };
+                                entryId: string;
+                                recordId: string;
+                                recordTable: string;
+                                requestId: string | null;
+                                /** @enum {string} */
+                                zone: "clinical" | "operational" | "marketing" | "platform";
+                            }[];
+                            truncated: boolean;
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/block-rules": {
         parameters: {
             query?: never;
@@ -990,7 +1130,7 @@ export type paths = {
                                 expiresAt: string | null;
                                 /** Format: uuid */
                                 membershipId: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                                 /** @enum {string} */
                                 role: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance" | "custom";
                                 /** @enum {string} */
@@ -1903,13 +2043,13 @@ export type paths = {
                                 id: string;
                                 memberCount: number;
                                 name: string;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                                 /** Format: date-time */
                                 updatedAt: string;
                             }[];
                             permissions: {
                                 /** @enum {string} */
-                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage";
+                                key: "staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read";
                                 /** @enum {string} */
                                 zone: "clinical" | "operational" | "marketing" | "platform";
                             }[];
@@ -1918,7 +2058,7 @@ export type paths = {
                                 /** @enum {string} */
                                 key: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                                 memberCount: number;
-                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
+                                permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             }[];
                         };
                     };
@@ -1941,7 +2081,7 @@ export type paths = {
                         basedOn: "owner" | "admin" | "medical_director" | "prescriber" | "clinician" | "support" | "finance" | "operations" | "marketing" | "compliance";
                         description?: string;
                         name: string;
-                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
+                        permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                     };
                 };
             };
@@ -1961,7 +2101,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };
@@ -2028,7 +2168,7 @@ export type paths = {
                     "application/json": {
                         description?: string;
                         name?: string;
-                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
+                        permissions?: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                     };
                 };
             };
@@ -2048,7 +2188,7 @@ export type paths = {
                             id: string;
                             memberCount: number;
                             name: string;
-                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage")[];
+                            permissions: ("staff:read" | "staff:manage" | "roles:manage" | "break_glass:review" | "tenant:manage" | "brands:manage" | "catalogue:read" | "catalogue:manage" | "audit:read")[];
                             /** Format: date-time */
                             updatedAt: string;
                         };

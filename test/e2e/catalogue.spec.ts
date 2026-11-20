@@ -68,7 +68,9 @@ test("Products shows Medora's blocks, and an owner adds, blocks, archives and re
   await expect(row).toContainText("Batch recall in testing");
   await page.getByRole("button", { name: `Actions for ${name}` }).click();
   await page.getByRole("menuitem", { name: "Lift block" }).click();
+  await expect(row).not.toContainText("Batch recall in testing");
   await expect(row).toContainText("Active");
+  await expect(page.getByRole("menu")).toBeHidden();
 
   await page.getByRole("button", { name: `Actions for ${name}` }).click();
   await page.getByRole("menuitem", { name: "Archive" }).click();

@@ -58,6 +58,7 @@ One word per thing (ADR 0032). Use these words in table names, API fields, route
 | That second proof | **Second factor** | OTP, token |
 | One signed-in session, recorded with when, where from and on what device | **Sign-in** | login, session (on a screen) |
 | A row in `platform.audit_log` | **Audit entry** | log, history |
+| Every audit entry of one tenant, as people with `audit:read` read and export it | **Audit log** | activity log, audit trail, history |
 | A fact written to the outbox for others to react to | **Event** | message, notification, webhook |
 | A setting that switches unfinished work on or off | **Feature flag** | toggle, switch |
 
